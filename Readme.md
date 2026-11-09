@@ -5,53 +5,60 @@
   </picture>
 </p>
 
-# Template de cours public
+# Exploiter l'IA pour le développement, la conception et les tests
 
-Ce dépôt est le modèle des cours Diginamic. On n'y rédige pas de cours : on
-s'en sert pour créer le dépôt de chaque cours, qui hérite de tout l'outillage :
+> **Support en production.** La structure est en place ; le contenu des chapitres reste à rédiger (vague 2). Les durées ci-dessous sont des repères, pas des engagements à la minute.
 
-- le **support de cours** en PDF, assemblé à partir du Readme et des chapitres ;
-- les **diapositives**, en PDF et PPTX, sur fond sombre et sur fond clair ;
-- une **release** GitHub par version, qui porte ces documents ;
-- la **partie pédagogique** du cours : un dépôt privé `<cours>-Peda`, où sont
-  produits la déclaration RNCP et le syllabus.
+**2 jours · distanciel avec formateur · outillage 100 % gratuit.** Cours hors référentiel RNCP, porté par la direction pour préparer les développeurs à la pratique assistée par IA — et conforme à l'obligation de « culture IA » de l'AI Act.
 
-Les fichiers du template servent à la fois de documentation et d'exemple : ce
-Readme montre comment ouvrir un cours, les chapitres comment les écrire.
+## L'idée qui tient tout le cours
 
-## 1. Créer le dépôt d'un cours
+> **Une IA qui code de mieux en mieux, mais qui ne se souvient de rien et ne connaît rien à votre projet. La vraie compétence, ce n'est pas le prompt magique : c'est de construire un environnement où elle travaille bien — spécifications explicites, capteurs de qualité, boucle automatique, garde-fous humains — dans un cadre légal qu'on connaît.**
 
-1. **Créer le dépôt** : sur GitHub, *Use this template* → *Create a new
-   repository*, propriétaire `DiginamicAcademy`, nom du cours sans espace ni
-   accent (`Angular-22`), visibilité *Public*.
-2. **Déclarer le cours** dans `config.yaml` : ce qu'il vise (`course`) et qui
-   le signe (`credits`).
-3. **Faire place nette** : réécrire ce Readme, remplacer les chapitres `00-` à
-   `05-` et `slides.md` par ceux du cours.
-4. **Rédiger**, en poussant au fil de l'eau.
-5. **Publier une version** : `git tag v1.0 && git push origin v1.0`.
+La métaphore filée, reprise à chaque chapitre : **l'IA est un développeur junior d'une énergie infinie et d'une mémoire de poisson rouge.** On la manage avec les outils inventés pour les juniors : specs claires, tests, CI, revue, documentation lisible — et un contrat de responsabilité.
 
-Chaque étape est détaillée au [chapitre 00](00-Creer-un-depot-de-cours.md).
+## Objectifs pédagogiques
 
-## 2. Comment rédiger le cours ?
+À l'issue du cours, vous saurez : situer les capacités et limites d'un modèle génératif ; rédiger une spécification Gherkin comme contrat exécutable ; équiper un projet de capteurs de qualité ; ingénier le contexte d'un projet pour l'IA ; concevoir une CI qui auto-boucle l'IA avec des garde-fous ; construire et optimiser vos prompts de développement ; conduire l'IA sur toutes les étapes du métier en gardant la main ; évaluer de façon critique la production d'une IA (qualité des tests, sécurité, confidentialité, licences) ; situer le cadre AI Act / RGPD / licences appliqué à votre pratique.
 
-### 2.1 Parties conseillées
+## Prérequis
 
-Commencer par une section "Objectifs pédagogiques" rappelant / dévoilant les objectifs du cours.
+Git et GitHub ; un langage de programmation (les laboratoires sont en **JavaScript / TypeScript**) ; ligne de commande ; notions de tests unitaires et de SQL. Aucune licence payante n'est requise : la liste des outils gratuits est donnée à l'ouverture.
 
-Continuer avec un phasage : quelles sont les étapes du cours ?
+## Le parcours
 
-## 3. Le parcours
+Chapitre après chapitre, le pipeline « conception → spec → portes → boucle → revue → cadre » se complète ; il est entier au chapitre 05, puis encadré par la réglementation au chapitre 09.
 
-Chaque étape est un fichier. On les suit **dans l'ordre** : chacune s'appuie sur la base laissée par la précédente.
+### Journée 1 — Construire un environnement où l'IA travaille bien
 
-| # | Étape | Durée | Ce qu'on y fait |
+| # | Chapitre | Repère | Ce qu'on y fait |
 |---|---|---|---|
-| [00](00-Creer-un-depot-de-cours.md) | Créer le dépôt d'un cours | 15 min | le bouton *Use this template*, ce qu'on garde et ce qu'on remplace, la première version |
-| [01](01-Exemple%20de%20cours%20en%20un%20seul%20fichier.md) | Un cours en un seul fichier | 20 min | la structure type d'un chapitre : objectifs, schémas Mermaid, images, code, parties escamotables |
-| [02](02-Exemple%20de%20cours%20en%20multi-fichier.md) | Organiser un cours en plusieurs fichiers | 20 min | nommage et ordre des chapitres, intercalaires, liens entre fichiers, pièges de génération |
-| [03](03-Slides.md) | Faire les diapositives avec Marp | 20 min | en-tête du diaporama, séparation des diapositives, images, duo sombre / clair, prévisualisation |
-| [04](04-Auteurs-et-contributeurs.md) | Créditer l'auteur et les contributeurs | 10 min | la section `credits` de `config.yaml`, la liste tirée de l'historique git, la section « Crédits » |
-| [05](05-Partie-pedagogique.md) | Déclarer le cours et sa partie pédagogique | 15 min | la section `course` de `config.yaml`, sa vérification, le dépôt privé `-Peda` créé et régénéré à chaque version |
+| [01](01-modele-mental.md) | Modèle mental | 30 min | capacités/limites du LLM, fenêtre de contexte, hallucinations, « environnement > prompt » |
+| [02](02-spec-gherkin.md) | Spec-first : Gherkin | TD 50 + 35 min | la demande floue devient un contrat exécutable (mode TD complet) |
+| [03](03-portes-de-qualite.md) | Les portes de qualité | 35 min | les capteurs qui parlent le langage de l'IA |
+| [04](04-contexte-projet.md) | Ingénierie du contexte | 30 min | AGENTS.md et consorts : rendre le projet lisible |
 
-Ce tableau est le sommaire du cours : il tient lieu de plan et donne au lecteur une idée du temps à prévoir. Les liens pointent vers les fichiers du dépôt ; à la génération du support, ils deviennent des liens internes vers le chapitre correspondant.
+### Journée 2 — La boucle : CI, agents, prompt, réglementation
+
+| # | Chapitre | Repère | Ce qu'on y fait |
+|---|---|---|---|
+| [05](05-boucle-ci.md) | La CI qui autoboucle l'IA | 40 min | le log d'échec comme prompt suivant, les garde-fous |
+| [06](06-prompt-engineering-dev.md) | Prompt engineering pour le dev | 30 min | structure d'une demande, anti-patterns, prompt vs spec |
+| [07](07-agents-et-leur-laisse.md) | Agents IA et leur laisse | 25 min | modes, mode plan, modèle de menace (injection, MCP), déclarer l'usage |
+| [08](08-conception-tests-doc.md) | Conception, tests & documentation | 35 min | l'IA propose, l'humain ou un capteur dispose ; le test miroir |
+| [09](09-reglementation-ia.md) | Réglementation IA | 30 min | AI Act, RGPD, licences, responsabilité |
+| [A](A-Glossaire-et-ressources.md) | Glossaire et ressources | — | un glossaire par cours |
+
+## Le module d'extension — TP-01 « Le comptoir de prêt »
+
+Un projet intégrateur **hors du temps de cours** : voir [tp/](tp/README.md). Il est remis par le formateur **si le temps le permet** ; sinon il reste disponible en prolongement libre, sans effet sur la note. Réalisé sur votre propre machine, de bout en bout, il mobilise tout le cours.
+
+## Évaluation
+
+- **QCM sommatif** (20 questions, sans IA, en fin de journée 2) : **c'est la note du cours**, pour tous.
+- **TP-01** : extension **bonus** (+2 maximum, jamais pénalisante), si remis avec les preuves de processus (commits, logs CI, transcripts).
+- QCM formatifs par chapitre, non notés, pour s'entraîner (avec IA).
+
+## Organisation de ce dépôt
+
+Chapitres à la racine (assemblés en PDF par le workflow), diapositives dans `slides.md`, visuels dans `assets/slides/`, module d'extension dans `tp/`, QCM Moodle dans `qcm/`. La conception, les corrigés et les évaluations notées vivent dans le dépôt privé [`cours-ia-dev-conception-tests-Peda`](https://github.com/DiginamicAcademy/cours-ia-dev-conception-tests-Peda).
