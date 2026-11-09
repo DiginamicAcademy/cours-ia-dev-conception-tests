@@ -227,7 +227,7 @@ Cinq situations vécues. Pour chacune, **deux questions seulement** : *(1) quel
 
 **Réponse à l'accroche.** Le **RGPD** si une donnée personne y est passée ; le **droit d'auteur et les licences** si un fragment protégé s'y trouve ; l'**AI Act** (article 50) si ce code produit du contenu destiné à des personnes ; l'**article 4** par votre employeur, qui doit vous avoir formé ; et le **droit de la responsabilité** dès qu'il casse, avec vous comme point de chute. Cinq réponses, un seul dénominateur : **les traces que vous laissez**. Un capteur qui dit non, une revue écrite, un commit qui déclare la délégation — ce sont les mêmes gestes qui font un bon code et un dossier solide.
 
-Le quiz qui suit est un **entraînement**, pas une épreuve : passe-le avec l'IA ouverte. Il existe aussi en **QCM Moodle dédié** dans le dossier `qcm/` ; la note du cours se joue au QCM final **sans IA**.
+Le quiz qui suit est un **entraînement**, pas une épreuve : passe-le avec l'IA ouverte. Il existe aussi en **QCM Moodle dédié**, remis par le formateur ; la note du cours se joue au QCM final **sans IA**.
 
 ---
 
