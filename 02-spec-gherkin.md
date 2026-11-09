@@ -59,9 +59,10 @@ Feature: Pénalité de retard au comptoir de prêt
     Given un adhérent identifié "A-42"
 
   Scenario: Un jour de retard en semaine coûte 1,50 €
-    Given un vélo dû le 2026-11-02
-    When l'adhérent le rend le 2026-11-03
-    Then la pénalité est de 1.50 €
+    Given un vélo dû le lundi 2026-11-02
+    When l'adhérent le rend le mercredi 2026-11-04
+    Then 1 jour de retard est compté (le mardi)
+    And la pénalité est de 1.50 €
 
   Scenario: Le week-end n'est pas compté dans le retard
     Given un vélo dû le jeudi 2026-11-05
