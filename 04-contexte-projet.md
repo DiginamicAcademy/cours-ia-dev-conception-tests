@@ -262,6 +262,8 @@ Votre dépôt est équipé depuis EX-A (les portes tournent). Il ne connaît pas
 
 **Débrief (5 min, collectif) :** quelles lignes ont sauvé la session, lesquelles n'ont rien changé, et lesquelles on coupe.
 
+> 📍 **Le Comptoir après EX-B.** Il sait lire ses propres règles : l'`AGENTS.md` tient sur une page, et une session d'IA fraîche y obéit sans aide. Les portes et le contrat sont en place ; il reste à voir s'ils tiennent sous la pression d'une vraie boucle. Prochaine brique : **EX-C** (chapitre 05), la CI qui mord.
+
 <details>
 <summary>Voir la correction</summary>
 

@@ -367,6 +367,8 @@ gh run watch
 - [ ] J'ai obtenu un **vert qui ne répond pas au besoin**, et je sais nommer ce que j'ai retiré de la spec pour y arriver.
 - [ ] Je peux citer deux garde-fous de mon dépôt qui jouent vraiment, et dire lequel ne joue pas dans le ②.
 
+> 📍 **Le Comptoir après EX-C.** Sa boucle mord pour de vrai : un faux pas d'arrondi est rattrapé par un test chiffré, en local puis en CI, et un vert truqué se voit. Reste à confier du travail à un agent sans lâcher la main. Prochaine brique : **EX-D** (chapitre 07), la conduite d'un agent en mode plan.
+
 <details>
 <summary>Voir la correction</summary>
 

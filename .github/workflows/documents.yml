@@ -446,10 +446,12 @@ jobs:
       # uniquement — aucun fichier du dépôt n'est modifié, pour que GitHub
       # continue d'afficher les sources telles quelles.
       #
-      # De chaque chapitre on retire tout ce qui précède son titre de niveau 1,
-      # titre compris : la ligne de navigation (« ← Étape 05 · Sommaire · Étape
-      # suivante → ») n'a aucun sens dans un document relié, et le titre est
-      # déjà porté par l'intercalaire.
+      # De chaque chapitre on retire son titre de niveau 1, qui est porté par
+      # l'intercalaire. La ligne de navigation qui le précède (« ← Chapitre
+      # précédent · Sommaire · Chapitre suivant → ») est en revanche conservée et
+      # replacée sous l'intercalaire : ses liens vers les fichiers `.md` sont
+      # convertis en ancres internes plus bas, donc elle a sa place en tête de
+      # chapitre, comme en queue (demande du formateur).
       - name: Assembler le support de cours
         run: |
           OUT=build/support-de-cours.md
@@ -483,11 +485,17 @@ jobs:
               # Le titre existe : l'intercalaire le porte, et le corps du
               # chapitre reprend juste après cette ligne.
               body="$(awk 'seen { print } /^# / && !seen { seen = 1 }' "$f")"
+              # La ligne de navigation placée avant le titre est gardée à part,
+              # pour la replacer sous l'intercalaire : la nav figure ainsi en
+              # tête ET en queue de chapitre (ses liens deviennent internes plus
+              # bas).
+              headnav="$(awk '/^# / { exit } { print }' "$f")"
             else
               # Pas de titre de niveau 1 : on se rabat sur le nom du fichier, et
               # on garde le fichier entier plutôt que de le vider.
               title="${f%.md}"
               body="$(cat "$f")"
+              headnav=""
             fi
 
             # Le titre part dans un bloc HTML : &, < et > doivent être échappés.
@@ -501,6 +509,9 @@ jobs:
             {
               printf '\n<div class="intercalaire" id="%s"><span>%s</span></div>\n\n' \
                 "$anchor" "$title_html"
+              if [ -n "$headnav" ]; then
+                printf '%s\n\n' "$headnav"
+              fi
               printf '%s\n' "$body"
             } >> "$OUT"
 

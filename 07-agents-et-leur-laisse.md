@@ -393,6 +393,8 @@ git diff --stat
 - [ ] Aucun scénario n'a été modifié, fusionné ou « simplifié » pour obtenir un vert.
 - [ ] Je sais dire, sur le diff, ce que l'agent a fait que je n'avais pas demandé.
 
+> 📍 **Le Comptoir après EX-D.** Il est pilotable : un agent en mode plan mène la f1 (retards) jusqu'au vert sous votre seul accord sur le plan. Vous tenez l'environnement complet — portes, contrat, contexte, boucle, laisse. C'est exactement le point de départ du **TP-01**, qui reprend ce même dépôt et le porte, en autonomie et de bout en bout, à f1 + f2 + f3.
+
 <details>
 <summary>Voir la correction</summary>
 

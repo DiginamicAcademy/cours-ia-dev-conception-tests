@@ -486,6 +486,8 @@ Le but n'est pas d'écrire le métier : c'est de monter le panneau de capteurs 
 
 **Débrief (5 min, en reprise de pause) :** chaque sous-groupe donne *le* message d'échec dont il est le plus fier, et *le* muet qu'il n'a pas su corriger.
 
+> 📍 **Le Comptoir après EX-A.** Il est *équipé* : les portes parlent (Vitest, Cucumber, ESLint, Prettier, `tsc`), gitleaks a débusqué le secret planqué, husky et la CI à 4 jobs veillent au grain. Le métier, lui, n'est pas écrit — et c'est voulu. Prochaine brique : **EX-B** (chapitre 04), vos règles dans un `AGENTS.md`.
+
 <details>
 <summary>Voir la correction</summary>
 

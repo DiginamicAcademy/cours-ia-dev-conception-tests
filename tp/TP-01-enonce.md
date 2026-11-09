@@ -8,6 +8,19 @@ Un **projet intégrateur** au sens strict : tout le cours, un seul contexte, de
 
 Ce n'est **pas** un exercice de plus. Un exercice travaille *une* notion. Ici, vous assemblez le tout sur un dépôt réel, et **la matière évaluée, c'est votre processus autant que votre code** : les traces que vous laissez sont le critère.
 
+## D'où vous partez — le fil rouge des exercices
+
+Ce dépôt, vous l'avez déjà monté brique par brique tout au long des deux journées :
+
+| Exercice | Chapitre | La brique posée sur le Comptoir |
+|---|---|---|
+| **EX-A** | 03 | Les portes : Vitest, Cucumber, ESLint, Prettier, `tsc`, gitleaks, husky, CI à 4 jobs |
+| **EX-B** | 04 | L'`AGENTS.md` — une page que l'IA lit et respecte |
+| **EX-C** | 05 | La boucle qui mord : un bug d'arrondi rattrapé par un test chiffré |
+| **EX-D** | 07 | La conduite d'un agent en mode plan, jusqu'au vert sur la f1 |
+
+Le TP-01 n'est **pas** une reprise de ces exercices guidés. C'est le **même** Comptoir de prêt, mais **en autonomie**, de bout en bout, sur **votre** dépôt : vous repartez du dépôt nu et vous menez f1, f2 et f3 jusqu'au livrable, sans filet. Ce que les exercices vous ont fait faire un geste à la fois, le TP vous demande de l'enchaîner seul — c'est là que le cours devient votre façon de travailler.
+
 ## Le contexte
 
 Un **service de prêt municipal** — vélos et matériel (casques, antivols, remorques) — tenu par un comptoir. On vous livre un dépôt **nu** : un service **Node / TypeScript + SQLite** qui démarre à peine, **aucune porte de qualité, aucune spec**, un secret oublié là, et une **config de laisse d'agent** déjà fournie.
