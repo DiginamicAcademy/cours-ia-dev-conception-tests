@@ -1,3 +1,5 @@
+[Sommaire](Readme.md) · [Chapitre suivant →](02-spec-gherkin.md)
+
 # Chapitre 01 — L'IA dans la chaîne de développement : modèle mental
 
 > **Statut : squelette de structure.** Objectif visé **[Bloom 2]**. Contenu à rédiger (vague 2 de production). Repère : 30 min de cours magistral + EX-01.
@@ -35,3 +37,7 @@ V0.1 (affiche « le junior sans mémoire »), V1.1 (établi / fenêtre de cont
 
 ---
 *À rédiger : développements, captures réelles des démos, énoncé + correction d'EX-01.*
+
+---
+
+[Sommaire](Readme.md) · [Chapitre suivant →](02-spec-gherkin.md)

@@ -1,3 +1,5 @@
+[← Chapitre précédent](09-reglementation-ia.md) · [Sommaire](Readme.md)
+
 # Annexe A — Glossaire et ressources
 
 > **Statut : squelette de structure.** Un glossaire par cours (règle de production). À compléter à la rédaction de chaque chapitre — chaque acronyme est défini à sa première occurrence dans le cours et référencé ici.
@@ -23,3 +25,7 @@
 
 ---
 *À compléter au fil de la rédaction des chapitres.*
+
+---
+
+[← Chapitre précédent](09-reglementation-ia.md) · [Sommaire](Readme.md)

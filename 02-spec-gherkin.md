@@ -1,3 +1,5 @@
+[← Chapitre précédent](01-modele-mental.md) · [Sommaire](Readme.md) · [Chapitre suivant →](03-portes-de-qualite.md)
+
 # Chapitre 02 — Spec-first : Gherkin comme interface avec l'IA
 
 > **Statut : squelette de structure.** Objectif visé **[Bloom 3]**. Contenu à rédiger (vague 2). Ce chapitre est conduit en **mode TD complet** (découverte → correction → cours → application), sur le contexte du comptoir de prêt. Repère : TD 50 min + cours 35 min.
@@ -30,3 +32,7 @@ L'amorce du TD sert aussi d'ébauche à l'étape **E1** du module d'extension TP
 
 ---
 *À rédiger : cours complet, énoncés TD découverte + application, corrections repliables.*
+
+---
+
+[← Chapitre précédent](01-modele-mental.md) · [Sommaire](Readme.md) · [Chapitre suivant →](03-portes-de-qualite.md)

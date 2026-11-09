@@ -1,3 +1,5 @@
+[← Chapitre précédent](04-contexte-projet.md) · [Sommaire](Readme.md) · [Chapitre suivant →](06-prompt-engineering-dev.md)
+
 # Chapitre 05 — La CI qui autoboucle l'IA
 
 > **Statut : squelette de structure.** Objectif visé **[Bloom 5]**. Contenu à rédiger (vague 2). Repère : 40 min de cours magistral + démo guidée 20 min + EX-C.
@@ -30,3 +32,7 @@ V5.1 (LA boucle — poster du cours), V5.2 (log = prompt suivant), V5.3 (garde-f
 
 ---
 *À rédiger : développements, script + trace de référence de la démo, énoncés EX-C.*
+
+---
+
+[← Chapitre précédent](04-contexte-projet.md) · [Sommaire](Readme.md) · [Chapitre suivant →](06-prompt-engineering-dev.md)

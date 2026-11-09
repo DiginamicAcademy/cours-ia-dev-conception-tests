@@ -1,3 +1,5 @@
+[← Chapitre précédent](05-boucle-ci.md) · [Sommaire](Readme.md) · [Chapitre suivant →](07-agents-et-leur-laisse.md)
+
 # Chapitre 06 — Prompt engineering pour le développement
 
 > **Statut : squelette de structure.** Objectif visé **[Bloom 4]**. Contenu à rédiger (vague 2). Repère : 30 min de cours magistral + EX-06.
@@ -27,3 +29,7 @@ V6.1 (anatomie d'une demande en 5 zones), V6.2 (galerie des anti-patterns), V6.3
 
 ---
 *À rédiger : développements, exemples avant/après, énoncés + corrections EX-06.*
+
+---
+
+[← Chapitre précédent](05-boucle-ci.md) · [Sommaire](Readme.md) · [Chapitre suivant →](07-agents-et-leur-laisse.md)

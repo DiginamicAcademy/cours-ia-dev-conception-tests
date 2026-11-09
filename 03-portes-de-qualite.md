@@ -1,3 +1,5 @@
+[← Chapitre précédent](02-spec-gherkin.md) · [Sommaire](Readme.md) · [Chapitre suivant →](04-contexte-projet.md)
+
 # Chapitre 03 — Les portes de qualité : les capteurs de l'IA
 
 > **Statut : squelette de structure.** Objectif visé **[Bloom 4]**. Contenu à rédiger (vague 2). Repère : 35 min de cours magistral + EX-03 imbriqué.
@@ -30,3 +32,7 @@ V3.1 (panneau de capteurs — visuel-clé, réutilisé ch. 05), V3.2 (avant/apr�
 
 ---
 *À rédiger : développements, démo avant/après captée, énoncé + correction d'EX-03.*
+
+---
+
+[← Chapitre précédent](02-spec-gherkin.md) · [Sommaire](Readme.md) · [Chapitre suivant →](04-contexte-projet.md)

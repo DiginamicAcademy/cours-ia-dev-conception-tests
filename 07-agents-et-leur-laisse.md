@@ -1,3 +1,5 @@
+[← Chapitre précédent](06-prompt-engineering-dev.md) · [Sommaire](Readme.md) · [Chapitre suivant →](08-conception-tests-doc.md)
+
 # Chapitre 07 — Agents IA et leur laisse
 
 > **Statut : squelette de structure.** Objectif visé **[Bloom 4]**. Contenu à rédiger (vague 2). Repère : 25 min de cours magistral + EX-07.
@@ -29,3 +31,7 @@ V7.1 (triptyque modes), V7.2 (séquence du mode plan), V7.3 (la laisse + surface
 
 ---
 *À rédiger : développements, support du modèle de menace, énoncé + corrigé EX-07, config de laisse testée.*
+
+---
+
+[← Chapitre précédent](06-prompt-engineering-dev.md) · [Sommaire](Readme.md) · [Chapitre suivant →](08-conception-tests-doc.md)

@@ -1,3 +1,5 @@
+[← Chapitre précédent](07-agents-et-leur-laisse.md) · [Sommaire](Readme.md) · [Chapitre suivant →](09-reglementation-ia.md)
+
 # Chapitre 08 — L'IA pour la conception, les tests et la documentation
 
 > **Statut : squelette de structure.** Objectif visé **[Bloom 5]**. Contenu à rédiger (vague 2). Repère : 35 min de cours magistral + EX-08. Un principe : **l'IA propose, l'humain ou un capteur exécutable dispose.**
@@ -27,3 +29,7 @@ V8.1 (le test miroir — poster), V8.2 (3 options avec compromis), V8.3 (mutatio
 
 ---
 *À rédiger : développements, E0 de répétition réel + captures, énoncé + correction EX-08.*
+
+---
+
+[← Chapitre précédent](07-agents-et-leur-laisse.md) · [Sommaire](Readme.md) · [Chapitre suivant →](09-reglementation-ia.md)

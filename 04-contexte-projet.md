@@ -1,3 +1,5 @@
+[← Chapitre précédent](03-portes-de-qualite.md) · [Sommaire](Readme.md) · [Chapitre suivant →](05-boucle-ci.md)
+
 # Chapitre 04 — Ingénierie du contexte : rendre le projet lisible par l'IA
 
 > **Statut : squelette de structure.** Objectif visé **[Bloom 4]**. Contenu à rédiger (vague 2). Repère : 30 min de cours magistral + EX-B.
@@ -30,3 +32,7 @@ V4.1 (entonnoir du contexte), V4.2 (AGENTS.md annoté), V4.3 (contexte périmé)
 
 ---
 *À rédiger : développements, démo avec/sans captée, consigne + critères EX-B.*
+
+---
+
+[← Chapitre précédent](03-portes-de-qualite.md) · [Sommaire](Readme.md) · [Chapitre suivant →](05-boucle-ci.md)

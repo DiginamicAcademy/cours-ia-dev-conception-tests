@@ -1,3 +1,5 @@
+[← Chapitre précédent](08-conception-tests-doc.md) · [Sommaire](Readme.md) · [Chapitre suivant →](A-Glossaire-et-ressources.md)
+
 # Chapitre 09 — Réglementation IA : AI Act, RGPD, licences, responsabilité
 
 > **Statut : squelette de structure.** Objectif visé **[Bloom 2]**. Contenu à rédiger (vague 2) **avec veille réglementaire obligatoire à la production** (dates et textes en vigueur à la date d'impression). Repère : 30 min de cours magistral.
@@ -34,3 +36,7 @@ Quiz formatif Moodle dédié (`qcm/`).
 
 ---
 *À rédiger après **vérification web de la réglementation en vigueur** (AI Act post-Omnibus, CNIL, ANSSI) à la date de production.*
+
+---
+
+[← Chapitre précédent](08-conception-tests-doc.md) · [Sommaire](Readme.md) · [Chapitre suivant →](A-Glossaire-et-ressources.md)
