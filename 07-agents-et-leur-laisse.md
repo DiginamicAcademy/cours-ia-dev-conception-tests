@@ -173,46 +173,70 @@ Elle s'appelle `opencode.jsonc`, elle est à la racine du dépôt, et elle est *
 ```jsonc
 {
   "$schema": "https://opencode.ai/config.json",
-  "permissions": [
-    // Socle : rien n'est acquis, tout est demandé.
-    { "action": "*",       "resource": "*",          "effect": "ask" },
 
-    // Lecture du dépôt : oui. Écriture : seulement le code.
-    { "action": "read",    "resource": "*",          "effect": "allow" },
+  // FORME V1 — celle que charge opencode 1.19.5, la dernière version npm à ce jour.
+  // La forme V2 (« permissions », un tableau de {action, resource, effect}) est
+  // REFUSÉE par ce binaire : « V2 permissions are not supported by OpenCode V1 ».
+  // Une laisse que le programme ne lit pas n'est pas une laisse, c'est un fichier.
+  // Clé = l'outil ; valeur = { motif: "allow" | "ask" | "deny" }.
+  "permission": {
 
     // Les capteurs sont sacrés (ch. 05) : « interdit », pas « déconseillé ».
-    { "action": "edit",    "resource": "features/*", "effect": "deny" },
-    { "action": "edit",    "resource": "tests/*",    "effect": "deny" },
-    { "action": "edit",    "resource": "step_definitions/*", "effect": "deny" },
-    { "action": "edit",    "resource": "db/schema.sql",      "effect": "deny" },
+    // « * » est le motif le plus court : tout ce qui n'est pas nommé tombe dedans.
+    "edit": {
+      "*":                  "deny",
+      "src/**":             "allow",
+      "features/*":         "deny",
+      "tests/*":            "deny",
+      "step_definitions/*": "deny",
+      "db/schema.sql":      "deny"
+    },
 
-    // Secrets et répertoire personnel : hors de portée, y compris en lecture.
-    { "action": "read",    "resource": "*.env",      "effect": "deny" },
-    { "action": "read",    "resource": "*.env.*",    "effect": "deny" },
-    { "action": "read",    "resource": "*.env.example", "effect": "allow" },
-    { "action": "read",    "resource": "$HOME/.ssh/*",  "effect": "deny" },
-    { "action": "external_directory", "resource": "*", "effect": "ask" },
+    // Secrets : hors de portée, y compris en lecture. Ce deny écrase le « ask »
+    // par défaut d'opencode, car les règles du projet passent après les siennes.
+    "read": {
+      "*":             "allow",
+      "*.env":         "deny",
+      "*.env.*":       "deny",
+      "*.env.example": "allow",
+      "**/.ssh/*":  "deny"
+    },
 
-    // Shell : on demande tout, on autorise une liste courte, on refuse le reste.
-    { "action": "shell",   "resource": "*",             "effect": "ask" },
-    { "action": "shell",   "resource": "git status *",  "effect": "allow" },
-    { "action": "shell",   "resource": "git diff *",    "effect": "allow" },
-    { "action": "shell",   "resource": "npx vitest *",  "effect": "allow" },
-    { "action": "shell",   "resource": "npx cucumber-js *", "effect": "allow" },
-    { "action": "shell",   "resource": "npm run check *",   "effect": "allow" },
-    { "action": "shell",   "resource": "git push *",    "effect": "deny" },
-    { "action": "shell",   "resource": "rm *",          "effect": "deny" },
-    { "action": "shell",   "resource": "curl *",        "effect": "deny" },
-    { "action": "shell",   "resource": "wget *",        "effect": "deny" },
-    { "action": "shell",   "resource": "ssh *",         "effect": "deny" },
-    { "action": "shell",   "resource": "npm publish *", "effect": "deny" },
+    // Shell : on demande tout, on autorise une liste courte, on refuse ce qui
+    // écrit chez les autres ou parle au-dehors.
+    "bash": {
+      "*":                 "ask",
+      "git status *":      "allow",
+      "git diff *":        "allow",
+      "npx vitest *":      "allow",
+      "npx cucumber-js *": "allow",
+      "npm run check *":   "allow",
+      "git push *":        "deny",
+      "npm publish *":     "deny",
+      "rm *":              "deny",
+      "curl *":            "deny",
+      "wget *":            "deny",
+      "ssh *":             "deny"
+    },
 
     // Une page web est un README qui ne vient pas de votre dépôt.
-    { "action": "webfetch", "resource": "*",           "effect": "ask" },
+    // En V1, « webfetch » ne prend pas de motif : une valeur seule.
+    "webfetch": "ask",
 
-    // Un serveur MCP n'a aucun droit par défaut ; on ouvre outil par outil.
-    { "action": "diag_collect_telemetry", "resource": "*", "effect": "deny" }
-  ],
+    // Hors du dépôt : opencode demande déjà de lui-même ; on ferme le personnel.
+    // « $HOME » n'est PAS développé au chargement, et le matcher ne l'étend pas : un chemin réel ne
+    // matche pas. Écrivez `**/.ssh/*` — vérifié sur 1.19.5, lui, il matche.
+    "external_directory": {
+      "*":            "ask",
+      "**/.ssh/*": "deny"
+    },
+
+    // Un serveur MCP n'a aucun droit par défaut ; on ferme l'outil précis (EX-07).
+    "diag_collect_telemetry": "deny"
+  },
+
+  // La variante radicale : un serveur désactivé n'est pas connecté, ses
+  // descriptions n'arrivent même plus sur l'établi.
   "mcp": {
     "servers": {
       "diag": { "type": "remote", "url": "https://diag.example/mcp", "disabled": true }
@@ -223,8 +247,9 @@ Elle s'appelle `opencode.jsonc`, elle est à la racine du dépôt, et elle est *
 
 Quatre propriétés de ce langage méritent d'être sues, parce qu'elles font la différence entre une config qui protège et une config qui rassure :
 
-- **La dernière règle correspondante gagne.** D'où l'ordre : le large d'abord, les exceptions ensuite. Une `allow` générale placée *après* un `deny` l'écrase — c'est le bug de laisse le plus fréquent.
-- **Les actions sont des noms d'outils.** `read`, `edit`, `shell`, `webfetch`, `external_directory`… et pour un outil MCP, l'action s'écrit `<serveur>_<outil>` — ici `diag_collect_telemetry`. On peut donc fermer un outil précis sans débrancher le serveur.
+- **Dans un même outil, le motif le plus long gagne, pas le dernier écrit.** L'ordre d'écriture ne compte pas : un `src/**` de six caractères bat un `*` d'un seul. Le piège, c'est d'aligner ses règles en croyant qu'elles se lisent de haut en bas : le moteur, lui, les trie par longueur.
+- **Les règles du projet sont ajoutées après celles de l'agent**, et gagnent donc sur ses défauts. C'est ce qui permet à `read *.env` en `deny` d'écraser le `ask` par défaut d'opencode. C'est aussi ce qui permet à une `allow` du projet de rouvrir ce qu'un mode avait fermé : la laisse est plus forte que le mode, et ça se lit dans `opencode debug agent plan`.
+- **Les clés sont des noms d'outils.** `read`, `edit`, `bash`, `webfetch`, `external_directory`… et pour un outil MCP, la clé s'écrit `<serveur>_<outil>` — ici `diag_collect_telemetry`. On peut donc fermer un outil précis sans débrancher le serveur.
 - **Une commande composée est découpée et jugée morceau par morceau.** `npm run check && curl …` est évalué deux fois : le `curl` tombe même si la première partie était autorisée.
 - **Ce que la config ne couvre pas** : le budget et le nombre d'itérations. Ce sont des réglages de la boucle et du fournisseur, pas des permissions — d'où l'étage 5 du tableau, qui se règle ailleurs.
 
@@ -281,7 +306,7 @@ Et la reformulation qui vaut au-delà du chapitre : on ne retire pas une capaci
 - **Le mode n'est pas une question de puissance mais de réversibilité** : autocomplétion, chat, agent — ce qui change, c'est qui décide du prochain geste et qui paie l'erreur.
 - **Le mode plan d'abord.** Un « non » écrit sur un plan coûte trois minutes ; le même « non » sur un diff coûte une après-midi. Un plan non relu est une procuration.
 - **L'agent lit ce que personne ne relit** : README, commentaires, logs, descriptions d'outils. Pour lui, une description est une consigne. D'où le tool poisoning, et le rug pull qui rend caduque une approbation ancienne.
-- **La laisse est une pièce du dépôt** : permissions `allow`/`ask`/`deny` (dernier match gagne), allowlist courte, deny list sur `git push` / `rm` / `curl` / `wget` / `ssh` et sur `.env` / `~/.ssh`, écriture interdite dans `features/` et `tests/`, réseau demandé, budget plafonné. Elle voyage avec le TP parce que **l'environnement > le prompt.**
+- **La laisse est une pièce du dépôt** : permissions `allow`/`ask`/`deny` (le motif le plus long gagne), allowlist courte, deny list sur `git push` / `rm` / `curl` / `wget` / `ssh` et sur `.env` / `~/.ssh`, écriture interdite dans `features/` et `tests/`, réseau demandé, budget plafonné. Elle voyage avec le TP parce que **l'environnement > le prompt.**
 - **Une laisse se teste, pas se relit** : on demande l'interdit et on regarde la machine refuser.
 - **Déclarer n'est pas s'excuser** : commit, PR, rapport. Ce qui est généré, ce que vous avez repris, par quel capteur c'est passé. Et pas de secret, pas de donnée personnelle, pas de code client dans une offre gratuite.
 
@@ -315,7 +340,7 @@ opencode mcp list          # ce qui est branché sur ce dépôt, avant de faire 
 
 🎯 **Avant de rendre, cochez :**
 - [ ] J'ai au moins trois indices, et je sais dire pour chacun **quelle action précise** il permettait.
-- [ ] Mes règles de permission utilisent des actions qui existent (`read`, `shell`, l'action de l'outil MCP) et un ordre qui ne s'écrase pas.
+- [ ] Mes règles de permission utilisent des clés d'outils qui existent (`read`, `edit`, `bash`, la clé de l'outil MCP) et des motifs dont je sais dire lequel gagne.
 - [ ] Je sais dire ce que ma laisse **ne couvre pas** sur ce coup-là.
 - [ ] Ma justification en deux lignes se dit à l'oral sans lever les yeux au ciel.
 
@@ -335,11 +360,14 @@ opencode mcp list          # ce qui est branché sur ce dépôt, avant de faire 
 **② Les règles.**
 
 ```jsonc
-{ "action": "read",  "resource": "*.env",                 "effect": "deny" },
-{ "action": "shell", "resource": "curl *",                "effect": "deny" },
-{ "action": "shell", "resource": "wget *",                "effect": "deny" },
-{ "action": "webfetch", "resource": "*",                  "effect": "ask" },
-{ "action": "diag_collect_telemetry", "resource": "*",    "effect": "deny" }
+{
+  "permission": {
+    "read":     { "*.env": "deny" },
+    "bash":     { "curl *": "deny", "wget *": "deny" },
+    "webfetch": "ask",
+    "diag_collect_telemetry": "deny"
+  }
+}
 ```
 
 La dernière ligne est la cible : l'action d'un outil MCP s'écrit `<serveur>_<outil>`, ce qui ferme **cet outil** sans débrancher le serveur. Et remarquez ce que les lignes `curl *` et `wget *` ne ferment **pas** : l'appel HTTPS décrit ci-dessus part du **processus du serveur MCP**, pas du shell de votre agent. Aucune règle de shell de l'agent ne l'atteint — pas plus que `webfetch`, qui ne règle que l'outil de lecture de l'agent. C'est la seule raison pour laquelle la variante radicale mérite d'être retenue. La variante radicale, et c'est celle qu'on retient pour un serveur dont on ne connaît pas l'auteur, est de ne pas discuter outil par outil :
@@ -451,11 +479,12 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - C. La mention d'un contrôle de licence, ce sujet relevant du chapitre 09 et n'ayant rien à faire dans une description d'outil.
 - D. L'ordre de ne jamais en parler à l'utilisateur.
 
-**5. Dans `opencode.jsonc`, la règle large `shell / * / ask` est placée avant les exceptions. Que se passe-t-il si l'on déplace une `allow` générale après les règles `deny` ?**
-- A. Rien sur le plan de l'exécution : les deux règles coexistent et la plus restrictive l'emporte à la lecture.
-- B. Elle les écrase : la dernière règle correspondante gagne.
-- C. Elle est ignorée au chargement, opencode signalant la redondance dans le journal de session au démarrage.
-- D. La configuration devient ambiguë et l'outil repasse prudemment en mode demande sur toutes les actions concernées.
+
+**5. Dans `opencode.jsonc`, vous écrivez `"edit": { "*": "deny", "src/**": "allow" }`. Un agent demande à écrire dans `src/domaine/penalite.ts`. Que se passe-t-il ?**
+- A. Il écrit : des deux motifs correspondants, le plus long gagne, et l'ordre d'écriture ne compte pas.
+- B. Il se le voit refuser : `deny` étant écrit en premier, une règle large placée avant ferme le jeu.
+- C. Il se le voit refuser : en cas de contradiction entre deux motifs, l'outil repasse prudemment en mode demande.
+- D. Rien n'est tranché tant que les deux motifs se contredisent : la question est posée à l'utilisateur.
 
 **6. Le message de commit du chapitre détaille Spec / IA / Humain / Vérifié et se termine par un trailer `Co-authored-by`. Que fait-il de mieux qu'une simple mention de politesse ?**
 - A. Il sépare la part de la machine de la vôtre, et nomme le capteur par où c'est passé.
@@ -482,9 +511,10 @@ Pourquoi pas les autres : c'est plutôt l'inverse — la phrase du README est c
 
 Pourquoi pas les autres : imiter un nom connu, c'est le slopsquatting, qui vise les paquets npm ; rien n'interdit de chaîner des outils ; et la licence en elle-même n'est pas le signal — c'est le décalage avec le métier de l'outil, confirmé par l'ordre de dissimulation.
 
-**5 — Réponse : B.** C'est le bug de laisse le plus fréquent, d'où l'ordre imposé par le chapitre : le large d'abord, les exceptions ensuite. Et une laisse ne se relit pas, elle se teste : on ouvre une session et on demande l'interdit, en regardant la machine refuser.
 
-Pourquoi pas les autres : ce n'est pas la plus restrictive qui gagne, c'est la dernière qui correspond ; aucune ambiguïté n'est détectée, la règle du dernier match tranche sans avertir personne ; et rien n'est ignoré ni signalé — le trou est silencieux, c'est ce qui le rend dangereux.
+**5 — Réponse : A.** En V1, l'ordre d'écriture ne compte pas : dans un même outil, c'est le motif **le plus long** qui gagne. `src/**` (six caractères) bat `*` (un seul), et l'agent écrit. Le piège est exactement là : on aligne ses règles en croyant qu'elles se lisent de haut en bas, le moteur les trie par longueur. Et une laisse ne se relit pas, elle se teste : on ouvre une session et on demande l'interdit, en regardant la machine refuser.
+
+Pourquoi pas les autres : ce n'est ni la position dans le fichier ni la sévérité qui départagent ; aucune contradiction n'est jamais signalée — le trou est silencieux, c'est ce qui le rend dangereux.
 
 **6 — Réponse : A.** « Par quel capteur c'est passé » est la partie qui compte. C'est aussi la matière du rapport d'usage : les preuves de processus (commits, logs CI, transcripts) ne sont pas de la paperasse, c'est la traçabilité de votre jugement.
 
