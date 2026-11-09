@@ -2,7 +2,7 @@
 
 # Chapitre 01 — L'IA dans la chaîne de développement : modèle mental
 
-**Accroche (slide 1, sondage) :** « L'IA affirme que cette fonction existe. En combien de secondes pouvez-vous le vérifier — et comment ? »
+**Accroche (sondage) :** « L'IA affirme que cette fonction existe. En combien de secondes pouvez-vous le vérifier — et comment ? »
 
 ---
 
@@ -70,6 +70,8 @@ Un compilateur est **déterministe** : même entrée, même sortie, toujours. U
 Conséquence, à graver : **« ça a l'air bon » ne vaut rien.** La seule autorité qui dise si le code est juste, c'est un **capteur exécutable** — un test, un type, une règle de lint — lancé par une **intégration continue** (CI : le pipeline qui compile et teste à chaque modification). Vous ne jugez pas la sortie de l'IA à l'œil ; vous la jugez à ce que la CI renvoie.
 
 > Démo (on la refait au chapitre 05) : la *même* consigne, deux lancements, deux implémentations différentes. Les deux « ont l'air bien ». Une seule passe les tests. C'est la CI qui tranche, jamais l'impression.
+
+**Le TDD change alors de statut.** Le développement piloté par les tests — écrire *d'abord* un test qui échoue, puis le code qui le fait passer — s'est toujours vu reprocher d'être lent. Avec une IA, ce reproche tombe : la machine écrit les tests en secondes, presque gratis. On les écrit donc **en premier**, et ils deviennent le **harnais** — la barrière qui dit à l'agent *quand il a fini*, et qui l'empêche de casser demain ce qui marche aujourd'hui (les régressions). Ce qui était une discipline de moine devient le réflexe naturel quand on délègue à une machine qu'on ne peut pas croire sur parole. Un détail, qui est tout le chapitre 03 : le harnais ne protège que si les tests **assertent vraiment** — pas un `toBeDefined()` qui passe quoi qu'il arrive (voir l'exercice de fin de chapitre).
 
 ## 1.5 Les hallucinations côté développeur
 
