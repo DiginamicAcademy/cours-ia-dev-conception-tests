@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  QCM DE POSITIONNEMENT — cours « Exploiter l'IA pour le développement, la conception et les tests »
+  8 questions, envoyees AVANT J1. NON NOTE, DIAGNOSTIQUE : sert a (1) composer des binomes
+  heterogenes et (2) calibrer l'animation des deux journees.
+  AUTO-DECLARATIF : aucune bonne reponse par construction — toutes les options a fraction="0".
+  Le formateur lit la repartition des reponses, il ne note pas.
+  Depot PUBLIC (qcm/). NB : ne pas passer typo-fix sur ce fichier (il casserait la declaration XML).
+-->
+<quiz>
+
+  <question type="category">
+    <category><text>$top$/Positionnement — avant J1 (diagnostic, non noté)</text></category>
+  </question>
+
+  <question type="multichoice">
+    <name><text>P1 — Usage d'un assistant IA pour coder</text></name>
+    <questiontext format="html"><text><![CDATA[À quelle fréquence avez-vous déjà utilisé un assistant IA (ChatGPT, Copilot, Claude, Gemini…) pour écrire ou comprendre du code ?]]></text></questiontext>
+    <answer fraction="0"><text><![CDATA[Jamais, ou presque.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[À l'occasion, pour débloquer une question ponctuelle.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[Souvent, dans une bonne partie de mes tâches de code.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[Tous les jours, c'est devenu mon réflexe de départ.]]></text></answer>
+    <single>true</single><shuffleanswers>false</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Merci, réponse enregistrée.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Merci, réponse enregistrée.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <question type="multichoice">
+    <name><text>P2 — Tests automatisés</text></name>
+    <questiontext format="html"><text><![CDATA[Où vous situez-vous avec les tests automatisés ?]]></text></questiontext>
+    <answer fraction="0"><text><![CDATA[Je n'ai jamais écrit ni exécuté de tests automatisés.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[J'ai déjà exécuté des tests écrits par d'autres.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[J'ai déjà écrit des tests pour mon propre code.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[J'écris régulièrement des tests, parfois avant le code (TDD).]]></text></answer>
+    <single>true</single><shuffleanswers>false</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Merci, réponse enregistrée.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Merci, réponse enregistrée.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <question type="multichoice">
+    <name><text>P3 — Ligne de commande et Git</text></name>
+    <questiontext format="html"><text><![CDATA[Votre aisance avec le terminal et Git ?]]></text></questiontext>
+    <answer fraction="0"><text><![CDATA[Je galère : je copie des commandes sans toujours les comprendre.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[Je me débrouille sur les commandes courantes (clone, commit, push).]]></text></answer>
+    <answer fraction="0"><text><![CDATA[Je suis à l'aise, y compris sur des branches et des conflits.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[Très à l'aise, c'est mon outil de travail quotidien.]]></text></answer>
+    <single>true</single><shuffleanswers>false</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Merci, réponse enregistrée.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Merci, réponse enregistrée.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <question type="multichoice">
+    <name><text>P4 — JavaScript / TypeScript</text></name>
+    <questiontext format="html"><text><![CDATA[Votre aisance avec JavaScript ou TypeScript (la stack du cours) ?]]></text></questiontext>
+    <answer fraction="0"><text><![CDATA[Je ne connais pas, ou très peu.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[Je lis du JS et j'écris des scripts simples.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[Je développe en JS/TS sur des projets réels.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[À l'aise avec TypeScript typé et son outillage (npm, tests, lint).]]></text></answer>
+    <single>true</single><shuffleanswers>false</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Merci, réponse enregistrée.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Merci, réponse enregistrée.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <question type="multichoice">
+    <name><text>P5 — Spec écrite / Gherkin</text></name>
+    <questiontext format="html"><text><![CDATA[Avez-vous déjà formalisé un besoin en scénarios vérifiables (Gherkin / Given-When-Then, BDD, ou une spec écrite précise) ?]]></text></questiontext>
+    <answer fraction="0"><text><![CDATA[Jamais.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[J'ai déjà écrit des cahiers des charges ou des critères d'acceptation en prose.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[J'ai déjà utilisé Gherkin ou un format BDD.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[Oui, et je fais tourner ces scénarios en tests automatisés.]]></text></answer>
+    <single>true</single><shuffleanswers>false</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Merci, réponse enregistrée.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Merci, réponse enregistrée.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <question type="multichoice">
+    <name><text>P6 — Réflexe face à un code généré par IA</text></name>
+    <questiontext format="html"><text><![CDATA[Quand une IA vous produit un bout de code, que faites-vous en général avant de l'accepter ?]]></text></questiontext>
+    <answer fraction="0"><text><![CDATA[Je l'intègre, quitte à corriger si ça casse plus tard.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[Je le lis et je teste à la main quelques cas.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[Je vérifie la doc / les types des API qu'il utilise.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[Je le passe par des tests automatisés qui décident si c'est bon.]]></text></answer>
+    <single>true</single><shuffleanswers>false</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Merci, réponse enregistrée.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Merci, réponse enregistrée.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <question type="multichoice">
+    <name><text>P7 — Projet de bout en bout</text></name>
+    <questiontext format="html"><text><![CDATA[Avez-vous déjà mené un projet technique de bout en bout — de l'idée jusqu'à un dépôt qui tourne, avec tests et CI ?]]></text></questiontext>
+    <answer fraction="0"><text><![CDATA[Non, plutôt des exercices ou des morceaux.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[Oui, un petit projet perso complet.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[Oui, plusieurs, mais sans tests ni CI.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[Oui, avec tests, CI et démarche de qualité.]]></text></answer>
+    <single>true</single><shuffleanswers>false</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Merci, réponse enregistrée.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Merci, réponse enregistrée.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <question type="multichoice">
+    <name><text>P8 — Ce que vous venez chercher</text></name>
+    <questiontext format="html"><text><![CDATA[Qu'attendez-vous principalement de ces deux jours ?]]></text></questiontext>
+    <answer fraction="0"><text><![CDATA[Des bases : comprendre ce que l'IA peut et ne peut pas faire pour coder.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[Une méthode : un cadre de travail fiable avec l'IA, pas juste des astuces.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[De la pratique : construire un vrai projet encadré, de bout en bout.]]></text></answer>
+    <answer fraction="0"><text><![CDATA[De la rigueur : sécuriser, tester, encadrer l'IA (qualité, sécurité, réglementation).]]></text></answer>
+    <single>true</single><shuffleanswers>false</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Merci, réponse enregistrée.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Merci, réponse enregistrée.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+</quiz>

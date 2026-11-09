@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  QCM FORMATIF — chapitre 02 « Spec-first : Gherkin comme interface avec l'IA »
+  Cours « Exploiter l'IA pour le développement, la conception et les tests ».
+  6 questions à choix unique, NON NOTEES, faites AVEC l'IA (c'est voulu) :
+  l'apprenant se situe entre les jours. Public (dépôt de cours, qcm/).
+  Toutes les questions sont ancrées dans le chapitre 02 : contrat f1 (retards),
+  contrat f2 (caution), cas limite vendredi -> lundi, rouge de npx cucumber-js,
+  trio feature / step definition / src, règle des trois ingrédients, spec-frein.
+  NB : ne pas passer typo-fix sur ce fichier (il casserait la declaration XML).
+-->
+<quiz>
+
+  <question type="category">
+    <category><text>$top$/Formatif ch.02 — Spec-first : Gherkin comme interface avec l'IA</text></category>
+  </question>
+
+  <!-- ===== Le rouge voulu ===== -->
+  <question type="multichoice">
+    <name><text>F02-1 — Le rouge du premier lancement</text></name>
+    <questiontext format="html"><text><![CDATA[On lance <code>npx cucumber-js</code> alors que <code>src/penalite.ts</code> n'existe pas encore : <code>1 scenario (1 failed)</code>, <code>expected 1.5 but got undefined</code>. Que dit ce résultat ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[Il est normal et voulu : le comportement est vérifiable avant que le code existe.]]></text><feedback><![CDATA[Exact : c'est le harnais du chapitre 01, version spec. La machine sait désormais dire « non » avant que l'IA n'arrive, et « oui » seulement quand c'est vrai.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Il est anormal : il faut écrire <code>src/penalite.ts</code> avant de lancer <code>npx cucumber-js</code>, sinon les résultats sont faux.]]></text><feedback><![CDATA[Faux : c'est l'ordre inversé. Écrire le code d'abord rend la vérification dépendante de ce qu'elle est censée juger.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Il signale une accroche défectueuse : la step definition de <code>step_definitions/retards.ts</code> ne correspond à aucune ligne du fichier.]]></text><feedback><![CDATA[Faux : les étapes sont bien reconnues, sinon Cucumber les signalerait comme indéfinies. Le rouge vient du calcul absent, pas de l'accroche.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Il montre que la spec reste ambiguë : sans montant décidé avec le client, aucun scénario ne peut être exécuté par le moteur.]]></text><feedback><![CDATA[Faux : le montant est décidé (contrat f1 : 1,50 € par jour ouvré, plafond 15 €). C'est le code qui manque, pas la décision.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== L'accroche ===== -->
+  <question type="multichoice">
+    <name><text>F02-2 — Le chaînon entre la phrase et le calcul</text></name>
+    <questiontext format="html"><text><![CDATA[Dans le trio du chapitre — <code>features/retards.feature</code>, <code>step_definitions/retards.ts</code>, <code>src/penalite.ts</code> — quel fichier est « l'accroche », ce que lit la machine ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[<code>step_definitions/retards.ts</code>, une fonction TypeScript accrochée à chaque ligne Given/When/Then.]]></text><feedback><![CDATA[Exact : la step definition est le chaînon entre la phrase lisible et le code qui calcule. Sans elle, le <code>.feature</code> reste un document.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[<code>features/retards.feature</code>, puisque c'est lui que le moteur déroule ligne par ligne à partir du premier Given.]]></text><feedback><![CDATA[Faux : le <code>.feature</code> est ce que lit le client. Un <code>.feature</code> n'est pas un document, mais il n'est pas exécutable tout seul.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[<code>src/penalite.ts</code>, car c'est le code qui calcule et donc le point d'entrée de toute l'exécution du scénario.]]></text><feedback><![CDATA[Faux : <code>src/penalite.ts</code> est ce que l'IA va écrire. Il calcule, mais il ne relie aucune phrase à aucun calcul.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Le moteur <code>npx cucumber-js</code> lui-même, qui traduit les phrases Gherkin en assertions sans fichier intermédiaire.]]></text><feedback><![CDATA[Faux : cucumber-js exécute, il ne traduit pas le métier. Sans step definitions, les étapes seraient déclarées indéfinies.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== Cas limite week-end ===== -->
+  <question type="multichoice">
+    <name><text>F02-3 — Vendredi dû, rendu lundi</text></name>
+    <questiontext format="html"><text><![CDATA[Contrat f1 : un jour de retard est un jour ouvré écoulé entre la date de retour attendue et la date de rendu, <em>les deux bornes exclues</em>. Un matériel est dû le vendredi 2026-11-06, rendu le lundi 2026-11-09. Combien de jours de retard sont comptés ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[0 jour : entre les deux bornes, seuls samedi et dimanche se sont écoulés.]]></text><feedback><![CDATA[Exact : les bornes sont exclues, donc ni le vendredi ni le lundi ne comptent, et le week-end n'est pas ouvré. 0 jour, 0,00 € retenu, caution rendue entière.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[2 jours : le décompte calendrier retient le samedi et le dimanche écoulés entre les deux dates.]]></text><feedback><![CDATA[Faux : c'est très exactement le bug que le scénario concret empêche l'IA de livrer — des jours calendaires au lieu de jours ouvrés, et 3 € retenus à tort.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[1 jour : le lundi du rendu est le premier jour ouvré qui suit l'échéance du vendredi.]]></text><feedback><![CDATA[Faux : la borne de rendu est exclue par le contrat. Le lundi ne peut donc pas être compté comme jour de retard.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[3 jours : la période vécue couvre le vendredi, le samedi et le dimanche avant le rendu du lundi.]]></text><feedback><![CDATA[Faux : le vendredi est la borne d'échéance, elle est exclue, et deux des trois jours invoqués ne sont pas ouvrés.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== Plafond sur la caution ===== -->
+  <question type="multichoice">
+    <name><text>F02-4 — Douze jours de retard sur une caution</text></name>
+    <questiontext format="html"><text><![CDATA[Contrat f2 : caution de 30 €, pénalité de 1,50 € par jour ouvré de retard, plafond de 15 € par prêt. Un matériel est rendu avec 12 jours de retard ouvré. Que donne la liquidation de la caution ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[15,00 € sont retenus sur la caution et 15,00 € sont restitués.]]></text><feedback><![CDATA[Exact : 12 × 1,50 = 18 €, mais le plafond de 15 € s'applique. La ligne <code>12 | 15.00</code> des Examples est calculée depuis le contrat, jamais inventée.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[18,00 € sont retenus sur la caution et 12,00 € sont restitués à l'adhérent.]]></text><feedback><![CDATA[Faux : c'est le produit 12 × 1,50 sans le plafond. Le contrat borne la pénalité à 15 € par prêt, et c'est précisément un cas limite à écrire.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[30,00 € sont retenus sur la caution et 0,00 € sont restitués à l'adhérent.]]></text><feedback><![CDATA[Faux : rien dans le contrat ne fait perdre la caution entière. La retenue suit la pénalité, et la pénalité est plafonnée.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[6,00 € sont retenus sur la caution et 24,00 € sont restitués à l'adhérent.]]></text><feedback><![CDATA[Faux : 6,00 € correspond à 4 jours de retard, pas à 12. Les montants d'un <code>Scenario Outline</code> se déduisent du contrat.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== Les trois ingrédients ===== -->
+  <question type="multichoice">
+    <name><text>F02-5 — Ce qui empêche l'IA de tricher</text></name>
+    <questiontext format="html"><text><![CDATA[D'après la règle d'écriture du chapitre 02, que doit comporter un scénario pour que l'IA ne puisse pas y tricher ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[Des chiffres concrets, un résultat explicite et au moins un cas négatif.]]></text><feedback><![CDATA[Exact : le cas négatif (« ça ne doit pas se passer ») est ce qui ferme la porte. Une spec sans cas négatif laisse toujours un espace d'interprétation.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Des étapes rédigées dans l'ordre Given/When/Then, avec un Background commun à tous les scénarios du fichier.]]></text><feedback><![CDATA[Faux : la forme est bonne mais ne tranche rien. Un scénario bien ordonné et vague reste vague, et deux codes opposés le passent tous les deux.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Des commentaires Gherkin expliquant la lecture retenue par le client, relus et validés avant la première exécution.]]></text><feedback><![CDATA[Faux : un commentaire n'est pas vérifié par la machine. C'est le scénario chiffré, avec ses dates concrètes, qui écarte l'autre lecture.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Des tags de tri, par exemple <code>@regle-metier</code> et <code>@cas-limite</code>, pour que la CI les exécute avant les autres.]]></text><feedback><![CDATA[Faux : les tags trient ce qu'on exécute ; ils ne disent rien de ce qui doit être vrai après.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== Critère d'arrêt ===== -->
+  <question type="multichoice">
+    <name><text>F02-6 — Ce qui arrête la boucle</text></name>
+    <questiontext format="html"><text><![CDATA[Le chapitre 02 annonce la boucle du chapitre 05 : l'IA code, la CI la corrige, elle recode. D'après ce chapitre, qu'est-ce qui arrête la boucle ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[Le vert de tous les scénarios : la spec est le frein de la machine.]]></text><feedback><![CDATA[Exact : « quand tout est vert, on a fini ; tant qu'un scénario rouge subsiste, on n'a pas répondu au besoin ». La spec n'est pas un document pour la forme, c'est le critère d'arrêt.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[La relecture de l'apprenant, seul capable de juger si le résultat rendu « a l'air bon » sur l'ensemble.]]></text><feedback><![CDATA[Faux : le chapitre nomme ce signal « un mauvais arbitre ». Sans spec, l'œil est le seul signal d'arrêt, et le plausible n'est pas le vérifié.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[La borne d'itérations fixée avant de démarrer, qui clôt la séance lorsqu'elle est atteinte.]]></text><feedback><![CDATA[Faux : une borne plafonne la dépense, pas l'atteinte du besoin. On peut l'atteindre en laissant plusieurs scénarios rouges.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[La déclaration de fin de l'agent, qui récapitule ce qu'il estime conforme à la demande qu'il a reçue.]]></text><feedback><![CDATA[Faux : l'IA ne lève jamais la main pour demander ce que vous vouliez dire. Ce n'est pas elle qui arbitre son propre travail.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+</quiz>

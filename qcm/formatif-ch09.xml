@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  QCM FORMATIF — chapitre 09 « Réglementation IA : AI Act, RGPD, licences, responsabilité »
+  Cours « Exploiter l'IA pour le développement, la conception et les tests ».
+  6 questions à choix unique, NON NOTÉES, à passer avec l'IA ouverte : un entraînement, pas une épreuve.
+  La note du cours se joue au QCM final sans IA (dépôt privé -Peda, evaluations/qcm/).
+  Questions ancrées dans le chapitre : la pyramide des risques, l'article 4, la bascule
+  fournisseur/deployeur, le fixture adherents.ts et les limites de gitleaks, l'option
+  « donnees d'entrainement », le bloc GPL-3.0, la diligence en cas de casse.
+  NB : ne pas passer typo-fix sur ce fichier (il casserait la declaration XML).
+-->
+<quiz>
+
+  <question type="category">
+    <category><text>$top$/Formatif ch.09 — Réglementation IA : AI Act, RGPD, licences, responsabilité</text></category>
+  </question>
+
+  <!-- ===== 9.1 — L'AI Act en 10 min : article 4 ===== -->
+  <question type="multichoice">
+    <name><text>F09-1 — L'article qui vous inscrit</text></name>
+    <questiontext format="html"><text><![CDATA[Le chapitre 09 le dit sans détour : ce cours ne prépare aucun titre RNCP, il s'ancrit sur un article de l'AI Act applicable depuis le 02 février 2025. Lequel, et qu'impose-t-il ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[Article 4 : fournisseurs et déployeurs doivent garantir un niveau suffisant de culture de l'IA à leur personnel — une obligation de l'employeur.]]></text><feedback><![CDATA[Exact. L'article 4 (formulation précisée le 27 juillet 2026) porte sur les personnes qui utilisent l'outil, pas sur l'outil lui-même : « ce que l'outil fait, ce qu'il ne fait pas, où sont ses risques ». C'est une obligation de l'employeur, pas une curiosité personnelle — et c'est l'ancrage officiel du cours.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Article 50 : il impose depuis février 2025 de marquer tout code produit avec une IA, même une complétion locale, dans un format lisible par machine.]]></text><feedback><![CDATA[Faux : l'article 50 s'applique depuis le 02 août 2026 et vise les contenus générés ou manipulés présentés à des personnes (chat d'un service public, article publié), pas la complétion de fonction dans votre éditeur — qui, elle, est en bas de la pyramide, en risque minimal.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Article 5 : les pratiques interdites couvrent l'usage d'un modèle tiers sans dossier de conformité, ce qui oblige à déclarer chaque assistant de code.]]></text><feedback><![CDATA[Faux : l'article 5 vise le scoring social et la manipulation. Aucun dossier de conformité n'est demandé pour un assistant de code, et aucune déclaration d'outil n'est prévue par ce texte.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Les obligations GPAI d'août 2025 : quiconque intègre un modèle doit publier sa politique de respect du droit d'auteur et évaluer les risques du modèle.]]></text><feedback><![CDATA[Faux : ces obligations pèsent sur l'éditeur du modèle, pas sur celui qui l'intègre. Votre intérêt est ailleurs — la documentation technique produite par l'éditeur, vous êtes en droit de la réclamer, car elle conditionne ce que vous pourrez prouver plus tard.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== 9.2 — Fournisseur ou déployeur ===== -->
+  <question type="multichoice">
+    <name><text>F09-2 — Le logo qui change de camp</text></name>
+    <questiontext format="html"><text><![CDATA[Un assistant interne branché sur l'API d'un éditeur de modèle sert d'abord vos équipes. Six mois plus tard, il répond aux usagers sur le site de la collectivité, avec votre logo. Que change ce glissement ?]]></text></questiontext>
+    <answer fraction="0"><text><![CDATA[Rien : l'éditeur du modèle porte les obligations de conformité, vous restez déployeur quoi qu'il arrive.]]></text><feedback><![CDATA[Faux : l'éditeur du modèle porte les obligations GPAI, qui ne vous concernent pas. Le rôle que l'AI Act vous attribue ne dépend pas de la propriété du modèle mais de ce que vous en faites.]]></feedback></answer>
+    <answer fraction="100"><text><![CDATA[Vous êtes devenu fournisseur d'un système d'IA : conformité selon le risque, marquage de l'article 50 et information des usagers ont changé de camp.]]></text><feedback><![CDATA[Exact. L'AI Act distribue les obligations selon ce que vous faites du modèle, pas selon l'organigramme. Usage interne = déployeur ; le même assistant offert au public sous votre nom = système que vous fournissez. C'est ce qui surprend le plus d'équipes : on change de rôle pendant qu'on ne regarde pas.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Vous restez déployeur : le rôle ne bascule que si vous vendez le service, et un assistant gratuit sur le site d'une collectivité n'est pas une vente.]]></text><feedback><![CDATA[Faux : la bascule ne passe pas par la facturation. Mettre un système à votre nom au service du public suffit — c'est exactement le cas ① du cas pratique du chapitre.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Vous devenez fournisseur, mais seulement si le modèle a été hébergé chez vous ou ajusté sur vos données, sinon l'éditeur répond du système entier.]]></text><feedback><![CDATA[Faux : ni l'hébergement ni le fine-tuning ne sont le critère. Le critère est la mise à disposition sous votre nom. En revanche, un ajustement sur vos données ajouterait des obligations, il n'en retire aucune.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== 9.3 — RGPD : la limite du capteur ===== -->
+  <question type="multichoice">
+    <name><text>F09-3 — Le fixture qui parle</text></name>
+    <questiontext format="html"><text><![CDATA[Dans <code>tests/fixtures/adherents.ts</code> du comptoir de prêt, un « cas réel » contient un nom, un e-mail et une clé API de partenaire récupérée sur la prod. <code>npx gitleaks detect</code> ne signale que la clé. Qu'en conclure ?]]></text></questiontext>
+    <answer fraction="0"><text><![CDATA[Que gitleaks est mal réglé : un scan approfondi de l'historique lui ferait voir le nom et l'e-mail dans le même fichier.]]></text><feedback><![CDATA[Faux : gitleaks a vu tout ce qu'on lui a demandé de voir. Il est réglé sur les secrets, pas sur les personnes — ce n'est pas un défaut à corriger par une option, c'est sa frontière.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Que le nom et l'e-mail ne sont pas des données personnelles tant qu'aucun numéro de sécurité sociale ni adresse postale ne les accompagne dans le fichier.]]></text><feedback><![CDATA[Faux : un nom et un e-mail sont directement identifiants. Le chapitre ajoute même que ce qui semble technique — identifiant client, adresse IP, nom d'un fichier de sauvegarde — devient une donnée personnelle dès qu'on peut remonter à quelqu'un.]]></feedback></answer>
+    <answer fraction="100"><text><![CDATA[Qu'un capteur protège ce pour quoi on l'a réglé : il faut une règle dédiée (Semgrep, vu au chapitre 03) et un humain qui demande d'où vient le fixture.]]></text><feedback><![CDATA[Exact. Une donnée personnelle qui n'est pas une clé glisse sous la main du capteur. Le réflexe est aussi celui du chapitre 04 : ce qu'on exclut de l'établi (le <code>.env</code>, les dumps, les journaux de prod) n'est pas une question de propreté — la fenêtre de contexte est une frontière juridique.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Que le fixture est sans conséquence puisqu'il ne vit que dans les tests : ni le dépôt ni la fenêtre de contexte ne sont une frontière juridique.]]></text><feedback><![CDATA[Faux : c'est l'angle mort désigné par le chapitre. Un fixture part chez l'éditeur dès qu'on le colle dans un prompt, et il a été copié depuis la production — deux raisons de ne pas le laisser en l'état.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== 9.3 / 9.6 — Réglage d'entraînement : décision d'employeur ===== -->
+  <question type="multichoice">
+    <name><text>F09-4 — Le réglage qui engage l'équipe</text></name>
+    <questiontext format="html"><text><![CDATA[L'équipe prend un abonnement d'équipe et active, sans en discuter, l'option « améliorer le modèle avec les saisies des utilisateurs ». Quelle lecture est juste ?]]></text></questiontext>
+    <answer fraction="0"><text><![CDATA[Rien de collectif : chacun reste responsable de ce qu'il tape, et il suffit que chaque membre désactive l'option « améliorations du modèle » sur son propre compte pour couvrir l'équipe.]]></text><feedback><![CDATA[Faux : c'est écrit dans le tableau du 9.3 — un opt-out par personne ne protège pas l'équipe. La question se tranche au niveau de l'organisation, pas compte par compte.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Uniquement les saisies faites après l'activation : le réglage est réversible et sans effet sur l'historique ni sur les offres gratuites déjà utilisées.]]></text><feedback><![CDATA[Faux : ne comptez pas là-dessus. Le chapitre fait de la durée de conservation des journaux un point à vérifier avant d'ouvrir l'outil à quoi que ce soit de sérieux — un historique sans limite est une surface de fuite qui grossit.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Pas grand-chose : une offre d'équipe exclut en général la réutilisation des prompts, comme le fait déjà une offre gratuite sans option d'entraînement.]]></text><feedback><![CDATA[Faux : c'est l'inverse. La non-conservation et la non-réutilisation vivent en général dans le mode entreprise ; une offre gratuite est un modèle économique qui s'appelle souvent « vos prompts servent à entraîner le modèle ». Et si l'option n'existe pas, c'est une réponse : rien de sensible dedans.]]></feedback></answer>
+    <answer fraction="100"><text><![CDATA[Que les saisies de toute l'équipe nourriront un modèle : c'est une décision d'employeur, pas un réglage individuel, sur des données que l'équipe ne peut pas céder seule.]]></text><feedback><![CDATA[Exact. C'est le cas ④ du cas pratique : l'option engage des données que l'équipe n'est pas seule à pouvoir céder. La bonne question n'est pas « est-ce que c'est grave ? » mais « est-ce que ça sort de chez moi, et est-ce que je l'ai accepté ? » — et qui a accepté à ma place.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== 9.4 — Licences et propriété ===== -->
+  <question type="multichoice">
+    <name><text>F09-5 — Le bloc qui vient d'ailleurs</text></name>
+    <questiontext format="html"><text><![CDATA[Dans un module destiné à un produit fermé, l'agent recopie un bloc de 40 lignes dont l'en-tête porte <code>SPDX-License-Identifier: GPL-3.0</code>. Quel est le risque, et que fait-on ?]]></text></questiontext>
+    <answer fraction="0"><text><![CDATA[Aucun tant que le bloc est renommé et réécrit à la main : une licence ne suit que le code lié à l'exécution, jamais un fragment recopié dans un source.]]></text><feedback><![CDATA[Faux : renommer ne purge pas une licence. Le chapitre est net — la licence suit le fragment qu'elle couvre, et ça ne se découvre pas en revue, ça se découvre dans un courrier d'avocat.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Le bloc n'est pas protégeable puisqu'un modèle l'a produit : personne ne peut revendiquer un droit d'auteur sur 40 lignes sorties d'une IA sans intervention humaine.]]></text><feedback><![CDATA[Faux : la protection par le droit d'auteur exige un auteur humain, oui — mais cela concerne le bloc que VOUS laissez sortir de l'IA. Le fragment recopié a un auteur humain, quelque part, et sa licence court toujours.]]></feedback></answer>
+    <answer fraction="100"><text><![CDATA[La licence suit le fragment et peut contaminer le projet qui l'accueille, avec redistribution forcée sous la même licence : on écarte le bloc avant adoption.]]></text><feedback><![CDATA[Exact. Le réflexe est celui de la dépendance fantôme du chapitre 01 : on vérifie avant d'adopter. <code>npx license-checker --summary</code> est à la propriété ce que gitleaks est aux secrets — un capteur peu coûteux qui parle avant le contentieux.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Détail de conformité mineur : le risque n'existe que si le dépôt d'origine est encore en ligne et si l'auteur du bloc décide de poursuivre le projet qui l'accueille.]]></text><feedback><![CDATA[Faux : c'est précisément le risque qui ne se découvre pas en revue. Une licence copyleft dans un produit fermé est un risque de redistribution forcée, indépendant de la poursuite d'un auteur.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== 9.5 — Responsabilité ===== -->
+  <question type="multichoice">
+    <name><text>F09-6 — Qui répond ?</text></name>
+    <questiontext format="html"><text><![CDATA[Nadia envoie en production un correctif proposé par l'IA, sans le relire : le calcul est faux et la paie de trente personnes est faussée. Sa défense, « c'est l'IA qui l'a écrit », est irrecevable. Pourquoi, et qu'aurait pu la protéger ?]]></text></questiontext>
+    <answer fraction="0"><text><![CDATA[Elle est irrecevable parce que l'éditeur du modèle assume contractuellement les défauts de sortie : c'est lui qu'il faut mettre en cause, pas l'équipe.]]></text><feedback><![CDATA[Faux : le chapitre ne déplace la responsabilité vers personne. On ne poursuit pas un compilateur, on ne poursuit pas une IA — et on ne s'abrite pas derrière les conditions d'un éditeur de modèle.]]></feedback></answer>
+    <answer fraction="100"><text><![CDATA[Le modèle n'est pas une personne juridique : répond celui qui a intégré, et ce qui protège Nadia, ce sont des preuves de diligence — revue, tests, CI.]]></text><feedback><![CDATA[Exact. Ni patrimoine ni responsabilité du côté du modèle : répond l'entreprise, l'équipe, et dans l'équipe la personne qui a validé. Ce qui établit la diligence d'un professionnel raisonnable : un historique de commits lisible, une revue documentée, des tests qui assertent vraiment, un pipeline rouge puis vert, une spec qui a tranché.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Elle est irrecevable car la charge se partage à parts égales, devant le juge, entre l'auteur du prompt et le responsable de la CI du dépôt concerné.]]></text><feedback><![CDATA[Faux : aucune quote-part n'est organisée par le chapitre. La question n'est pas de trouver un coupable mais d'établir votre diligence — ce qu'un professionnel raisonnable aurait fait à votre place.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Elle serait recevable si la délégation avait été déclarée en commit ou en pull request : mentionner l'outil transfère la charge de la vérification.]]></text><feedback><![CDATA[Faux : déclarer rend le travail vérifiable et vous distingue de quelqu'un qui fait passer la production d'une machine pour la sienne — <code>git log --grep="opencode" --oneline</code> le vérifie — mais ça ne transfère aucune responsabilité. Déléguer n'est pas plagier, déclarer n'est pas se décharger.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+</quiz>

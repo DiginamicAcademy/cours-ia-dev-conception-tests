@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  QCM FORMATIF chapitre 03 — cours « Exploiter l'IA pour le développement, la conception et les tests »
+  6 questions à choix unique. NON NOTÉ, fait AVEC l'IA (c'est voulu) : l'apprenant se situe entre les jours.
+  Périmètre : chapitre 03 seul (les portes de qualité, les capteurs JS/TS, les messages d'échec).
+  NB : ne pas passer typo-fix sur ce fichier (il insère une insécable avant ? et casserait la declaration XML).
+-->
+<quiz>
+
+  <question type="category">
+    <category><text>$top$/Formatif ch.03 — Les portes de qualité : les capteurs de l'IA</text></category>
+  </question>
+
+  <!-- ===== 3.1 — la definition en deux morceaux ===== -->
+  <question type="multichoice">
+    <name><text>F03-1 — L'instruction gratuite</text></name>
+    <questiontext format="html"><text><![CDATA[Le chapitre écrit : « Un échec bien écrit, c'est une instruction gratuite. » Que veut dire <em>gratuite</em> ici ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[Elle se rédige toute seule et repart dans la prochaine itération sans qu'on la répète.]]></text><feedback><![CDATA[Exact : à partir du chapitre 05, votre conversation avec la machine, ce n'est plus votre prompt, c'est la sortie des capteurs. Vous n'écrivez pas l'instruction, vous ne la répétez pas : elle part toute seule. C'est la moitié « message d'échec lisible » de la définition, celle que personne n'écrit soigneusement.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Elle ne coûte rien à installer, puisque tous les capteurs du panneau sont des outils libres et gratuits.]]></text><feedback><![CDATA[Faux : « gratuite » ne parle pas du prix. Les outils sont effectivement gratuits, mais ce n'est pas l'argument. Le chapitre chiffre l'affaire : un échec qui nomme attendu et reçu coûte une itération, un « exit code 1 » sans sortie coûte six itérations et votre attention.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Elle remplace le prompt initial, ce qui dispense d'écrire une spec Gherkin avant de laisser l'IA coder.]]></text><feedback><![CDATA[Faux : l'échec ne remplace pas la spec. Les .feature du chapitre 02 restent le contrat, et le contrat ne se négocie pas par celui qui code. Le message d'échec dit quoi corriger, où, pourquoi, sur la base de ce contrat.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Elle s'adresse d'abord à l'humain, car l'agent, lui, ne lit que les consignes du fichier AGENTS.md.]]></text><feedback><![CDATA[Faux : c'est l'inverse, et c'est tout le chapitre. « Le premier qu'une porte de qualité instruit, c'est la machine. » Le message sert aussi à l'humain, qui gagne dix minutes, mais son client principal est l'agent.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== 3.2.3 — ESLint et la promesse flottante ===== -->
+  <question type="multichoice">
+    <name><text>F03-2 — Le promise sans await</text></name>
+    <questiontext format="html"><text><![CDATA[Dans <code>src/routes.ts</code>, l'IA écrit <code>cloturerCaution(req.body.id);</code> sans <code>await</code> dans un handler <code>async</code>, puis <code>res.json({ ok: true })</code>. Le chapitre affirme qu'aucun test n'est nécessaire pour l'attraper. Pourquoi ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[ESLint lit le code sans l'exécuter, et la règle qui tombe nomme le défaut donc la correction.]]></text><feedback><![CDATA[Exact : <code>@typescript-eslint/no-floating-promises</code> est une règle type-aware qui se contente de lire. Elle attrape le « ok » promis au client alors que la caution n'est pas clôturée et que son échec ne sera jamais su. Et comme elle donne le nom de la règle, la correction est déjà écrite.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[ESLint exécute le handler avec une fausse requête et remarque que la promesse reste en suspens à la fin.]]></text><feedback><![CDATA[Faux : ESLint n'exécute rien du tout, c'est un analyseur statique. C'est précisément ce qui le rend moins cher qu'un test sur ce défaut, et ce qui fait de lui un détecteur de pièges du langage et non un outil de style.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Prettier réécrit la ligne en y ajoutant l'<code>await</code> manquant, ce qui règle le problème avant le commit.]]></text><feedback><![CDATA[Faux : Prettier ne touche pas la sémantique, il formate. Le chapitre l'appelle un balayeur et non un capteur : il sert à ce que votre revue d'IA ne soit pas 300 lignes de diff pour 3 lignes de fond. Automatisation, pas débat.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[La règle n'intervient qu'à l'exécution, au moment où Node émet un avertissement pour promesse non attendue.]]></text><feedback><![CDATA[Faux : Node n'avertit pas. La promesse flottante échoue en silence, et le client a déjà reçu « ok ». C'est exactement pourquoi ce piège, que les IA écrivent tout le temps, a besoin d'un capteur qui lit.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== 3.2.5 — gitleaks et l'historique ===== -->
+  <question type="multichoice">
+    <name><text>F03-3 — La ligne de secret supprimée</text></name>
+    <questiontext format="html"><text><![CDATA[gitleaks a signalé <code>CLE_API_PARTENAIRE</code> ligne 7 de <code>src/config.ts</code>. Un développeur supprime la ligne, committe, et propose de clore l'incident. Que répond le chapitre ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[Ce n'est pas clos : la clé vit encore dans le commit d'hier, il faut la faire tourner.]]></text><feedback><![CDATA[Exact : gitleaks balaie l'historique, pas seulement les fichiers de travail. Quiconque clone le dépôt retrouve la ligne d'avant. Le seul vrai remède est la rotation de la clé, puis la purge de l'historique si le dépôt a été poussé. D'où <code>fetch-depth: 0</code> dans le job <code>secrets</code> : sans l'historique complet, gitleaks ne voit pas les commits d'avant.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[C'est clos dès lors que le job secrets de la CI est repassé au vert sur le dernier commit poussé.]]></text><feedback><![CDATA[Faux : un vert sur le dernier commit ne dit rien de ce qui précède. Le job est justement configuré pour scanner l'historique entier, parce que supprimer la ligne ne supprime pas le secret.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[C'est clos si le fichier est ajouté au <code>.gitignore</code>, ce qui empêche ensuite gitleaks de le rescanner.]]></text><feedback><![CDATA[Faux : un <code>.gitignore</code> agit sur ce qui n'est pas encore suivi, jamais sur ce qui est déjà commité. Le chapitre l'invoque pour une autre raison : tenir les secrets hors du contexte de l'agent (chapitre 04), car le contenu d'un dépôt branché sur un outil d'IA voyage jusqu'au fournisseur du modèle.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Ce n'est pas clos, mais il suffit d'amender le commit pour que la ligne disparaisse de l'historique.]]></text><feedback><![CDATA[Faux : amender ne suffit pas dès que le dépôt a été poussé et cloné ailleurs, et de toute façon la clé a pu être lue. Un secret parti dans l'établi (chapitre 01) est un secret partagé : on le révoque, on ne le cache pas.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== 3.2.7 — husky, la boucle locale, et la loi ===== -->
+  <question type="multichoice">
+    <name><text>F03-4 — Le hook contourné</text></name>
+    <questiontext format="html"><text><![CDATA[Un apprenant saute le hook <code>pre-commit</code> avec <code>git commit --no-verify</code> et pousse un commit rouge. Quelle leçon le chapitre en tire-t-il ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[husky est une politesse, la CI est une loi : la porte qui compte est celle qu'on ne saute pas.]]></text><feedback><![CDATA[Exact : « un hook local se contourne avec <code>git commit --no-verify</code> ». La boucle locale rend le même verdict quatre minutes plus tôt et sans réseau, et la règle d'or reste de ne jamais envoyer à la CI ce qu'on peut savoir en deux secondes chez soi. Mais elle n'a aucune autorité. Nuance à graver, parce qu'elle fonde le chapitre 05.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Il faut multiplier les hooks déclarés dans plusieurs fichiers de config pour le rendre impossible à contourner.]]></text><feedback><![CDATA[Faux : aucun empilement de hooks locaux ne devient obligatoire. Tous se contournent depuis le poste, par une option ou en désinstallant le paquet. L'autorité est du côté de ce qui tourne hors de votre machine.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Il faut écrire l'interdiction de <code>--no-verify</code> dans <code>AGENTS.md</code> pour que l'agent s'y tienne.]]></text><feedback><![CDATA[Faux : <code>AGENTS.md</code> documente un contexte, il n'applique rien. Une consigne écrite n'est pas une porte de qualité : une porte est un capteur exécutable, et ici elle doit en plus être non contournable.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Le hook a joué son rôle, puisque l'erreur finit par apparaître dans le message du commit suivant.]]></text><feedback><![CDATA[Faux : le hook a été sauté, il n'a rien vu passer du tout. Son intérêt reste réel, mais le chapitre est clair : la porte qui compte est celle qu'on ne peut pas sauter, donc la CI.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== 3.3 — le capteur instable ===== -->
+  <question type="multichoice">
+    <name><text>F03-5 — Le capteur qui flanche</text></name>
+    <questiontext format="html"><text><![CDATA[Les step definitions ouvrent toutes le même fichier <code>comptoir.db</code>, et le verdict tombe un lancement sur deux avec « database is locked ». Quel est, selon le chapitre, le vrai dommage ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[Un capteur instable vaut pire qu'un capteur absent : on finit par ignorer le rouge.]]></text><feedback><![CDATA[Exact : l'agent passe son temps à réparer ce qui n'est pas cassé, et vous finissez par ne plus croire au rouge. Or c'est la condition de tout le reste du cours : il faut que le vert veuille dire quelque chose. La forme qui tient est un cœur pur avec la persistance derrière une interface, et une base <code>:memory:</code> neuve par scénario.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Le dommage est d'abord technique : il faut remplacer SQLite par un conteneur de base de données dédié.]]></text><feedback><![CDATA[Faux : la réponse du chapitre est plus légère et plus sûre. <code>node:sqlite</code> est intégré à Node 24 : pas de module natif à compiler, pas de conteneur de base de données dans la CI, et le capteur tourne à l'identique sur un portable ARM, un poste Windows et un runner GitHub.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Le dommage est d'abord temporel : la suite tourne plus lentement et la boucle de correction s'en trouve ralentie.]]></text><feedback><![CDATA[Faux : la lenteur est un désagrément mineur. Ce qui est décisif, c'est la perte de déterminisme : deux lancements, deux verdicts. Sans déterminisme, un vert ne prouve plus rien, et la boucle du chapitre 05 travaille à l'aveugle.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Le dommage est marginal, pourvu que les scénarios s'exécutent chaque fois dans le même ordre.]]></text><feedback><![CDATA[Faux : le chapitre dit le contraire. Avec une base partagée, le scénario 7 dépend de ce que le scénario 3 a laissé en base, les tests ne peuvent pas tourner en parallèle, et surtout le message d'échec ne parle plus du métier. Fixer l'ordre ne répare aucune de ces trois choses.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== Démo — dépôt nu vs dépôt équipé ===== -->
+  <question type="multichoice">
+    <name><text>F03-6 — Il n'a pas échoué, il a terminé</text></name>
+    <questiontext format="html"><text><![CDATA[Sur le dépôt nu, l'agent livre <code>frais.ts</code> plus 14 tests sans assertion utile, puis annonce « les tests passent ». Comment le chapitre qualifie-t-il ce rendu ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[Il n'a pas échoué, il a terminé : sans capteur, « terminé » est sa seule réponse possible.]]></text><feedback><![CDATA[Exact : il n'a aucun moyen de savoir qu'il a tort. Sur le dépôt équipé, la même consigne prend deux itérations et dix minutes, parce que <code>npx cucumber-js</code> le contredit avec attendu et reçus. Le gain ne s'achète pas dans la formulation du prompt mais dans les vingt minutes de réglage du dépôt. Environnement > prompt.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Il a échoué, et c'est la preuve qu'il aurait fallu lui confier une tâche plus petite, mieux découpée.]]></text><feedback><![CDATA[Faux : la consigne était claire et la tâche à sa taille. C'est le dépôt qui manquait de capteurs, pas la demande qui était trop grosse : sur le dépôt équipé, la même consigne passe en deux itérations.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Il a triché volontairement en affaiblissant les tests pour rendre la tâche plus vite qu'on ne l'attendait.]]></text><feedback><![CDATA[Faux : il n'y a pas d'intention là-dedans. Le geste du chapitre 05 (corriger le test au lieu du code) est un risque bien réel, mais sur le dépôt nu l'agent écrit simplement des tests à sa façon : 14 tests, 0 assertion utile, et il le dit sans mentir.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Il a réussi sur le fond, puisque 14 tests exécutés à 100 % de couverture forment le panneau attendu.]]></text><feedback><![CDATA[Faux : c'est le vert faux du chapitre 01, décoré d'un pourcentage. La couverture mesure ce qui a été exécuté, pas ce qui a été vérifié : <code>expect(f).toBeDefined()</code> est toujours vrai et ne contest aucune ligne.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+</quiz>

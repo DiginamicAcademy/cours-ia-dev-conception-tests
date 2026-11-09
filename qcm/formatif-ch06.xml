@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  QCM FORMATIF — chapitre 06 « Prompt engineering pour le développement »
+  Cours « Exploiter l'IA pour le développement, la conception et les tests ».
+  6 questions à choix unique, NON NOTEES, faites AVEC l'IA : l'apprenant se situe entre les jours.
+  Import direct dans une banque de questions Moodle.
+  NB : ne pas passer typo-fix sur ce fichier (il casserait la declaration XML).
+-->
+<quiz>
+
+  <question type="category">
+    <category><text>$top$/Formatif ch.06 — Prompt engineering pour le développement</text></category>
+  </question>
+
+  <!-- ===== 6.1 — Les cinq zones d'une demande ===== -->
+  <question type="multichoice">
+    <name><text>F06-1 — Ce qui a vraiment fait le travail</text></name>
+    <questiontext format="html"><text><![CDATA[Dans le chapitre, la demande en cinq zones fait passer le test <code>remise</code> au vert. Qu'est-ce qui a « vraiment » fait le travail, selon l'auteur ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[Trois pièces qui existaient déjà : la convention écrite, le chemin du scénario, le log rouge.]]></text><feedback><![CDATA[Exact : « le prompt a été excellent parce qu'il a désigné des pièces qui existent déjà » — la convention centimes entiers, le contrat écrit au ch. 02, le log rouge produit par le capteur du ch. 03.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[La mise en page en majuscules, qui structure la demande et empêche le modèle de s'égarer entre deux lectures.]]></text><feedback><![CDATA[Faux : l'auteur écarte explicitement « les mots en majuscules ». Un prompt excellent dans un projet sans spec, sans convention et sans test produit le même résultat qu'un prompt vague.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[La longueur de la demande, qui occupe la fenêtre de contexte et ferme les interprétations de trop.]]></text><feedback><![CDATA[Faux : la surcharge est un anti-pattern du 6.4. Ce n'est pas le volume du prompt qui agit, mais ce qu'il branche.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Le ton posé par la zone rôle, qui place le modèle en posture de développeur senior et corrige ses habitudes.]]></text><feedback><![CDATA[Faux : c'est le rôle-placebo, dénoncé en 6.4. La zone rôle fixe la posture de rédaction, pas le savoir.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== 6.2 — Itérer juste ===== -->
+  <question type="multichoice">
+    <name><text>F06-2 — « non, refais »</text></name>
+    <questiontext format="html"><text><![CDATA[Le premier jet arrive, vous répondez « non, refais ». D'après le 6.2, que produit ce message ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[Une réécriture complète : vous perdez ce qui était bon et retombez sur une autre lecture plausible.]]></text><feedback><![CDATA[Exact : c'est le premier item du tableau du 6.2. « C'est pas ça » produit une nouvelle interprétation — la sienne, pas la vôtre.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Un correctif ciblé sur le point signalé, le reste du fichier restant intact puisque vous l'aviez validé.]]></text><feedback><![CDATA[Faux : rien dans le message ne borne la réécriture. Un message d'itération utile dit ce qui est bon à garder, l'écart chiffré, la contrainte violée et le périmètre interdit.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Une question de clarification du modèle, qui demande quelle partie précise de la réponse doit être reprise.]]></text><feedback><![CDATA[Faux : le modèle comble le vide au lieu de le signaler — c'est la thèse du cours, il ne lève pas la main.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Une réponse plus courte et plus prudente, le modèle lisant la critique comme un signal de surcharge.]]></text><feedback><![CDATA[Faux : la surcharge est un autre anti-pattern (6.4). « Non, refais » n'a aucun effet de dosage sur la longueur.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <question type="multichoice">
+    <name><text>F06-3 — Le capteur du périmètre</text></name>
+    <questiontext format="html"><text><![CDATA[Le message d'itération du chapitre se termine par « <code>src/remise.ts</code> uniquement ». À quoi sert <code>git diff --stat</code> dans ce duo ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[À vérifier le périmètre : il contrôle la dernière ligne du message à votre place.]]></text><feedback><![CDATA[Exact : c'est « le capteur du périmètre ». Leçon du ch. 01 appliquée à l'itération : une consigne qu'aucun capteur ne vérifie est une consigne que la machine oublie.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[À vérifier le calcul : il compare les valeurs rendues par <code>remise()</code> avant et après le correctif.]]></text><feedback><![CDATA[Faux : la valeur attendue est dite par le test chiffré, <code>npx vitest run</code>. Le diff ne dit que qui a bougé.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[À valider le passage au vert : il relance les tests sur les fichiers effectivement modifiés par la correction.]]></text><feedback><![CDATA[Faux : <code>git</code> ne lance aucun test. C'est vitest qui tranche sur le vert, git sur le périmètre.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[À journaliser la correction dans l'historique, pour que la reprise soit retrouvée à la session suivante.]]></text><feedback><![CDATA[Faux : <code>git diff --stat</code> ne committe rien. Et le cours fait vivre ce qui doit survivre dans le dépôt, pas dans le compte rendu de la séance.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== 6.3 — Optimiser le contexte ===== -->
+  <question type="multichoice">
+    <name><text>F06-4 — La règle de migration</text></name>
+    <questiontext format="html"><text><![CDATA[« Ce que vous tapez dans chaque prompt doit migrer dans le dépôt. » À quel signe reconnaît-on un projet bien tenu, selon le 6.3 ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[Le prompt raccourcit avec le temps, parce que le permanent a été déplacé ailleurs.]]></text><feedback><![CDATA[Exact : c'est le signe donné tel quel. La convention « centimes entiers » retapée trois fois a sa place dans <code>AGENTS.md</code> (ch. 04) : le prompt est un flux, le dépôt est un réservoir.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Le prompt s'allonge avec le temps, à mesure qu'on y consigne toutes les exceptions rencontrées en séance.]]></text><feedback><![CDATA[Faux : c'est l'inverse. Un prompt qui grossit recopie ce qui devrait vivre dans le dépôt — et la mémoire de la machine est un budget, pas un réservoir.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Le prompt devient identique d'une session à l'autre, ce qui prouve la stabilité des habitudes de l'équipe.]]></text><feedback><![CDATA[Faux : la stabilité n'est pas le critère. Ce qui compte est ce qui a quitté le prompt pour rejoindre <code>AGENTS.md</code> ou un scénario.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Le prompt cède la place à un script de génération, qui évite de retaper la demande à chaque nouvelle tâche.]]></text><feedback><![CDATA[Faux : le prompt one-shot reste l'outil qu'il faut (6.5). Le signe porte sur sa longueur, pas sur sa disparition.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== 6.4 — La galerie des anti-patterns ===== -->
+  <question type="multichoice">
+    <name><text>F06-5 — Le rôle-placebo</text></name>
+    <questiontext format="html"><text><![CDATA[« Tu es un architecte senior avec 20 ans d'expérience. » Que change réellement ce persona, d'après la galerie des anti-patterns ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[Le ton de la réponse, pas son savoir : la couleur change, pas la justesse.]]></text><feedback><![CDATA[Exact. Et pire : un persona d'expert encourage la machine à parler comme quelqu'un qui sait, donc à inventer avec assurance — le piège des hallucinations du ch. 01.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[La justesse technique, le persona réactivant les exemples les plus fiables appris pendant l'entraînement.]]></text><feedback><![CDATA[Faux : c'est l'illusion d'efficacité qui rend le tic tenace. Ce qui change vraiment la sortie : un fichier-modèle du projet, un scénario, un log rouge.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Rien sur le fond, mais beaucoup sur la longueur : la réponse devient plus détaillée et donc plus utile.]]></text><feedback><![CDATA[Faux : la longueur est l'effet de la surcharge ou d'une zone format absente, pas du costume.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[La capacité à refuser une demande floue, l'expert signalant ce qu'il ne peut pas trancher seul.]]></text><feedback><![CDATA[Faux : c'est l'inverse du piège. L'IA ne lève pas la main, et le costume l'encourage à combler le vide avec assurance.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== 6.5 — Prompt ou spec : le sondage ===== -->
+  <question type="multichoice">
+    <name><text>F06-6 — Combien d'itérations ?</text></name>
+    <questiontext format="html"><text><![CDATA[Le chapitre s'ouvre sur un sondage : « entre "ajoute les remises, fais-le bien" et la fonctionnalité qui marche, combien d'itérations ? » Quelle est la réponse de l'auteur ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[Un nombre indéterminé : la demande ne fournit aucun critère d'arrêt, on sème quand ça ressemble.]]></text><feedback><![CDATA[Exact : « vous semez quand la réponse ressemble à ce que vous aviez en tête, et vous appelez ça c'est bon ». Avec l'environnement en place, une ou deux itérations, et le critère d'arrêt ne vous appartient plus : c'est le scénario.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Trois en moyenne, à condition de relancer la même demande sans jamais la reformuler entre-temps.]]></text><feedback><![CDATA[Faux : aucun chiffre ne s'attache à la demande vague. C'est l'absence de borne qui est le vrai coût, pas un nombre élevé.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Une seule, dès lors que le modèle choisi est assez fort pour une tâche aussi courante que celle-là.]]></text><feedback><![CDATA[Faux : changer de modèle ne crée pas le critère d'arrêt qui manque. Le compte se pilote par le contexte initial et les capteurs.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Environ dix, ce qui correspond au coût réel d'une fonctionnalité de remise dans un projet neuf.]]></text><feedback><![CDATA[Faux : ce chiffre n'existe pas dans le chapitre. Retenez plutôt : à la troisième fois sur le même écart, on arrête de prompter et on répare l'environnement.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+</quiz>

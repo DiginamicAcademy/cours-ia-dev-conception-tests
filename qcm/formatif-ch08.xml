@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  QCM FORMATIF — chapitre 08 : « L'IA pour la conception, les tests et la documentation »
+  Cours « Exploiter l'IA pour le développement, la conception et les tests ».
+  Non noté, à faire AVEC l'IA : l'apprenant se situe entre les jours.
+  6 questions à choix unique, ancrées dans les faits du chapitre (MCD cerclé, PRAGMA SQLite,
+  EX-08 et son mutant, maquette générée, doc générée, trois témoins).
+  NB : ne pas passer typo-fix sur ce fichier (il casserait la declaration XML).
+-->
+<quiz>
+
+  <question type="category">
+    <category><text>$top$/Formatif ch.08 — L'IA pour la conception, les tests et la documentation</text></category>
+  </question>
+
+  <!-- ===== 8.1.4 — MCD généré ===== -->
+  <question type="multichoice">
+    <name><text>F08-1 — Le flottant promu colonne</text></name>
+    <questiontext format="html"><text><![CDATA[Dans le MCD que l'IA sort en trente secondes pour le comptoir, la ligne <code>float penalite</code> est cerclée en premier. Pourquoi ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[C'est de l'argent en flottant : le bug du chapitre 01, mais écrit en base, donc durable et partout.]]></text><feedback><![CDATA[Exact : <code>Math.floor(19.99 * 100)</code> donne 1998 (chapitre 01). Promu colonne, le bug devient persistant et se propage à toute la base. Le MCD manuel remet des centimes en entier.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Le flottant arrondit toujours à la hausse, ce qui fait sauter le plafond de 15 € dès le deuxième jour de retard.]]></text><feedback><![CDATA[Faux : <code>Math.floor</code> tronque, il n'arrondit jamais à la hausse — c'est la représentation binaire du nombre qui est approximative. Le plafond n'est pas en cause sur cette ligne.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Rien à redire sur le type : le seul défaut cerclé est que la pénalité soit stockée alors qu'elle se calcule.]]></text><feedback><![CDATA[Faux : les deux sont cerclés, et séparément (points 1 et 2 du chapitre). Le stockage crée deux sources de vérité ; le flottant est un autre défaut, indépendant.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Un flottant ne rend pas les décimales exactes en SQL : il fallait un DECIMAL pour coller au SGBD du comptoir.]]></text><feedback><![CDATA[Faux : le cours ne prescrit pas un type décimal, il prescrit une convention — des centimes en entier. Et surtout, ici la pénalité ne se stocke pas du tout.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== 8.1.6 — SQL et le capteur éteint ===== -->
+  <question type="multichoice">
+    <name><text>F08-2 — Le capteur qu'on n'a pas allumé</text></name>
+    <questiontext format="html"><text><![CDATA[Dans le chapitre, <code>sqlite3 :memory: ".read db/schema.sql"</code> passe sans erreur alors que <code>pret</code> référence une table <code>adherent</code> absente. Que faut-il pour que le schéma soit vraiment vérifié ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[Allumer <code>PRAGMA foreign_keys = ON</code> et insérer une ligne : le capteur ne parle que si on l'allume.]]></text><feedback><![CDATA[Exact : SQLite n'applique pas les clés étrangères par défaut. La première commande a accepté sans ciller une référence vers une table inexistante ; il a fallu le PRAGMA, puis un <code>INSERT</code>. Environnement &gt; prompt.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Rien : la commande a validé le schéma, et un SGBD contrôle ses clés étrangères dès la création des tables.]]></text><feedback><![CDATA[Faux : c'est l'inverse. SQLite laisse passer une référence vers une table qui n'existe pas tant que <code>foreign_keys</code> est éteint.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Faire vérifier le fichier de schéma par <code>npx tsc --noEmit</code>, qui refuse toute référence vers une table inexistante.]]></text><feedback><![CDATA[Faux : <code>tsc</code> ne lit pas du SQL. L'autorité sans avis ici, c'est le SGBD — et il faut l'allumer et écrire, pas seulement créer la base.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Le faire relire par un second modèle : son accord sur les références croisées valide le modèle de données.]]></text><feedback><![CDATA[Faux : un second modèle est un relecteur, jamais un arbitre. Deux modèles nourris des mêmes corpus convergent sur les mêmes erreurs plausibles.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== 8.2 + EX-08 — mutation testing ===== -->
+  <question type="multichoice">
+    <name><text>F08-3 — Ce que « SURVIVED » dit de la suite</text></name>
+    <questiontext format="html"><text><![CDATA[Dans EX-08, le rapport Stryker affiche <code>15 → 20 SURVIVED</code> avec 100 % de couverture lignes. Que signifie ce mot ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[On a saboté le code et la suite n'a rien vu : le défaut concerne les tests.]]></text><feedback><![CDATA[Exact : un mutant survécu est un test de test raté. À 15 ou à 20, les quatre assertions miroir (0, 1 et 3 jours) passent pareil — aucune n'atteint le plafond.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Le mutant est infalsifiable : aucune assertion ne peut atteindre la ligne 6 sans réécrire toute la suite depuis le code.]]></text><feedback><![CDATA[Faux : il était tuable. <code>penalite(12)</code> doit valoir 15 au contrat (12 × 1,50 = 18 € puis plafonné) ; cette assertion, absente du miroir, aurait tué le mutant.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[La couverture annoncée est fausse : Stryker signale que les 100 % de Vitest ne sont pas réellement atteints.]]></text><feedback><![CDATA[Faux : la couverture est vraie. Elle mesure ce que vos tests touchent, pas ce qu'ils interdisent — la promesse du chapitre 01, tenue ici.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Le plafond ne change aucun résultat dans la plage testée : le mutant est équivalent, la constante 15 est donc inutile.]]></text><feedback><![CDATA[Faux : le plafond change à partir de 11 jours (11 × 1,50 = 16,50 €, ramené à 15). C'est la suite miroir qui s'arrête à 3 jours, pas le code qui est indifférent.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== 8.1.5 — la maquette générée ===== -->
+  <question type="multichoice">
+    <name><text>F08-4 — La maquette qui a l'air finie</text></name>
+    <questiontext format="html"><text><![CDATA[Une maquette générée montre l'écran de prêt, rempli de belles données. En quoi est-elle plus dangereuse qu'un croquis au feutre ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[Elle a l'air finie : devant un rendu léché, on ne dit plus « ça ne marche pas ? », on dit « c'est beau ».]]></text><feedback><![CDATA[Exact : un croquis annonce qu'il est un croquis. Règle du chapitre : un livrable dont la finition excède la substance a la finition pour substance. Le HTML rate les états, la validation, l'accessibilité, la persistance et le comportement.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Elle dépend d'un quota quotidien et d'un service en bêta sans SLA, ce qui rend toute démonstration hasardeuse.]]></text><feedback><![CDATA[Faux : bêta sans SLA et quotas sont des faits réels du chapitre — ils imposent des captures de secours, pas une prudence esthétique.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Elle est exportée en HTML statique, donc il faut tout recoder à la main avant de la montrer à des utilisateurs.]]></text><feedback><![CDATA[Faux : HTML statique = une photo d'interface, jetable, export limité. La conséquence est la jetabilité du code récupéré, pas une corvée de mise en forme.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Elle est fausse sur les cardinalités : un modèle ne modélise jamais juste, il faut reprendre le schéma à la main.]]></text><feedback><![CDATA[Faux : c'est le MCD (8.1.4) qui est cerclé — et encore, sur les erreurs vues mille fois la revue par IA excelle. Le piège propre à la maquette est sa finition.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== 8.3 — documentation générée ===== -->
+  <question type="multichoice">
+    <name><text>F08-5 — La doc que personne n'exécute</text></name>
+    <questiontext format="html"><text><![CDATA[Un README généré annonce <code>npm run seed</code>, un drapeau <code>--format=csv</code> et une variable <code>COMPTEUR_API_URL</code>. Quel geste de la checklist humaine tranche ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[Copier la commande et chercher le nom exact dans le code : zéro résultat = option inventée.]]></text><feedback><![CDATA[Exact : « chaque commande citée existe-t-elle ? » Un <code>npm run seed</code> qui échoue est une réponse. Une doc fausse n'est punie par personne : c'est le seul artefact du cours que personne n'exécute.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Demander au modèle de confirmer que ces trois éléments existent bien dans le projet, puis publier sa réponse.]]></text><feedback><![CDATA[Faux : le modèle réaffirme son invention avec le même aplomb. Personne ne lance <code>npx tsc</code> sur un paragraphe — c'est à vous de lancer la commande.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Régénérer le README après chaque commit pour que la doc reste collée à l'état du code à l'instant où on la produit.]]></text><feedback><![CDATA[Faux : régénérer souvent n'efface pas l'invention, et la « doc du code d'hier » reste fausse trois commits plus tard avec la même assurance. Les chiffres, eux, viennent du contrat : 1,50 €, plafond 15 €, caution 30 €.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Compléter le README par un avertissement précisant que les options listées peuvent varier selon les versions.]]></text><feedback><![CDATA[Faux : un avertissement poli laisse le lecteur devant une porte fausse. La checklist retire l'option inventée, elle ne l'entoure pas d'une réserve.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+  <!-- ===== 8.4 — croiser les témoins ===== -->
+  <question type="multichoice">
+    <name><text>F08-6 — Quand le vert ne suffit pas</text></name>
+    <questiontext format="html"><text><![CDATA[Un test passe au vert, mais un formateur affirme que la règle mesurée n'est pas celle d'un comptoir municipal. Que dit la règle de préséance du chapitre ?]]></text></questiontext>
+    <answer fraction="100"><text><![CDATA[Le capteur mesure la mauvaise chose, et cela, seul un humain le sait : il tranche.]]></text><feedback><![CDATA[Exact : la préséance a trois branches. Humain contre capteur sur un fait, le capteur gagne ; modèle contre spec, la spec gagne ; contexte contre capteur, c'est que le capteur mesure à côté — et ça, aucun capteur ne le mesure.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[Le capteur a raison : sur un fait, un test qui s'exprime passe avant l'avis d'un humain, quel que soit le sujet.]]></text><feedback><![CDATA[Faux : cette branche suppose que le capteur mesure bien le fait discuté. Ici le désaccord porte sur ce qui devait être mesuré, donc sur le contexte.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[La spec exécutable est l'arbitre, donc le vert l'emporte : on aligne la règle métier sur ce qu'elle affirme.]]></text><feedback><![CDATA[Faux : la spec est l'arbitre face à un modèle, pas face au contexte. Un contrat écrit à côté de la plaque reste vert et reste faux.]]></feedback></answer>
+    <answer fraction="0"><text><![CDATA[On consulte un second modèle : reproductible et sans humeur, il arbitre entre le test et l'avis du formateur.]]></text><feedback><![CDATA[Faux : le second modèle est un relecteur, jamais l'arbitre. On lui demande une objection, pas un verdict.]]></feedback></answer>
+    <single>true</single><shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Bonne réponse.]]></text></correctfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Réponse incorrecte.]]></text></incorrectfeedback>
+    <shownumcorrect/>
+  </question>
+
+</quiz>
