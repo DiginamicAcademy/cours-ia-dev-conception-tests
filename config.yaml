@@ -1,23 +1,22 @@
 # Déclaration du cours, en deux sections. Vérifiée à chaque push qui la modifie
-# (workflow « Vérifier »). Voir le chapitre 00-Creer-un-depot-de-cours.md.
+# (workflow « Vérifier »).
 #
 # - course : ce que vise le cours. Recopiée à chaque version dans sa partie
-#   pédagogique, le dépôt privé <ce-dépôt>-Peda, où elle sert à produire
-#   RNCP.yaml et le syllabus (chapitre 05-Partie-pedagogique.md).
-# - credits : qui signe le cours, et avec quels comptes GitHub. Reprise
-#   par le support de cours, elle reste dans ce dépôt (chapitre
-#   04-Auteurs-et-contributeurs.md).
+#   pédagogique, le dépôt privé <ce-dépôt>-Peda.
+# - credits : qui signe le cours, et avec quels comptes GitHub. Reprise par le
+#   support de cours, elle reste dans ce dépôt.
 course:
-  name: "Nom du cours"
-  RNCP:     ## liste des titres RNCP dans lesquels ce cours entre
-    - RNCP0000
-  RNCPBloc: ## liste éventuelle des blocs optionnels visés, titre suivi du bloc (exemple EISI-devpops : RNCP40573BC06)
-            ## cette liste peut être vide
-    - RNCP40573BC06
-  timing: 2 ## durée prévue en jours
+  name: "Exploiter l'IA pour le développement, la conception et les tests"
+  RNCP:     ## titres RNCP dans lesquels ce cours entre.
+    ## Cours conçu hors référentiel (« préparer les devs à la pratique assistée
+    ## par IA »). Rattaché ici nominalement au titre EISI, sans bloc revendiqué,
+    ## pour rester dans le gabarit de la collection. Voir cadrage/05-ADR.md, ADR-009.
+    - RNCP40573
+  RNCPBloc: []  ## aucun bloc de compétences n'est revendiqué par ce cours.
+  timing: 2     ## durée prévue en jours
 
 credits:
   authors: ## signataires du cours, dans l'ordre où ils doivent apparaître
-    - name: Jean-François Vial
+    - name: Robin Hotton
       github: ## comptes GitHub avec lesquels il commite, pour reconnaître ses commits
-        - JeffDiginamic
+        - robinhotton
