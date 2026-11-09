@@ -7,7 +7,7 @@
 
 # Exploiter l'IA pour le développement, la conception et les tests
 
-> **Support en production.** La structure est en place ; le contenu des chapitres reste à rédiger (vague 2). Les durées ci-dessous sont des repères, pas des engagements à la minute.
+> **Support en production.** Les neuf chapitres sont rédigés. Les durées ci-dessous sont des repères, pas des engagements à la minute.
 
 **2 jours · distanciel avec formateur · outillage 100 % gratuit.** Cours hors référentiel RNCP, porté par la direction pour préparer les développeurs à la pratique assistée par IA — et conforme à l'obligation de « culture IA » de l'AI Act.
 
@@ -28,6 +28,8 @@ Git et GitHub ; un langage de programmation (les laboratoires sont en **JavaScr
 ## Le parcours
 
 Chapitre après chapitre, le pipeline « conception → spec → portes → boucle → revue → cadre » se complète ; il est entier au chapitre 05, puis encadré par la réglementation au chapitre 09.
+
+> **Avant le jour 1 :** un [auto-questionnaire de positionnement](00-positionnement.md) (non noté, cinq minutes) sert à composer les binômes et à calibrer le rythme des deux journées.
 
 ### Journée 1 — Construire un environnement où l'IA travaille bien
 
@@ -57,8 +59,8 @@ Un projet intégrateur **hors du temps de cours** : voir [tp/](tp/README.md). I
 
 - **QCM sommatif** (20 questions, sans IA, en fin de journée 2) : **c'est la note du cours**, pour tous.
 - **TP-01** : extension **bonus** (+2 maximum, jamais pénalisante), si remis avec les preuves de processus (commits, logs CI, transcripts).
-- QCM formatifs par chapitre, non notés, pour s'entraîner (avec IA).
+- **QCM formatifs** : une série « Vérifiez vos acquis » en fin de chaque chapitre, non notée, pour s'entraîner (réponses dépliables).
 
 ## Organisation de ce dépôt
 
-Chapitres à la racine (assemblés en PDF par le workflow), diapositives dans `slides.md`, visuels dans `assets/slides/`, module d'extension dans `tp/`, QCM Moodle dans `qcm/`. La conception, les corrigés et les évaluations notées vivent dans le dépôt privé [`cours-ia-dev-conception-tests-Peda`](https://github.com/DiginamicAcademy/cours-ia-dev-conception-tests-Peda).
+Chapitres à la racine (assemblés en PDF par le workflow), positionnement dans `00-positionnement.md`, diapositives dans `slides.md`, visuels dans `assets/slides/`, module d'extension dans `tp/`. Les QCM formatifs sont intégrés en fin de chapitre (« Vérifiez vos acquis »). La conception, les corrigés et les évaluations notées (dont le QCM sommatif importable dans Moodle) vivent dans le dépôt privé [`cours-ia-dev-conception-tests-Peda`](https://github.com/DiginamicAcademy/cours-ia-dev-conception-tests-Peda).

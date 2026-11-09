@@ -2,7 +2,15 @@
 
 # Chapitre 02 — Spec-first : Gherkin comme interface avec l'IA
 
-**Accroche (sondage) :** « Quelle est la différence entre cette phrase d'un client et un bug ? »
+> **Dans ce chapitre**, vous apprendrez à :
+>
+> - Formuler un comportement attendu en Given / When / Then à partir d'une demande floue ;
+> - Écrire une feature Gherkin complète (`Feature`, `Scenario`, `Background`, `Scenario Outline` + `Examples`, tags) ;
+> - Rendre un scénario exécutable par la machine en l'accrochant à des step definitions ;
+> - Verrouiller une interprétation du métier par des chiffres concrets, un résultat explicite et un cas négatif ;
+> - Utiliser le vert de tous les scénarios comme critère d'arrêt.
+
+**Accroche :** « Quelle est la différence entre cette phrase d'un client et un bug ? »
 
 ---
 
@@ -223,7 +231,103 @@ Le cas limite est la ligne à surveiller : vendredi → lundi, seuls samedi et 
 
 ---
 
-**Rattaché au module d'extension.** L'amorce que vous venez d'écrire (f1 en TD, f2 en application) est l'ébauche de l'étape **E1** du TP-01 « Le comptoir de prêt » : vous ne repartirez pas de zéro.
+L'amorce que vous venez d'écrire (f1 en TD, f2 en application) est l'ébauche de l'étape **E1** du TP-01 « Le comptoir de prêt » : vous ne repartirez pas de zéro.
+
+---
+
+## Vérifiez vos acquis
+
+Six questions, non notées, à faire avec l'IA : elles servent à vous situer, pas à compter une note.
+
+**1. On lance `npx cucumber-js` alors que `src/penalite.ts` n'existe pas encore : `1 scenario (1 failed)`, `expected 1.5 but got undefined`. Que dit ce résultat ?**
+- A. Il est anormal : il faut écrire `src/penalite.ts` avant de lancer `npx cucumber-js`, sinon les résultats sont faux.
+- B. Il est normal et voulu : le comportement est vérifiable avant que le code existe.
+- C. Il signale une accroche défectueuse : la step definition de `step_definitions/retards.ts` ne correspond à aucune ligne du fichier.
+- D. Il montre que la spec reste ambiguë : sans montant décidé avec le client, aucun scénario ne peut être exécuté par le moteur.
+
+<details>
+<summary>Voir la réponse</summary>
+
+**Réponse : B.** C'est le harnais du chapitre 01, version spec : la machine sait désormais dire « non » avant que l'IA n'arrive, et « oui » seulement quand c'est vrai.
+
+Pourquoi pas les autres : écrire le code d'abord rend la vérification dépendante de ce qu'elle est censée juger ; les étapes sont bien reconnues, sinon Cucumber les signalerait comme indéfinies ; et le montant, lui, est décidé (contrat f1).
+
+</details>
+
+**2. Dans le trio du chapitre — `features/retards.feature`, `step_definitions/retards.ts`, `src/penalite.ts` — quel fichier est « l'accroche », ce que lit la machine ?**
+- A. `features/retards.feature`, puisque c'est lui que le moteur déroule ligne par ligne à partir du premier Given.
+- B. `src/penalite.ts`, car c'est le code qui calcule et donc le point d'entrée de toute l'exécution du scénario.
+- C. `step_definitions/retards.ts`, une fonction TypeScript accrochée à chaque ligne Given/When/Then.
+- D. Le moteur `npx cucumber-js` lui-même, qui traduit les phrases Gherkin en assertions sans fichier intermédiaire.
+
+<details>
+<summary>Voir la réponse</summary>
+
+**Réponse : C.** La step definition est le chaînon entre la phrase lisible et le code qui calcule : sans elle, le `.feature` reste un document.
+
+Pourquoi pas les autres : le `.feature` est ce que lit le client ; `src/penalite.ts` est ce que l'IA va écrire ; `cucumber-js` exécute, il ne traduit pas le métier.
+
+</details>
+
+**3. Contrat f1 : un jour de retard est un jour ouvré écoulé entre la date de retour attendue et la date de rendu, *les deux bornes exclues*. Un matériel est dû le vendredi 2026-11-06, rendu le lundi 2026-11-09. Combien de jours de retard sont comptés ?**
+- A. 0 jour : entre les deux bornes, seuls samedi et dimanche se sont écoulés.
+- B. 2 jours : le décompte calendrier retient le samedi et le dimanche écoulés entre les deux dates.
+- C. 1 jour : le lundi du rendu est le premier jour ouvré qui suit l'échéance du vendredi.
+- D. 3 jours : la période vécue couvre le vendredi, le samedi et le dimanche avant le rendu du lundi.
+
+<details>
+<summary>Voir la réponse</summary>
+
+**Réponse : A.** Les bornes sont exclues, donc ni le vendredi ni le lundi ne comptent, et le week-end n'est pas ouvré : 0 jour, 0,00 € retenu, caution rendue entière.
+
+Pourquoi pas les autres : retenir les jours calendaires est très exactement le bug que le scénario concret empêche l'IA de livrer (3 € à tort) ; et les deux bornes — échéance comme rendu — sont exclues par le contrat.
+
+</details>
+
+**4. Contrat f2 : caution de 30 €, pénalité de 1,50 € par jour ouvré de retard, plafond de 15 € par prêt. Un matériel est rendu avec 12 jours de retard ouvré. Que donne la liquidation de la caution ?**
+- A. 18,00 € sont retenus sur la caution et 12,00 € sont restitués à l'adhérent.
+- B. 30,00 € sont retenus sur la caution et 0,00 € sont restitués à l'adhérent.
+- C. 6,00 € sont retenus sur la caution et 24,00 € sont restitués à l'adhérent.
+- D. 15,00 € sont retenus sur la caution et 15,00 € sont restitués.
+
+<details>
+<summary>Voir la réponse</summary>
+
+**Réponse : D.** 12 × 1,50 = 18 €, mais le plafond de 15 € s'applique : la ligne `12 | 15.00` des Examples est calculée depuis le contrat, jamais inventée.
+
+Pourquoi pas les autres : 18,00 € est le produit sans le plafond ; 30,00 € ne correspond à rien dans le contrat ; 6,00 € est le montant de 4 jours de retard, pas de 12.
+
+</details>
+
+**5. D'après la règle d'écriture du chapitre 02, que doit comporter un scénario pour que l'IA ne puisse pas y tricher ?**
+- A. Des étapes rédigées dans l'ordre Given/When/Then, avec un Background commun à tous les scénarios du fichier.
+- B. Des chiffres concrets, un résultat explicite et au moins un cas négatif.
+- C. Des commentaires Gherkin expliquant la lecture retenue par le client, relus et validés avant la première exécution.
+- D. Des tags de tri, par exemple `@regle-metier` et `@cas-limite`, pour que la CI les exécute avant les autres.
+
+<details>
+<summary>Voir la réponse</summary>
+
+**Réponse : B.** Le cas négatif (« ça ne doit *pas* se passer ») est ce qui ferme la porte : une spec sans cas négatif laisse toujours un espace d'interprétation.
+
+Pourquoi pas les autres : la forme Given/When/Then ne tranche rien (un scénario bien ordonné et vague reste vague) ; un commentaire n'est pas vérifié par la machine ; les tags trient ce qu'on exécute, ils ne disent pas ce qui doit être vrai après.
+
+</details>
+
+**6. Le chapitre 02 annonce la boucle du chapitre 05 : l'IA code, la CI la corrige, elle recode. D'après ce chapitre, qu'est-ce qui arrête la boucle ?**
+- A. La relecture de l'apprenant, seul capable de juger si le résultat rendu « a l'air bon » sur l'ensemble.
+- B. La borne d'itérations fixée avant de démarrer, qui clôt la séance lorsqu'elle est atteinte.
+- C. Le vert de tous les scénarios : la spec est le frein de la machine.
+- D. La déclaration de fin de l'agent, qui récapitule ce qu'il estime conforme à la demande qu'il a reçue.
+
+<details>
+<summary>Voir la réponse</summary>
+
+**Réponse : C.** « Quand tout est vert, on a fini ; tant qu'un scénario rouge subsiste, on n'a pas répondu au besoin » : la spec n'est pas un document pour la forme, c'est le critère d'arrêt.
+
+Pourquoi pas les autres : le chapitre qualifie l'œil de « mauvais arbitre » ; une borne d'itérations plafonne la dépense, pas l'atteinte du besoin ; et l'IA n'arbitre pas son propre travail.
+
+</details>
 
 ---
 

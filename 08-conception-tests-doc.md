@@ -2,6 +2,13 @@
 
 # Chapitre 08 — L'IA pour la conception, les tests et la documentation
 
+> **Dans ce chapitre**, vous apprendrez à :
+> - **Faire produire plusieurs options** à l'IA et trancher sur des critères écrits, pas sur son assurance ;
+> - **Repérer les défauts d'un modèle de données, d'une maquette ou d'une décision écrits par l'IA**, et en réécrire ce qui engage ;
+> - **Écrire les tests depuis le contrat** et non depuis le code : déléguer les entrées, jamais les valeurs attendues ;
+> - **Vérifier une documentation générée** commande par commande, option par option, chiffre par chiffre ;
+> - **Croiser les témoins** — humain, spécification exécutable, second modèle — et appliquer la règle de préséance.
+
 **Accroche (sondage) :** « L'IA écrit le code et les tests. Qui vérifie, au final ? »
 
 ---
@@ -328,6 +335,102 @@ export function joursOuvres(dû: Date, rendu: Date): number {
 Vendredi 06 → lundi 09 : on part du 07, on s'arrête avant le 09 → samedi, dimanche → **0**. Jeudi 05 → lundi 09 : vendredi compté → **1**, soit 1,50 €. Deux dates, deux scénarios du chapitre 02, le contrat est verrouillé.
 
 **La leçon n'est pas « les tests générés sont mauvais ».** Elle est : **la valeur d'un test ne dépend pas de qui l'a écrit, mais de la source de sa vérité.** Un test dont l'oracle est le code est un miroir, écrit par un humain ou par dix modèles. Un test dont l'oracle est le contrat est un capteur. Le chapitre 02 vous a fait écrire ce contrat pendant une journée : le voici qui paie.
+
+</details>
+
+---
+
+## Vérifiez vos acquis
+
+Six questions, non notées, à faire avec l'IA : elles servent à vous situer, pas à compter une note.
+
+**1. Dans le MCD que l'IA sort en trente secondes pour le comptoir, la ligne `float penalite` est cerclée en premier. Pourquoi ?**
+- A. Le flottant arrondit toujours à la hausse, ce qui fait sauter le plafond de 15 € dès le deuxième jour de retard.
+- B. C'est de l'argent en flottant : le bug du chapitre 01, mais écrit en base, donc durable et partout.
+- C. Rien à redire sur le type : le seul défaut cerclé est que la pénalité soit stockée alors qu'elle se calcule.
+- D. Un flottant ne rend pas les décimales exactes en SQL : il fallait un DECIMAL pour coller au SGBD du comptoir.
+
+<details>
+<summary>Voir la réponse</summary>
+
+**Réponse : B.** `Math.floor(19.99 * 100)` donne 1998 (chapitre 01) : promu colonne, le bug devient persistant et se propage à toute la base. Le MCD manuel remet des centimes en entier.
+
+Pourquoi pas les autres : `Math.floor` tronque, il n'arrondit jamais à la hausse — c'est la représentation binaire du nombre qui est approximative ; les deux défauts, le type et le stockage, sont cerclés séparément ; et le cours ne prescrit pas un type décimal mais une convention, des centimes en entier, la pénalité ne se stockant d'ailleurs pas du tout.
+
+</details>
+
+**2. Dans le chapitre, `sqlite3 :memory: ".read db/schema.sql"` passe sans erreur alors que `pret` référence une table `adherent` absente. Que faut-il pour que le schéma soit vraiment vérifié ?**
+- A. Rien : la commande a validé le schéma, et un SGBD contrôle ses clés étrangères dès la création des tables.
+- B. Faire vérifier le fichier de schéma par `npx tsc --noEmit`, qui refuse toute référence vers une table inexistante.
+- C. Le faire relire par un second modèle : son accord sur les références croisées valide le modèle de données.
+- D. Allumer `PRAGMA foreign_keys = ON` et insérer une ligne : le capteur ne parle que si on l'allume.
+
+<details>
+<summary>Voir la réponse</summary>
+
+**Réponse : D.** SQLite n'applique pas les clés étrangères par défaut : la commande a accepté sans ciller une référence vers une table inexistante. Il a fallu le PRAGMA, puis un `INSERT`. *Environnement > prompt* : la vérification vit dans la configuration du terrain.
+
+Pourquoi pas les autres : SQLite laisse passer la référence tant que `foreign_keys` est éteint ; `tsc` ne lit pas du SQL ; un second modèle est un relecteur, jamais un arbitre — deux modèles nourris des mêmes corpus convergent sur les mêmes erreurs plausibles.
+
+</details>
+
+**3. Dans EX-08, le rapport Stryker affiche `15 → 20 SURVIVED` avec 100 % de couverture lignes. Que signifie ce mot ?**
+- A. On a saboté le code et la suite n'a rien vu : le défaut concerne les tests.
+- B. Le mutant est infalsifiable : aucune assertion ne peut atteindre la ligne 6 sans réécrire toute la suite depuis le code.
+- C. La couverture annoncée est fausse : Stryker signale que les 100 % de Vitest ne sont pas réellement atteints.
+- D. Le plafond ne change aucun résultat dans la plage testée : le mutant est équivalent, la constante 15 est donc inutile.
+
+<details>
+<summary>Voir la réponse</summary>
+
+**Réponse : A.** Un mutant survécu est un test de test raté : à 15 comme à 20, les quatre assertions miroir (0, 1 et 3 jours) passent pareil — aucune n'atteint le plafond.
+
+Pourquoi pas les autres : le mutant était tuable, par `penalite(12)` qui doit valoir 15 au contrat ; la couverture est vraie, elle mesure ce que les tests touchent et non ce qu'ils interdisent ; le plafond change à partir de 11 jours (16,50 € ramené à 15) — c'est la suite miroir qui s'arrête à 3 jours, pas le code qui est indifférent.
+
+</details>
+
+**4. Une maquette générée montre l'écran de prêt, rempli de belles données. En quoi est-elle plus dangereuse qu'un croquis au feutre ?**
+- A. Elle dépend d'un quota quotidien et d'un service en bêta sans SLA, ce qui rend toute démonstration hasardeuse.
+- B. Elle est fausse sur les cardinalités : un modèle ne modélise jamais juste, il faut reprendre le schéma à la main.
+- C. Elle a l'air finie : devant un rendu léché, on ne dit plus « ça ne marche pas ? », on dit « c'est beau ».
+- D. Elle est exportée en HTML statique, donc il faut tout recoder à la main avant de la montrer à des utilisateurs.
+
+<details>
+<summary>Voir la réponse</summary>
+
+**Réponse : C.** Un croquis annonce qu'il est un croquis. Règle du chapitre : un livrable dont la finition excède la substance a la finition pour substance — et le HTML rate les états, la validation, l'accessibilité, la persistance et le comportement.
+
+Pourquoi pas les autres : la bêta sans SLA et les quotas sont des faits réels, mais ils imposent des captures de secours ; le HTML statique est une photo d'interface au code jetable, pas une corvée de mise en forme ; les cardinalités, c'est le MCD du 8.1.4 — et sur ce genre d'erreur la revue par IA excelle.
+
+</details>
+
+**5. Un README généré annonce `npm run seed`, un drapeau `--format=csv` et une variable `COMPTEUR_API_URL`. Quel geste de la checklist humaine tranche ?**
+- A. Demander au modèle de confirmer que ces trois éléments existent bien dans le projet, puis publier sa réponse.
+- B. Copier la commande et chercher le nom exact dans le code : zéro résultat = option inventée.
+- C. Régénérer le README après chaque commit pour que la doc reste collée à l'état du code à l'instant où on la produit.
+- D. Compléter le README par un avertissement précisant que les options listées peuvent varier selon les versions.
+
+<details>
+<summary>Voir la réponse</summary>
+
+**Réponse : B.** « Chaque commande citée existe-t-elle ? » Un `npm run seed` qui échoue est une réponse. Une documentation fausse n'est punie par personne : c'est le seul artefact du cours que personne n'exécute.
+
+Pourquoi pas les autres : le modèle réaffirme son invention avec le même aplomb ; régénérer souvent n'efface pas l'invention, et la doc du code d'hier reste fausse trois commits plus tard avec la même assurance ; un avertissement poli laisse le lecteur devant une porte fausse — la checklist retire l'option inventée, elle ne l'entoure pas d'une réserve.
+
+</details>
+
+**6. Un test passe au vert, mais un formateur affirme que la règle mesurée n'est pas celle d'un comptoir municipal. Que dit la règle de préséance du chapitre ?**
+- A. Le capteur a raison : sur un fait, un test qui s'exprime passe avant l'avis d'un humain, quel que soit le sujet.
+- B. On consulte un second modèle : reproductible et sans humeur, il arbitre entre le test et l'avis du formateur.
+- C. Le capteur mesure la mauvaise chose, et cela, seul un humain le sait : il tranche.
+- D. La spec exécutable est l'arbitre, donc le vert l'emporte : on aligne la règle métier sur ce qu'elle affirme.
+
+<details>
+<summary>Voir la réponse</summary>
+
+**Réponse : C.** La préséance a trois branches : humain contre capteur sur un fait, le capteur gagne ; modèle contre spec, la spec gagne ; contexte contre capteur, c'est que le capteur mesure à côté — et cela, aucun capteur ne le mesure.
+
+Pourquoi pas les autres : la branche « le capteur a raison » suppose qu'il mesure bien le fait discuté, or le désaccord porte ici sur ce qui devait être mesuré ; la spec arbitre face à un modèle, pas face au contexte — un contrat écrit à côté de la plaque reste vert et reste faux ; le second modèle est un relecteur, on lui demande une objection, pas un verdict.
 
 </details>
 

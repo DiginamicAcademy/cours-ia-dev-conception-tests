@@ -2,6 +2,13 @@
 
 # Chapitre 04 — Ingénierie du contexte : rendre le projet lisible par l'IA
 
+> **Dans ce chapitre**, vous apprendrez à :
+> - Écrire un fichier d'instructions `AGENTS.md` d'une page, en cinq rubriques ;
+> - Juger l'utilité d'une ligne : ne garder que celles qu'un agent peut enfreindre ;
+> - Alléger le contexte en pointant `docs/` et les ADR au lieu de tout recopier ;
+> - Repérer une session encombrée et repartir propre avec une passation de dix lignes ;
+> - Exclure de l'établi secrets, données personnelles et fichiers ignorés par git.
+
 **Accroche (sondage) :** « Combien coûte un fichier ouvert "au cas où" dans la fenêtre de contexte ? »
 
 ---
@@ -278,6 +285,96 @@ Les dérapages classiques, et la ligne qui les ferme :
 ---
 
 **Cross-refs.** Le chapitre 01 (l'établi, la fenêtre de contexte) ; le chapitre 03 (les portes que le fichier donne à lancer — sans elles, le fichier est une affiche) ; le chapitre 05 (la boucle, dont l'itération d'EX-B est le même geste) ; le chapitre 07 (la laisse, seule vraie protection contre la lecture d'un fichier ignoré par git) ; le chapitre 09 (RGPD, dès qu'une donnée personnelle approche une session). Le fichier que vous écrivez à EX-B est celui qui servira au module d'extension TP-01.
+
+---
+
+## Vérifiez vos acquis
+
+Six questions, non notées, à faire avec l'IA : elles servent à vous situer, pas à compter une note.
+
+**1. Un même dépôt est utilisé par des collègues sous Cursor et par des collègues sous opencode. Que prescrit le chapitre pour les fichiers d'instructions ?**
+- A. Rédiger le même contenu dans `AGENTS.md` et dans `.cursorrules`, pour que chaque outil trouve sa consigne.
+- B. Écrire `AGENTS.md`, et faire des autres fichiers un pointeur d'une ligne.
+- C. Écrire seulement `.github/copilot-instructions.md`, puisqu'il est lu sur tout le dépôt et convient aux deux outils.
+- D. Écrire dans `.cursor/rules/`, le dossier qui a remplacé `.cursorrules`, et laisser opencode le lire aussi.
+
+<details>
+<summary>Voir la réponse</summary>
+
+**Réponse : B.** Un seul fichier fait foi : deux fichiers qui disent des choses différentes, c'est l'agent qui choisit lequel obéit — et il ne vous le dira pas.
+Pourquoi pas les autres : la duplication est le piège, les deux copies divergent tôt et rien ne les arbitre (A) ; `.github/copilot-instructions.md` est spécifique à Copilot, opencode ne le lit pas (C) ; `.cursor/rules/` ne parle qu'à Cursor (D).
+
+</details>
+
+**2. Vous relisez votre `AGENTS.md`. Selon le test d'utilité du chapitre, quelle ligne faut-il y laisser ?**
+- A. Celle qui donne l'esprit du projet : « sois rigoureux et écris du code propre ».
+- B. Celle qui forme l'agent à la stack : ce qu'est Node 24 et comment il résout ses modules.
+- C. Celle qui raconte l'historique : pourquoi le projet est passé de MongoDB à SQLite en 2024.
+- D. Celle qu'un agent pourrait enfreindre, par exemple « pas de `@ts-ignore` ».
+
+<details>
+<summary>Voir la réponse</summary>
+
+**Réponse : D.** La question à poser sans pitié est « est-ce qu'un agent pourrait en dévier ? ». Une ligne qui peut échouer travaille, même quand vous ne regardez pas.
+Pourquoi pas les autres : une phrase qui ne peut pas échouer est de la place sur l'établi perdue pour toujours (A) ; la formation à la stack a sa place dans `docs/`, que le fichier se borne à pointer (B) ; une discussion sur un choix devient un ADR dans `docs/adr/` (C).
+
+</details>
+
+**3. Dans l'exemple du comptoir de prêt, l'`AGENTS.md` interdit de recopier les montants de pénalité depuis les `.feature`. Pourquoi ?**
+- A. Parce que les montants sont une donnée commerciale : un fichier d'instructions est souvent public.
+- B. Parce que la syntaxe Gherkin interdit de reprendre un montant du contrat en dehors du fichier `.feature`.
+- C. Deux sources d'un même montant finissent toujours par diverger, et c'est l'agent qui arbitre.
+- D. Parce que l'agent doit les lire dans le code : les montants vivent en constantes dans `src/domaine/`.
+
+<details>
+<summary>Voir la réponse</summary>
+
+**Réponse : C.** `features/*.feature` est posé comme la seule source des montants. La consigne qui va avec : « si un chiffre manque, demande-le » — ne l'invente pas.
+Pourquoi pas les autres : la publicité du fichier est la raison des secrets, pas celle des montants (A) ; Gherkin n'interdit rien de tel, c'est une règle d'ingénierie du contexte (B) ; la source désignée est le `.feature`, pas le code (D).
+
+</details>
+
+**4. Le chapitre recommande de pointer un `docs/adr/` depuis l'`AGENTS.md`. Quelle casse coûteuse cela évite-t-il ?**
+- A. Que l'agent recopie un montant du contrat dans un second fichier et crée une divergence.
+- B. Que l'agent « améliore » une décision que vous aviez prise pour une bonne raison.
+- C. Que l'agent ajoute une dépendance sans demander, en lisant un `package.json` mal commenté.
+- D. Que l'agent relise tout `docs/` à chaque session et sature l'établi avec de l'explication.
+
+<details>
+<summary>Voir la réponse</summary>
+
+**Réponse : B.** Sans ADR, l'agent ne voit que le code, et le code ne dit pas pourquoi. Une demi-page par décision, avec son pourquoi — `0001-sqlite-sans-orm.md`, `0002-argent-en-centimes.md`.
+Pourquoi pas les autres : la divergence de montants se ferme par la règle de source unique (A) ; une dépendance ajoutée sans demander se ferme par la rubrique « interdits » (C) ; `docs/` est pointé et lu seulement si la tâche l'exige, c'est l'inverse (D).
+
+</details>
+
+**5. En pleine session, l'agent refait un fichier que vous aviez déjà validé. Quel geste le chapitre associe à ce symptôme ?**
+- A. Remettre la définition de « fini » dans l'`AGENTS.md`, pas dans le chat.
+- B. Écrire une passation de dix lignes et repartir d'une session fraîche.
+- C. Ajouter ce fichier aux exclusions du `.gitignore` pour le retirer de l'établi.
+- D. Résumer la conversation en une phrase et lui demander de ne plus toucher ce fichier.
+
+<details>
+<summary>Voir la réponse</summary>
+
+**Réponse : A.** Ce symptôme veut dire qu'il n'a plus la définition de « fini » en vue. Écrite dans le fichier, elle revient à chaque session ; dans le chat, elle meurt avec elle.
+Pourquoi pas les autres : la passation et la session fraîche sont le geste quand l'agent se contredit ou reparle d'une piste abandonnée (B) ; `.gitignore` n'a jamais tenu un fichier hors de l'établi (C) ; résumer en une phrase, c'est injecter du contexte périmé au lieu de le corriger à la source (D).
+
+</details>
+
+**6. L'agent ouvre et cite le contenu de `.env`, alors que `.env` figure bien dans le `.gitignore`. Que conclut le chapitre ?**
+- A. Que `.gitignore` ne couvre que les fichiers déjà suivis par git : `.env` n'était donc pas indexé.
+- B. Que `.gitignore` filtre les recherches de l'agent, mais pas un éditeur ouvert directement sur le fichier.
+- C. Que `.gitignore` est une porte de qualité comme une autre : gitleaks contrôle son contenu à chaque `npm run check`.
+- D. Que `.gitignore` protège le commit et l'index, mais pas le disque.
+
+<details>
+<summary>Voir la réponse</summary>
+
+**Réponse : D.** Un agent qui a le droit de lire des fichiers ouvre `.env` s'il traîne sur le poste. Contre ça, trois choses et pas une : l'interdit écrit dans l'`AGENTS.md`, la laisse de l'agent (chapitre 07), et gitleaks en porte.
+Pourquoi pas les autres : une règle d'exclusion s'applique que le fichier soit suivi ou non, `git check-ignore -v` sert à le vérifier (A) ; rien dans `.gitignore` n'empêche une lecture sur le disque (B) ; gitleaks attrape la fuite après coup en scannant le dépôt, il ne bloque aucune lecture (C).
+
+</details>
 
 ---
 
