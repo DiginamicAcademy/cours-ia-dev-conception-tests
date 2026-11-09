@@ -1,3 +1,5 @@
+[Sommaire](Readme.md) · [Chapitre suivant →](02-spec-gherkin.md)
+
 # Chapitre 01 — L'IA dans la chaîne de développement : modèle mental
 
 **Accroche (slide 1, sondage) :** « L'IA affirme que cette fonction existe. En combien de secondes pouvez-vous le vérifier — et comment ? »
@@ -174,3 +176,7 @@ test('remise de 20 % sur 100 € = 80 €', () => {
 - **⑤ Correcte.** Entrée et sortie chiffrées, assertion sur la valeur réelle : c'est exactement le type de test où l'IA ne peut pas tricher.
 
 </details>
+
+---
+
+[Sommaire](Readme.md) · [Chapitre suivant →](02-spec-gherkin.md)
