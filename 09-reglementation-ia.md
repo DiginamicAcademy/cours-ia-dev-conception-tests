@@ -241,29 +241,11 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - C. Article 5 : les pratiques interdites couvrent l'usage d'un modèle tiers sans dossier de conformité, ce qui oblige à déclarer chaque assistant de code.
 - D. Les obligations GPAI d'août 2025 : quiconque intègre un modèle doit publier sa politique de respect du droit d'auteur et évaluer les risques du modèle.
 
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : A.** L'article 4 (formulation précisée le 27 juillet 2026) porte sur les personnes qui utilisent l'outil, pas sur l'outil lui-même : « ce que l'outil fait, ce qu'il ne fait pas, où sont ses risques ». C'est une obligation de l'employeur, pas une curiosité personnelle — et c'est l'ancrage officiel de ce cours.
-
-Pourquoi pas les autres : l'article 50 s'applique depuis le 02 août 2026 et vise les contenus générés ou manipulés présentés à des personnes, pas la complétion de fonction dans votre éditeur ; l'article 5 vise le scoring social et la manipulation ; les obligations GPAI d'août 2025 pèsent sur l'éditeur du modèle, pas sur celui qui l'intègre.
-
-</details>
-
 **2. Un assistant interne branché sur l'API d'un éditeur de modèle sert d'abord vos équipes. Six mois plus tard, il répond aux usagers sur le site de la collectivité, avec votre logo. Que change ce glissement ?**
 - A. Rien : l'éditeur du modèle porte les obligations de conformité, vous restez déployeur quoi qu'il arrive.
 - B. Vous êtes devenu fournisseur d'un système d'IA : conformité selon le risque, marquage de l'article 50 et information des usagers ont changé de camp.
 - C. Vous restez déployeur : le rôle ne bascule que si vous vendez le service, et un assistant gratuit sur le site d'une collectivité n'est pas une vente.
 - D. Vous devenez fournisseur, mais seulement si le modèle a été hébergé chez vous ou ajusté sur vos données, sinon l'éditeur répond du système entier.
-
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : B.** L'AI Act distribue les obligations selon ce que vous faites du modèle, pas selon l'organigramme : usage interne = déployeur, mais le même assistant offert au public sous votre nom = un système que vous fournissez. C'est ce qui surprend le plus d'équipes : on change de rôle pendant qu'on ne regarde pas.
-
-Pourquoi pas les autres : les obligations GPAI de l'éditeur ne vous concernent pas, mais ne vous dispensent de rien ; la bascule ne passe ni par la facturation, ni par l'hébergement ou le fine-tuning — le critère est la mise à disposition sous votre nom.
-
-</details>
 
 **3. Dans `tests/fixtures/adherents.ts` du comptoir de prêt, un « cas réel » contient un nom, un e-mail et une clé API de partenaire récupérée sur la prod. `npx gitleaks detect` ne signale que la clé. Qu'en conclure ?**
 - A. Que gitleaks est mal réglé : un scan approfondi de l'historique lui ferait voir le nom et l'e-mail dans le même fichier.
@@ -271,44 +253,17 @@ Pourquoi pas les autres : les obligations GPAI de l'éditeur ne vous concernent
 - C. Qu'un capteur protège ce pour quoi on l'a réglé : il faut une règle dédiée (Semgrep, vu au chapitre 03) et un humain qui demande d'où vient le fixture.
 - D. Que le fixture est sans conséquence puisqu'il ne vit que dans les tests : ni le dépôt ni la fenêtre de contexte ne sont une frontière juridique.
 
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : C.** Une donnée personnelle qui n'est pas une clé glisse sous la main du capteur : gitleaks est réglé sur les secrets, pas sur les personnes. Le réflexe est aussi celui du chapitre 04 — ce qu'on exclut de l'établi n'est pas une question de propreté, la fenêtre de contexte est une frontière juridique.
-
-Pourquoi pas les autres : gitleaks a vu tout ce qu'on lui a demandé de voir, ce n'est pas un réglage à corriger ; un nom et un e-mail sont directement identifiants ; un fixture part chez l'éditeur dès qu'on le colle dans un prompt, et il a été copié depuis la production.
-
-</details>
-
 **4. L'équipe prend un abonnement d'équipe et active, sans en discuter, l'option « améliorer le modèle avec les saisies des utilisateurs ». Quelle lecture est juste ?**
 - A. Rien de collectif : chacun reste responsable de ce qu'il tape, et il suffit que chaque membre désactive l'option « améliorations du modèle » sur son propre compte pour couvrir l'équipe.
 - B. Uniquement les saisies faites après l'activation : le réglage est réversible et sans effet sur l'historique ni sur les offres gratuites déjà utilisées.
 - C. Pas grand-chose : une offre d'équipe exclut en général la réutilisation des prompts, comme le fait déjà une offre gratuite sans option d'entraînement.
 - D. Que les saisies de toute l'équipe nourriront un modèle : c'est une décision d'employeur, pas un réglage individuel, sur des données que l'équipe ne peut pas céder seule.
 
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : D.** L'option décide que les prompts de toute l'équipe nourriront un modèle : elle engage des données que l'équipe n'est pas seule à pouvoir céder. La bonne question n'est pas « est-ce que c'est grave ? » mais « est-ce que ça sort de chez moi, et est-ce que je l'ai accepté ? » — et qui a accepté à ma place.
-
-Pourquoi pas les autres : un opt-out par personne ne protège pas l'équipe ; la durée de conservation des journaux est un point à vérifier avant d'ouvrir l'outil à quoi que ce soit de sérieux ; la non-conservation et la non-réutilisation vivent en général dans le mode entreprise, pas dans une offre gratuite.
-
-</details>
-
 **5. Dans un module destiné à un produit fermé, l'agent recopie un bloc de 40 lignes dont l'en-tête porte `SPDX-License-Identifier: GPL-3.0`. Quel est le risque, et que fait-on ?**
 - A. Aucun tant que le bloc est renommé et réécrit à la main : une licence ne suit que le code lié à l'exécution, jamais un fragment recopié dans un source.
 - B. Le bloc n'est pas protégeable puisqu'un modèle l'a produit : personne ne peut revendiquer un droit d'auteur sur 40 lignes sorties d'une IA sans intervention humaine.
 - C. La licence suit le fragment et peut contaminer le projet qui l'accueille, avec redistribution forcée sous la même licence : on écarte le bloc avant adoption.
 - D. Détail de conformité mineur : le risque n'existe que si le dépôt d'origine est encore en ligne et si l'auteur du bloc décide de poursuivre le projet qui l'accueille.
-
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : C.** La licence suit le fragment qu'elle couvre et peut imposer la redistribution du projet qui l'accueille sous la même licence. Le réflexe est celui de la dépendance fantôme du chapitre 01 : on vérifie avant d'adopter — `npx license-checker --summary` est à la propriété ce que gitleaks est aux secrets.
-
-Pourquoi pas les autres : renommer ne purge pas une licence ; le fragment recopié a un auteur humain quelque part, et sa licence court toujours ; le risque ne dépend pas d'une poursuite de l'auteur — il se découvre dans un courrier d'avocat, pas en revue.
-
-</details>
 
 **6. Nadia envoie en production un correctif proposé par l'IA, sans le relire : le calcul est faux et la paie de trente personnes est faussée. Sa défense, « c'est l'IA qui l'a écrit », est irrecevable. Pourquoi, et qu'aurait pu la protéger ?**
 - A. Elle est irrecevable parce que l'éditeur du modèle assume contractuellement les défauts de sortie : c'est lui qu'il faut mettre en cause, pas l'équipe.
@@ -317,9 +272,29 @@ Pourquoi pas les autres : renommer ne purge pas une licence ; le fragment reco
 - D. Elle serait recevable si la délégation avait été déclarée en commit ou en pull request : mentionner l'outil transfère la charge de la vérification.
 
 <details>
-<summary>Voir la réponse</summary>
+<summary>Voir les réponses</summary>
 
-**Réponse : B.** Ni patrimoine ni responsabilité du côté du modèle : répond l'entreprise, l'équipe, et dans l'équipe la personne qui a validé. Ce qui établit la diligence d'un professionnel raisonnable : un historique de commits lisible, une revue documentée, des tests qui assertent vraiment, un pipeline rouge puis vert, une spec qui a tranché.
+**1 — Réponse : A.** L'article 4 (formulation précisée le 27 juillet 2026) porte sur les personnes qui utilisent l'outil, pas sur l'outil lui-même : « ce que l'outil fait, ce qu'il ne fait pas, où sont ses risques ». C'est une obligation de l'employeur, pas une curiosité personnelle — et c'est l'ancrage officiel de ce cours.
+
+Pourquoi pas les autres : l'article 50 s'applique depuis le 02 août 2026 et vise les contenus générés ou manipulés présentés à des personnes, pas la complétion de fonction dans votre éditeur ; l'article 5 vise le scoring social et la manipulation ; les obligations GPAI d'août 2025 pèsent sur l'éditeur du modèle, pas sur celui qui l'intègre.
+
+**2 — Réponse : B.** L'AI Act distribue les obligations selon ce que vous faites du modèle, pas selon l'organigramme : usage interne = déployeur, mais le même assistant offert au public sous votre nom = un système que vous fournissez. C'est ce qui surprend le plus d'équipes : on change de rôle pendant qu'on ne regarde pas.
+
+Pourquoi pas les autres : les obligations GPAI de l'éditeur ne vous concernent pas, mais ne vous dispensent de rien ; la bascule ne passe ni par la facturation, ni par l'hébergement ou le fine-tuning — le critère est la mise à disposition sous votre nom.
+
+**3 — Réponse : C.** Une donnée personnelle qui n'est pas une clé glisse sous la main du capteur : gitleaks est réglé sur les secrets, pas sur les personnes. Le réflexe est aussi celui du chapitre 04 — ce qu'on exclut de l'établi n'est pas une question de propreté, la fenêtre de contexte est une frontière juridique.
+
+Pourquoi pas les autres : gitleaks a vu tout ce qu'on lui a demandé de voir, ce n'est pas un réglage à corriger ; un nom et un e-mail sont directement identifiants ; un fixture part chez l'éditeur dès qu'on le colle dans un prompt, et il a été copié depuis la production.
+
+**4 — Réponse : D.** L'option décide que les prompts de toute l'équipe nourriront un modèle : elle engage des données que l'équipe n'est pas seule à pouvoir céder. La bonne question n'est pas « est-ce que c'est grave ? » mais « est-ce que ça sort de chez moi, et est-ce que je l'ai accepté ? » — et qui a accepté à ma place.
+
+Pourquoi pas les autres : un opt-out par personne ne protège pas l'équipe ; la durée de conservation des journaux est un point à vérifier avant d'ouvrir l'outil à quoi que ce soit de sérieux ; la non-conservation et la non-réutilisation vivent en général dans le mode entreprise, pas dans une offre gratuite.
+
+**5 — Réponse : C.** La licence suit le fragment qu'elle couvre et peut imposer la redistribution du projet qui l'accueille sous la même licence. Le réflexe est celui de la dépendance fantôme du chapitre 01 : on vérifie avant d'adopter — `npx license-checker --summary` est à la propriété ce que gitleaks est aux secrets.
+
+Pourquoi pas les autres : renommer ne purge pas une licence ; le fragment recopié a un auteur humain quelque part, et sa licence court toujours ; le risque ne dépend pas d'une poursuite de l'auteur — il se découvre dans un courrier d'avocat, pas en revue.
+
+**6 — Réponse : B.** Ni patrimoine ni responsabilité du côté du modèle : répond l'entreprise, l'équipe, et dans l'équipe la personne qui a validé. Ce qui établit la diligence d'un professionnel raisonnable : un historique de commits lisible, une revue documentée, des tests qui assertent vraiment, un pipeline rouge puis vert, une spec qui a tranché.
 
 Pourquoi pas les autres : la responsabilité ne se déplace ni sur l'éditeur du modèle, ni sur une quote-part partagée devant le juge ; déclarer la délégation rend le travail vérifiable, mais déclarer n'est pas se décharger.
 

@@ -415,30 +415,12 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - C. La CI doit être allégée à un seul job pour limiter le volume de log que l'agent a à lire à chaque tour de la boucle.
 - D. La CI doit résumer elle-même ses échecs en une phrase claire, pour éviter que l'agent ne se noie dans 400 lignes de log.
 
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : B.** De porte pour un humain, la CI devient « le capteur de la boucle de correction automatique » (5.1) : son log n'est plus un confort à subir, c'est la condition de la boucle. Un log qu'un agent ne peut pas interpréter fait tourner la machine à vide.
-
-Pourquoi pas les autres : sans humain, la CI devient au contraire le moteur de la boucle ; un seul job ne montre qu'un défaut à la fois, donc deux tours au lieu d'un ; et le gabarit colle le log « brut, sans résumé » — on le rend avalable par des sorties machine (`--reporter=junit`, `--format json:`), pas par un résumé qui perdrait la valeur attendue et la valeur reçue.
-
-</details>
-
 **2. Le pipeline du comptoir de prêt garde quatre jobs séparés (`tests`, `lint-types`, `audit`, `secrets`) qui tournent en parallèle. Pourquoi ce choix sert-il la boucle de correction ?**
 
 - A. Quatre jobs séparés permettent d'instaurer un timeout global au pipeline, qui plafonne du même coup le budget tokens de chaque tour de boucle.
 - B. La séparation rend les jobs indépendants, si bien que l'agent peut relancer seul le job en échec sans repayer les trois autres.
 - C. Séparer les jobs sert surtout à laisser la revue humaine valider chaque job avant le merge, ce qui rend la revue CODEOWNERS inutile.
 - D. Un tour rapporte tous les défauts d'un coup, au lieu d'un seul défaut par tour.
-
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : D.** « Un tour coûte un pipeline : on veut que chaque tour rapporte tout ce qu'il y a à corriger » (5.2). Quatre jobs en parallèle, c'est un diagnostic complet en un tour.
-
-Pourquoi pas les autres : `timeout-minutes` se règle par job et borne du temps de machine, pas des jetons — le plafond de jetons est une borne distincte, posée en 5.3 ; la boucle relance le pipeline entier à chaque essai ; et la revue humaine reste bloquante, un `CODEOWNERS` sur `tests/` et `features/` la rend justement obligatoire.
-
-</details>
 
 **3. La boucle est lancée sur un rouge. Le chapitre 02 a fourni le premier critère d'arrêt (la spec). Qu'est-ce qui manque encore, et pourquoi ?**
 
@@ -447,15 +429,6 @@ Pourquoi pas les autres : `timeout-minutes` se règle par job et borne du temps
 - C. Un plafond d'itérations et un plafond de jetons, décidés avant de démarrer.
 - D. Un nombre d'itérations planifié à l'avance, par exemple deux tours, ce qui permet de reprendre l'agent au troisième s'il a dérivé.
 
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : C.** Deux bornes, de natures différentes — max itérations (disons 5) et budget tokens, « la seule borne que personne ne rattrape après coup » (5.3). La spec dit quand on a fini, le plafond dit quand on s'arrête même sans vert : sans lui, ce n'est pas de l'automatisation, c'est un compteur qui tourne.
-
-Pourquoi pas les autres : « jusqu'à ce que ce soit juste » ne veut rien dire sans critère d'arrêt *et* sans plafond, et une boucle qui repart dès qu'elle produit encore des lignes est la fuite dénoncée ici ; la spec est le premier critère, pas le second, et la boucle n'est pas déterministe ; enfin on ne planifie pas « 2 tours » mais « au plus 5, et on regarde le compteur » — le 2 / 5 de la démo est une trace, pas un programme.
-
-</details>
-
 **4. Trois façons pour un agent de passer au vert en touchant au test : remplacer `toBe(1999)` par `toBe(1998)`, passer le test en `test.skip`, ou écrire `expect(eurosVersCents(19.99)).toBe(Math.floor(19.99 * 100))`. Pourquoi la troisième est-elle présentée comme la pire ?**
 
 - A. Elle a l'air d'un test alors qu'elle recopie l'implémentation : elle ne peut plus échouer.
@@ -463,30 +436,12 @@ Pourquoi pas les autres : « jusqu'à ce que ce soit juste » ne veut rien di
 - C. Parce que `Math.floor` dans une assertion est une faute que le job `lint-types` signale, ce qui brouille le diagnostic et fait perdre un tour de boucle.
 - D. Parce qu'elle seule modifie le contrat écrit dans la spec, alors que les deux premières laissent la spec intacte et restent des corrections acceptables.
 
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : A.** C'est le **test miroir** : « elle a l'air d'un test, elle recopie l'implémentation dans l'assertion » (5.4). Un capteur qui répète le code ne peut plus jamais le contredire — le chapitre 08 lui consacre un exercice entier.
-
-Pourquoi pas les autres : la revue surveille justement les apparitions de `.skip`, `.only`, `todo` et les assertions remplacées par un `toBeDefined()` ; `Math.floor` n'est pas une erreur de lint — dans la démo, `lint-types` est vert pendant que `tests` est rouge ; et les trois violent la règle d'or, aucune n'est une correction.
-
-</details>
-
 **5. Un assistant IA propose un workflow `on: pull_request_target` qui `checkout` le `head.sha` de la PR puis exécute `./scripts/build.sh`. Pourquoi le chapitre cite-t-il ce motif comme le piège ?**
 
 - A. Parce que `pull_request_target` s'exécute sans les secrets du dépôt : le build échoue systématiquement et renvoie à l'agent un rouge sans rapport exploitable.
 - B. Parce que ce déclencheur est incompatible avec `cache: npm` : à chaque tour, `npm ci` retélécharge tout et le coût de la boucle devient déraisonnable.
 - C. Parce que GitHub refuse d'y combiner `actions/checkout` et une étape `run` tant que la protection de `main` est active, ce qui bloque le merge.
 - D. Il tourne avec les secrets du dépôt sur le code d'un forkeur que personne n'a relu.
-
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : D.** `pull_request_target` s'exécute « avec les secrets du dépôt *et* les permissions pleines », y compris pour une PR ouverte depuis un fork : au forkeur d'écrire dans `scripts/build.sh` une ligne qui poste les variables d'environnement sur une adresse à lui, et la CI, poliment, exécute (5.5).
-
-Pourquoi pas les autres : c'est l'inverse, et c'est ce qui le rend dangereux — pour ne pas exposer les secrets on déclenche en `pull_request`, le cas du pipeline de cours ; le cache n'a rien à voir là-dedans ; et rien n'interdit cette combinaison, le chapitre donnant deux formes sûres.
-
-</details>
 
 **6. Dans EX-C, on remplace `Math.round` par `Math.floor` dans `src/remise.ts` : la suite de tests héritée reste verte. Pourquoi ?**
 
@@ -496,9 +451,29 @@ Pourquoi pas les autres : c'est l'inverse, et c'est ce qui le rend dangereux �
 - D. Parce que le test hérité compare un prix remisé au lieu du montant de la remise, et que l'écart d'arrondi n'apparaît jamais dans un prix en euros.
 
 <details>
-<summary>Voir la réponse</summary>
+<summary>Voir les réponses</summary>
 
-**Réponse : B.** `Math.floor(10 000 × 0,20)` = `Math.floor(2 000)` = 2 000, comme `round` : `floor` et `round` tombent d'accord sur un entier. Il faut un montant dont le produit ne tombe pas sur un nombre entier de centimes — le panier à 19,99 € : 399,8 attendu 400, `floor` rend 399 et le prix remisé devient 1 600 au lieu de 1 599. Un test sur valeurs rondes est un capteur myope.
+**1 — Réponse : B.** De porte pour un humain, la CI devient « le capteur de la boucle de correction automatique » (5.1) : son log n'est plus un confort à subir, c'est la condition de la boucle. Un log qu'un agent ne peut pas interpréter fait tourner la machine à vide.
+
+Pourquoi pas les autres : sans humain, la CI devient au contraire le moteur de la boucle ; un seul job ne montre qu'un défaut à la fois, donc deux tours au lieu d'un ; et le gabarit colle le log « brut, sans résumé » — on le rend avalable par des sorties machine (`--reporter=junit`, `--format json:`), pas par un résumé qui perdrait la valeur attendue et la valeur reçue.
+
+**2 — Réponse : D.** « Un tour coûte un pipeline : on veut que chaque tour rapporte tout ce qu'il y a à corriger » (5.2). Quatre jobs en parallèle, c'est un diagnostic complet en un tour.
+
+Pourquoi pas les autres : `timeout-minutes` se règle par job et borne du temps de machine, pas des jetons — le plafond de jetons est une borne distincte, posée en 5.3 ; la boucle relance le pipeline entier à chaque essai ; et la revue humaine reste bloquante, un `CODEOWNERS` sur `tests/` et `features/` la rend justement obligatoire.
+
+**3 — Réponse : C.** Deux bornes, de natures différentes — max itérations (disons 5) et budget tokens, « la seule borne que personne ne rattrape après coup » (5.3). La spec dit quand on a fini, le plafond dit quand on s'arrête même sans vert : sans lui, ce n'est pas de l'automatisation, c'est un compteur qui tourne.
+
+Pourquoi pas les autres : « jusqu'à ce que ce soit juste » ne veut rien dire sans critère d'arrêt *et* sans plafond, et une boucle qui repart dès qu'elle produit encore des lignes est la fuite dénoncée ici ; la spec est le premier critère, pas le second, et la boucle n'est pas déterministe ; enfin on ne planifie pas « 2 tours » mais « au plus 5, et on regarde le compteur » — le 2 / 5 de la démo est une trace, pas un programme.
+
+**4 — Réponse : A.** C'est le **test miroir** : « elle a l'air d'un test, elle recopie l'implémentation dans l'assertion » (5.4). Un capteur qui répète le code ne peut plus jamais le contredire — le chapitre 08 lui consacre un exercice entier.
+
+Pourquoi pas les autres : la revue surveille justement les apparitions de `.skip`, `.only`, `todo` et les assertions remplacées par un `toBeDefined()` ; `Math.floor` n'est pas une erreur de lint — dans la démo, `lint-types` est vert pendant que `tests` est rouge ; et les trois violent la règle d'or, aucune n'est une correction.
+
+**5 — Réponse : D.** `pull_request_target` s'exécute « avec les secrets du dépôt *et* les permissions pleines », y compris pour une PR ouverte depuis un fork : au forkeur d'écrire dans `scripts/build.sh` une ligne qui poste les variables d'environnement sur une adresse à lui, et la CI, poliment, exécute (5.5).
+
+Pourquoi pas les autres : c'est l'inverse, et c'est ce qui le rend dangereux — pour ne pas exposer les secrets on déclenche en `pull_request`, le cas du pipeline de cours ; le cache n'a rien à voir là-dedans ; et rien n'interdit cette combinaison, le chapitre donnant deux formes sûres.
+
+**6 — Réponse : B.** `Math.floor(10 000 × 0,20)` = `Math.floor(2 000)` = 2 000, comme `round` : `floor` et `round` tombent d'accord sur un entier. Il faut un montant dont le produit ne tombe pas sur un nombre entier de centimes — le panier à 19,99 € : 399,8 attendu 400, `floor` rend 399 et le prix remisé devient 1 600 au lieu de 1 599. Un test sur valeurs rondes est un capteur myope.
 
 Pourquoi pas les autres : pas « toujours » — sur 399,8 centimes les deux divergent ; la suite est verte *localement aussi*, aucun capteur ne voit le bug, donc la boucle ne peut pas le réparer ; et le test hérité porte bien sur le calcul de la remise, c'est la valeur choisie qui ne discrimine pas les deux arrondis.
 

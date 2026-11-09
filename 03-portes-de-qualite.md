@@ -622,29 +622,11 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - C. Elle se rédige toute seule et repart dans la prochaine itération sans qu'on la répète.
 - D. Elle s'adresse d'abord à l'humain, car l'agent, lui, ne lit que les consignes du fichier AGENTS.md.
 
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : C.** À partir du chapitre 05, votre conversation avec la machine, ce n'est plus votre prompt : c'est la sortie des capteurs. Vous n'écrivez pas l'instruction et vous ne la répétez pas : elle part toute seule dans la prochaine itération.
-
-Pourquoi pas les autres : « gratuite » ne parle pas du prix (les outils sont gratuits, mais ce n'est pas l'argument) ; l'échec ne remplace pas la spec, les `.feature` du chapitre 02 restent le contrat ; et c'est l'inverse — « le premier qu'une porte de qualité instruit, c'est la machine ».
-
-</details>
-
 **2. Dans `src/routes.ts`, l'IA écrit `cloturerCaution(req.body.id);` sans `await` dans un handler `async`, puis `res.json({ ok: true })`. Le chapitre affirme qu'aucun test n'est nécessaire pour l'attraper. Pourquoi ?**
 - A. ESLint exécute le handler avec une fausse requête et remarque que la promesse reste en suspens à la fin.
 - B. Prettier réécrit la ligne en y ajoutant l'`await` manquant, ce qui règle le problème avant le commit.
 - C. La règle n'intervient qu'à l'exécution, au moment où Node émet un avertissement pour promesse non attendue.
 - D. ESLint lit le code sans l'exécuter, et la règle qui tombe nomme le défaut donc la correction.
-
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : D.** `@typescript-eslint/no-floating-promises` est une règle type-aware qui se contente de lire : elle attrape le « ok » promis au client alors que la caution n'est pas clôturée et que son échec ne sera jamais su. Et comme elle donne le nom de la règle, la correction est déjà écrite.
-
-Pourquoi pas les autres : ESLint n'exécute rien du tout, c'est un analyseur statique ; Prettier ne touche pas la sémantique, il formate ; et Node n'avertit pas — la promesse flottante échoue en silence, le client a déjà reçu « ok ».
-
-</details>
 
 **3. gitleaks a signalé `CLE_API_PARTENAIRE` ligne 7 de `src/config.ts`. Un développeur supprime la ligne, committe, et propose de clore l'incident. Que répond le chapitre ?**
 - A. C'est clos dès lors que le job secrets de la CI est repassé au vert sur le dernier commit poussé.
@@ -652,44 +634,17 @@ Pourquoi pas les autres : ESLint n'exécute rien du tout, c'est un analyseur st
 - C. C'est clos si le fichier est ajouté au `.gitignore`, ce qui empêche ensuite gitleaks de le rescanner.
 - D. Ce n'est pas clos, mais il suffit d'amender le commit pour que la ligne disparaisse de l'historique.
 
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : B.** gitleaks balaie l'historique, pas seulement les fichiers de travail : quiconque clone le dépôt retrouve la ligne d'avant. Le seul vrai remède est la rotation de la clé, puis la purge de l'historique si le dépôt a été poussé — d'où `fetch-depth: 0` dans le job `secrets`.
-
-Pourquoi pas les autres : un vert sur le dernier commit ne dit rien de ce qui précède ; `.gitignore` agit sur ce qui n'est pas encore suivi, jamais sur ce qui est déjà commité ; et amender ne suffit pas dès que le dépôt a été poussé — un secret parti dans l'établi est un secret partagé, on le révoque.
-
-</details>
-
 **4. Un apprenant saute le hook `pre-commit` avec `git commit --no-verify` et pousse un commit rouge. Quelle leçon le chapitre en tire-t-il ?**
 - A. husky est une politesse, la CI est une loi : la porte qui compte est celle qu'on ne saute pas.
 - B. Il faut multiplier les hooks déclarés dans plusieurs fichiers de config pour le rendre impossible à contourner.
 - C. Il faut écrire l'interdiction de `--no-verify` dans `AGENTS.md` pour que l'agent s'y tienne.
 - D. Le hook a joué son rôle, puisque l'erreur finit par apparaître dans le message du commit suivant.
 
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : A.** « Un hook local se contourne avec `git commit --no-verify` » : la boucle locale rend le même verdict quatre minutes plus tôt et sans réseau, mais elle n'a aucune autorité. La porte qui compte est celle qu'on ne peut pas sauter — nuance à graver, parce qu'elle fonde le chapitre 05.
-
-Pourquoi pas les autres : aucun empilement de hooks locaux ne devient obligatoire, tous se contournent depuis le poste ; `AGENTS.md` documente un contexte, il n'applique rien ; et le hook sauté n'a rien vu passer du tout.
-
-</details>
-
 **5. Les step definitions ouvrent toutes le même fichier `comptoir.db`, et le verdict tombe un lancement sur deux avec « database is locked ». Quel est, selon le chapitre, le vrai dommage ?**
 - A. Le dommage est d'abord technique : il faut remplacer SQLite par un conteneur de base de données dédié.
 - B. Le dommage est d'abord temporel : la suite tourne plus lentement et la boucle de correction s'en trouve ralentie.
 - C. Un capteur instable vaut pire qu'un capteur absent : on finit par ignorer le rouge.
 - D. Le dommage est marginal, pourvu que les scénarios s'exécutent chaque fois dans le même ordre.
-
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : C.** L'agent passe son temps à réparer ce qui n'est pas cassé, et vous finissez par ne plus croire au rouge — or c'est la condition de tout le reste du cours : il faut que le vert veuille dire quelque chose. La forme qui tient est un cœur pur avec la persistance derrière une interface, et une base `:memory:` neuve par scénario.
-
-Pourquoi pas les autres : pas besoin de remplacer SQLite par un conteneur, `node:sqlite` est intégré à Node 24 ; la lenteur est un désagrément mineur face à la perte de déterminisme ; et fixer l'ordre ne répare ni la dépendance entre scénarios, ni l'impossibilité du parallèle, ni le message d'échec qui ne parle plus du métier.
-
-</details>
 
 **6. Sur le dépôt nu, l'agent livre `frais.ts` plus 14 tests sans assertion utile, puis annonce « les tests passent ». Comment le chapitre qualifie-t-il ce rendu ?**
 - A. Il a échoué, et c'est la preuve qu'il aurait fallu lui confier une tâche plus petite, mieux découpée.
@@ -698,9 +653,29 @@ Pourquoi pas les autres : pas besoin de remplacer SQLite par un conteneur, `nod
 - D. Il n'a pas échoué, il a terminé : sans capteur, « terminé » est sa seule réponse possible.
 
 <details>
-<summary>Voir la réponse</summary>
+<summary>Voir les réponses</summary>
 
-**Réponse : D.** Il n'a aucun moyen de savoir qu'il a tort. Sur le dépôt équipé, la même consigne prend deux itérations et dix minutes, parce que `npx cucumber-js` le contredit avec attendu et reçus : le gain ne s'achète pas dans la formulation du prompt mais dans les vingt minutes de réglage du dépôt. Environnement > prompt.
+**1 — Réponse : C.** À partir du chapitre 05, votre conversation avec la machine, ce n'est plus votre prompt : c'est la sortie des capteurs. Vous n'écrivez pas l'instruction et vous ne la répétez pas : elle part toute seule dans la prochaine itération.
+
+Pourquoi pas les autres : « gratuite » ne parle pas du prix (les outils sont gratuits, mais ce n'est pas l'argument) ; l'échec ne remplace pas la spec, les `.feature` du chapitre 02 restent le contrat ; et c'est l'inverse — « le premier qu'une porte de qualité instruit, c'est la machine ».
+
+**2 — Réponse : D.** `@typescript-eslint/no-floating-promises` est une règle type-aware qui se contente de lire : elle attrape le « ok » promis au client alors que la caution n'est pas clôturée et que son échec ne sera jamais su. Et comme elle donne le nom de la règle, la correction est déjà écrite.
+
+Pourquoi pas les autres : ESLint n'exécute rien du tout, c'est un analyseur statique ; Prettier ne touche pas la sémantique, il formate ; et Node n'avertit pas — la promesse flottante échoue en silence, le client a déjà reçu « ok ».
+
+**3 — Réponse : B.** gitleaks balaie l'historique, pas seulement les fichiers de travail : quiconque clone le dépôt retrouve la ligne d'avant. Le seul vrai remède est la rotation de la clé, puis la purge de l'historique si le dépôt a été poussé — d'où `fetch-depth: 0` dans le job `secrets`.
+
+Pourquoi pas les autres : un vert sur le dernier commit ne dit rien de ce qui précède ; `.gitignore` agit sur ce qui n'est pas encore suivi, jamais sur ce qui est déjà commité ; et amender ne suffit pas dès que le dépôt a été poussé — un secret parti dans l'établi est un secret partagé, on le révoque.
+
+**4 — Réponse : A.** « Un hook local se contourne avec `git commit --no-verify` » : la boucle locale rend le même verdict quatre minutes plus tôt et sans réseau, mais elle n'a aucune autorité. La porte qui compte est celle qu'on ne peut pas sauter — nuance à graver, parce qu'elle fonde le chapitre 05.
+
+Pourquoi pas les autres : aucun empilement de hooks locaux ne devient obligatoire, tous se contournent depuis le poste ; `AGENTS.md` documente un contexte, il n'applique rien ; et le hook sauté n'a rien vu passer du tout.
+
+**5 — Réponse : C.** L'agent passe son temps à réparer ce qui n'est pas cassé, et vous finissez par ne plus croire au rouge — or c'est la condition de tout le reste du cours : il faut que le vert veuille dire quelque chose. La forme qui tient est un cœur pur avec la persistance derrière une interface, et une base `:memory:` neuve par scénario.
+
+Pourquoi pas les autres : pas besoin de remplacer SQLite par un conteneur, `node:sqlite` est intégré à Node 24 ; la lenteur est un désagrément mineur face à la perte de déterminisme ; et fixer l'ordre ne répare ni la dépendance entre scénarios, ni l'impossibilité du parallèle, ni le message d'échec qui ne parle plus du métier.
+
+**6 — Réponse : D.** Il n'a aucun moyen de savoir qu'il a tort. Sur le dépôt équipé, la même consigne prend deux itérations et dix minutes, parce que `npx cucumber-js` le contredit avec attendu et reçus : le gain ne s'achète pas dans la formulation du prompt mais dans les vingt minutes de réglage du dépôt. Environnement > prompt.
 
 Pourquoi pas les autres : la consigne était claire et la tâche à sa taille, c'est le dépôt qui manquait de capteurs ; il n'y a pas d'intention là-dedans, l'agent écrit simplement des tests à sa façon ; et la couverture mesure ce qui a été exécuté, pas ce qui a été vérifié — `expect(f).toBeDefined()` est toujours vrai.
 

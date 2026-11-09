@@ -280,7 +280,9 @@ Puis pariez à voix haute : **combien d'itérations** votre duo (1) + (2) récl
 - [ ] Je sais dire pourquoi « ne rien casser » n'est pas une contrainte, et ce qui la remplace.
 
 <details>
-<summary>Voir la correction de ①</summary>
+<summary>Voir la correction</summary>
+
+**Partie ①**
 
 ```text
 RÔLE        Développeur TypeScript sur le comptoir de prêt (Node 24, TypeScript strict).
@@ -295,10 +297,7 @@ FORMAT      Le diff de src/remise.ts, puis la sortie de npx vitest run.
 
 Ce qui compte n'est pas la mise en page : c'est que **les trois informations qui manquaient** (la convention centimes, le chemin du contrat, la valeur attendue) y soient, et qu'aucune ne sorte de votre tête sans être écrite.
 
-</details>
-
-<details>
-<summary>Voir la correction de ②</summary>
+**Partie ②**
 
 Trois manques, trois réparations :
 
@@ -308,10 +307,7 @@ Trois manques, trois réparations :
 
 Et « ne rien casser » ? Ce n'est pas une contrainte, c'est un souhait : aucun capteur ne vérifie une négation. On la remplace par un périmètre positif (`src/penalite.ts` et son test uniquement) plus `npx vitest run` et `git diff --stat`, qui, eux, savent dire non.
 
-</details>
-
-<details>
-<summary>Voir la correction de ③</summary>
+**Partie ③**
 
 **Le message d'itération (quatre lignes) :**
 
@@ -356,29 +352,11 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - C. La longueur de la demande, qui occupe la fenêtre de contexte et ferme les interprétations de trop.
 - D. Le ton posé par la zone rôle, qui place le modèle en posture de développeur senior et corrige ses habitudes.
 
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : B.** « Le prompt a été excellent parce qu'il a désigné des pièces qui existent déjà » : la convention « centimes entiers », le contrat écrit au chapitre 02, le log rouge produit par le capteur du chapitre 03.
-
-Pourquoi pas les autres : l'auteur écarte explicitement « les mots en majuscules » ; la longueur, c'est la surcharge (6.4) ; le ton de la zone rôle, c'est le rôle-placebo (6.4).
-
-</details>
-
 **2. Le premier jet arrive, vous répondez « non, refais ». D'après le 6.2, que produit ce message ?**
 - A. Un correctif ciblé sur le point signalé, le reste du fichier restant intact puisque vous l'aviez validé.
 - B. Une question de clarification du modèle, qui demande quelle partie précise de la réponse doit être reprise.
 - C. Une réécriture complète : vous perdez ce qui était bon et retombez sur une autre lecture plausible.
 - D. Une réponse plus courte et plus prudente, le modèle lisant la critique comme un signal de surcharge.
-
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : C.** C'est le premier item du tableau du 6.2 : sans périmètre ni écart chiffré, tout est réécrit, et la machine retombe sur une autre lecture plausible. « C'est pas ça » produit une nouvelle interprétation — la sienne, pas la vôtre.
-
-Pourquoi pas les autres : rien dans le message ne borne la réécriture, et le modèle comble le vide au lieu de le signaler — il ne lève pas la main.
-
-</details>
 
 **3. Le message d'itération du chapitre se termine par « `src/remise.ts` uniquement ». À quoi sert `git diff --stat` dans ce duo ?**
 - A. À vérifier le calcul : il compare les valeurs rendues par `remise()` avant et après le correctif.
@@ -386,44 +364,17 @@ Pourquoi pas les autres : rien dans le message ne borne la réécriture, et le 
 - C. À journaliser la correction dans l'historique, pour que la reprise soit retrouvée à la session suivante.
 - D. À vérifier le périmètre : il contrôle la dernière ligne du message à votre place.
 
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : D.** C'est « le capteur du périmètre ». Leçon du chapitre 01 appliquée à l'itération : une consigne qu'aucun capteur ne vérifie est une consigne que la machine oublie.
-
-Pourquoi pas les autres : la valeur attendue est dite par le test chiffré (`npx vitest run`) ; `git diff --stat` ne lance aucun test et ne committe rien — il dit seulement qui a bougé.
-
-</details>
-
 **4. « Ce que vous tapez dans chaque prompt doit migrer dans le dépôt. » À quel signe reconnaît-on un projet bien tenu, selon le 6.3 ?**
 - A. Le prompt raccourcit avec le temps, parce que le permanent a été déplacé ailleurs.
 - B. Le prompt s'allonge avec le temps, à mesure qu'on y consigne toutes les exceptions rencontrées en séance.
 - C. Le prompt devient identique d'une session à l'autre, ce qui prouve la stabilité des habitudes de l'équipe.
 - D. Le prompt cède la place à un script de génération, qui évite de retaper la demande à chaque nouvelle tâche.
 
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : A.** C'est le signe donné tel quel : la convention « centimes entiers » retapée trois fois a sa place dans `AGENTS.md` (chapitre 04). Le prompt est un flux, le dépôt est un réservoir.
-
-Pourquoi pas les autres : un prompt qui grossit recopie ce qui devrait vivre dans le dépôt ; la stabilité n'est pas le critère ; et le prompt one-shot reste l'outil qu'il faut quand le comportement n'a pas à tenir (6.5).
-
-</details>
-
 **5. « Tu es un architecte senior avec 20 ans d'expérience. » Que change réellement ce persona, d'après la galerie des anti-patterns ?**
 - A. La justesse technique, le persona réactivant les exemples les plus fiables appris pendant l'entraînement.
 - B. Rien sur le fond, mais beaucoup sur la longueur : la réponse devient plus détaillée et donc plus utile.
 - C. Le ton de la réponse, pas son savoir : la couleur change, pas la justesse.
 - D. La capacité à refuser une demande floue, l'expert signalant ce qu'il ne peut pas trancher seul.
-
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : C.** Elle déplace la couleur de la réponse, pas sa justesse. Pire : un persona d'expert encourage la machine à parler comme quelqu'un qui sait, donc à inventer avec assurance — le piège des hallucinations du chapitre 01.
-
-Pourquoi pas les autres : ce qui change vraiment la sortie, c'est un fichier-modèle du projet, un scénario ou un log rouge ; la longueur relève de la surcharge ou d'une zone format absente, pas du costume.
-
-</details>
 
 **6. Le chapitre s'ouvre sur un sondage : « entre "ajoute les remises, fais-le bien" et la fonctionnalité qui marche, combien d'itérations ? » Quelle est la réponse de l'auteur ?**
 - A. Trois en moyenne, à condition de relancer la même demande sans jamais la reformuler entre-temps.
@@ -432,9 +383,29 @@ Pourquoi pas les autres : ce qui change vraiment la sortie, c'est un fichier-mo
 - D. Environ dix, ce qui correspond au coût réel d'une fonctionnalité de remise dans un projet neuf.
 
 <details>
-<summary>Voir la réponse</summary>
+<summary>Voir les réponses</summary>
 
-**Réponse : B.** Vous semez quand la réponse *ressemble* à ce que vous aviez en tête, et vous appelez ça « c'est bon ». Avec l'environnement en place (contrat chiffré, capteurs, conventions écrites), le compte est d'une ou deux itérations, et le critère d'arrêt ne vous appartient plus : c'est le scénario.
+**1 — Réponse : B.** « Le prompt a été excellent parce qu'il a désigné des pièces qui existent déjà » : la convention « centimes entiers », le contrat écrit au chapitre 02, le log rouge produit par le capteur du chapitre 03.
+
+Pourquoi pas les autres : l'auteur écarte explicitement « les mots en majuscules » ; la longueur, c'est la surcharge (6.4) ; le ton de la zone rôle, c'est le rôle-placebo (6.4).
+
+**2 — Réponse : C.** C'est le premier item du tableau du 6.2 : sans périmètre ni écart chiffré, tout est réécrit, et la machine retombe sur une autre lecture plausible. « C'est pas ça » produit une nouvelle interprétation — la sienne, pas la vôtre.
+
+Pourquoi pas les autres : rien dans le message ne borne la réécriture, et le modèle comble le vide au lieu de le signaler — il ne lève pas la main.
+
+**3 — Réponse : D.** C'est « le capteur du périmètre ». Leçon du chapitre 01 appliquée à l'itération : une consigne qu'aucun capteur ne vérifie est une consigne que la machine oublie.
+
+Pourquoi pas les autres : la valeur attendue est dite par le test chiffré (`npx vitest run`) ; `git diff --stat` ne lance aucun test et ne committe rien — il dit seulement qui a bougé.
+
+**4 — Réponse : A.** C'est le signe donné tel quel : la convention « centimes entiers » retapée trois fois a sa place dans `AGENTS.md` (chapitre 04). Le prompt est un flux, le dépôt est un réservoir.
+
+Pourquoi pas les autres : un prompt qui grossit recopie ce qui devrait vivre dans le dépôt ; la stabilité n'est pas le critère ; et le prompt one-shot reste l'outil qu'il faut quand le comportement n'a pas à tenir (6.5).
+
+**5 — Réponse : C.** Elle déplace la couleur de la réponse, pas sa justesse. Pire : un persona d'expert encourage la machine à parler comme quelqu'un qui sait, donc à inventer avec assurance — le piège des hallucinations du chapitre 01.
+
+Pourquoi pas les autres : ce qui change vraiment la sortie, c'est un fichier-modèle du projet, un scénario ou un log rouge ; la longueur relève de la surcharge ou d'une zone format absente, pas du costume.
+
+**6 — Réponse : B.** Vous semez quand la réponse *ressemble* à ce que vous aviez en tête, et vous appelez ça « c'est bon ». Avec l'environnement en place (contrat chiffré, capteurs, conventions écrites), le compte est d'une ou deux itérations, et le critère d'arrêt ne vous appartient plus : c'est le scénario.
 
 Pourquoi pas les autres : aucun chiffre ne s'attache à la demande vague — c'est l'absence de borne qui est le vrai coût ; changer de modèle ne crée pas le critère d'arrêt qui manque.
 

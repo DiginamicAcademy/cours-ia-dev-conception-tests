@@ -239,29 +239,11 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - C. Il montera en compétence sur votre projet à force de demandes répétées, à condition que vous rappeliez les mêmes contraintes à chaque session.
 - D. Il se conduit en senior pressé : la relecture humaine ligne à ligne suffit comme capteur, puisque son code est écrit pour être compris.
 
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : B.** Le chapitre déplace l'effort du prompt vers le cadre — « environnement > prompt » : ce sont les outils que la profession a inventés pour les juniors depuis quarante ans, appliqués à une machine qui ne dit jamais « je ne sais pas ».
-
-Pourquoi pas les autres : la colonne « il fait bien » invite au contraire à déléguer large (A) ; répéter ne construit rien, la mémoire ne se forme pas à force de demandes (C) ; et la parade est de ne jamais avoir à lire tout seul — l'erreur crédible passe la relecture (D).
-
-</details>
-
 **2. Vous laissez la même session d'agent tourner depuis deux heures, et le code repart sur une hypothèse abandonnée ce matin. Que dit le 1.3 du chapitre ?**
 - A. La fenêtre de contexte est pleine, donc le modèle est devenu probabiliste : relancez la même consigne pour obtenir un tirage plus frais.
 - B. Le modèle a oublié le début de la conversation : demandez-lui de résumer la session, il réactivera ainsi sa mémoire de long terme.
 - C. Il faut agrandir la fenêtre de contexte pour qu'il voie enfin les 2000 fichiers du dépôt, ceux qu'il n'a jamais eus sur son établi.
 - D. Les hypothèses périmées sont toujours sur l'établi : repartir d'une session propre est souvent le bon réflexe.
-
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : D.** C'est la conséquence 2 du 1.3, « une conversation qui traîne s'enfonce » : ce qui est posé sur l'établi contamine la suite, et on ne le retire pas en le mentionnant.
-
-Pourquoi pas les autres : le probabilisme n'est pas une saturation, c'est son fonctionnement normal (A) ; il n'a jamais eu ce qui n'était pas sur l'établi, il ne l'« oublie » pas (B) ; le chapitre ne promet pas une fenêtre plus grande, il prescrit d'injecter juste (C).
-
-</details>
 
 **3. La même consigne, lancée deux fois, donne deux implémentations différentes, qui toutes deux « ont l'air bien ». D'après le 1.4, qu'est-ce qui décide laquelle on garde ?**
 - A. Ce que renvoie un capteur exécutable lancé par la CI : un test, un type, une règle de lint — pas l'impression à la lecture.
@@ -269,44 +251,17 @@ Pourquoi pas les autres : le probabilisme n'est pas une saturation, c'est son f
 - C. Un troisième tirage de la même consigne : quand deux versions divergent, celle qui revient le plus souvent entre les tirages est la bonne.
 - D. L'avis d'un développeur senior de l'équipe, seul capable de juger la qualité réelle des deux implémentations produites par le modèle.
 
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : A.** « Ça a l'air bon » ne vaut rien : le compilateur est déterministe, le LLM probabiliste, et la seule autorité qui dise si le code est juste est le capteur — lancé par la CI (les portes des chapitres 03-04).
-
-Pourquoi pas les autres : rien ne fait de la concision un critère de choix, c'est une impression (B) ; le tirage le plus fréquent reconduit le même biais, il n'est pas plus juste (C) ; la revue garde toute sa place, mais pas comme arbitre de la justesse (D).
-
-</details>
-
 **4. Le TDD s'est toujours vu reprocher d'être lent. Que dit le 1.4 de ce reproche une fois l'IA dans le jeu, et que devient le test ?**
 - A. Il tombe, mais pour une autre raison : l'IA génère le code et les tests d'un seul coup, et la revue humaine valide l'ensemble en fin de course.
 - B. Il tombe parce que les tests sortis de l'IA découlent de la spec et sont donc justes : la revue du harnais s'en trouve allégée d'autant.
 - C. Il tombe : la machine écrit les tests en secondes. Écrits d'abord, ils deviennent le harnais qui dit quand on a fini.
 - D. Il tombe côté projet : la CI relance tout à chaque modification, l'écriture préalable devient facultative, et le harnais, c'est le pipeline.
 
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : C.** Les tests coûtent presque gratis à la machine, donc on les écrit en premier ; le harnais est double — critère d'arrêt pour l'agent, et barrière contre les régressions de demain.
-
-Pourquoi pas les autres : c'est l'ordre inversé, le test ne doit pas être écrit d'après le code (A) ; un test venu de l'IA peut n'asserter quoi que ce soit de vérifiable (B) ; la CI lance le capteur, elle n'est pas le capteur (D).
-
-</details>
-
 **5. Dans EX-01, la production ④ `expect(p).toBeDefined()` passe au vert. Pourquoi le chapitre la juge-t-il plus dangereuse qu'un test rouge ?**
 - A. Il fait grimper la couverture du module sans ajouter de scénario utile, ce qui fausse le tableau de bord de qualité présenté en fin de sprint.
 - B. C'est un vert faux : la CI ment, alors qu'un rouge est au moins une information exploitable.
 - C. Il dépend du nom du constructeur `Panier` et cassera au premier refactor, ce qui le rend plus fragile qu'une assertion chiffrée.
 - D. Il s'exécute plus lentement qu'une assertion sur une valeur, ce qui ralentit la boucle de correction et finit par décourager l'agent.
-
-<details>
-<summary>Voir la réponse</summary>
-
-**Réponse : B.** Le piège n'est pas l'erreur visible, c'est l'erreur crédible. Ici le seul capteur, c'est la revue, avec une question : ce test échouerait-il si le code était cassé ? Non, donc il ne protège rien.
-
-Pourquoi pas les autres : la couverture monte, certes, mais elle n'est pas le nombre d'assertions utiles (A) ; ce test ne cassera jamais, et c'est bien le problème (C) ; il passe très vite et très sûrement, sans rien vérifier du comportement du panier (D).
-
-</details>
 
 **6. L'IA propose `npm install react-icon-pack` pour ajouter des icônes. Quel geste le 1.5 prescrit-il, et pourquoi ?**
 - A. Installer puis lancer `npm audit` : les vulnérabilités publiées signalent les paquets déposés sous un nom imité d'un paquet connu.
@@ -315,9 +270,29 @@ Pourquoi pas les autres : la couverture monte, certes, mais elle n'est pas le n
 - D. `npm view react-icon-pack` avant d'installer : on ne vérifie pas un paquet en l'installant.
 
 <details>
-<summary>Voir la réponse</summary>
+<summary>Voir les réponses</summary>
 
-**Réponse : D.** La commande renvoie un E404 là où `npm view react-icons version` répond 5.4.0 : le registre npm est l'arbitre du nom, et il ne coûte qu'une ligne de commande.
+**1 — Réponse : B.** Le chapitre déplace l'effort du prompt vers le cadre — « environnement > prompt » : ce sont les outils que la profession a inventés pour les juniors depuis quarante ans, appliqués à une machine qui ne dit jamais « je ne sais pas ».
+
+Pourquoi pas les autres : la colonne « il fait bien » invite au contraire à déléguer large (A) ; répéter ne construit rien, la mémoire ne se forme pas à force de demandes (C) ; et la parade est de ne jamais avoir à lire tout seul — l'erreur crédible passe la relecture (D).
+
+**2 — Réponse : D.** C'est la conséquence 2 du 1.3, « une conversation qui traîne s'enfonce » : ce qui est posé sur l'établi contamine la suite, et on ne le retire pas en le mentionnant.
+
+Pourquoi pas les autres : le probabilisme n'est pas une saturation, c'est son fonctionnement normal (A) ; il n'a jamais eu ce qui n'était pas sur l'établi, il ne l'« oublie » pas (B) ; le chapitre ne promet pas une fenêtre plus grande, il prescrit d'injecter juste (C).
+
+**3 — Réponse : A.** « Ça a l'air bon » ne vaut rien : le compilateur est déterministe, le LLM probabiliste, et la seule autorité qui dise si le code est juste est le capteur — lancé par la CI (les portes des chapitres 03-04).
+
+Pourquoi pas les autres : rien ne fait de la concision un critère de choix, c'est une impression (B) ; le tirage le plus fréquent reconduit le même biais, il n'est pas plus juste (C) ; la revue garde toute sa place, mais pas comme arbitre de la justesse (D).
+
+**4 — Réponse : C.** Les tests coûtent presque gratis à la machine, donc on les écrit en premier ; le harnais est double — critère d'arrêt pour l'agent, et barrière contre les régressions de demain.
+
+Pourquoi pas les autres : c'est l'ordre inversé, le test ne doit pas être écrit d'après le code (A) ; un test venu de l'IA peut n'asserter quoi que ce soit de vérifiable (B) ; la CI lance le capteur, elle n'est pas le capteur (D).
+
+**5 — Réponse : B.** Le piège n'est pas l'erreur visible, c'est l'erreur crédible. Ici le seul capteur, c'est la revue, avec une question : ce test échouerait-il si le code était cassé ? Non, donc il ne protège rien.
+
+Pourquoi pas les autres : la couverture monte, certes, mais elle n'est pas le nombre d'assertions utiles (A) ; ce test ne cassera jamais, et c'est bien le problème (C) ; il passe très vite et très sûrement, sans rien vérifier du comportement du panier (D).
+
+**6 — Réponse : D.** La commande renvoie un E404 là où `npm view react-icons version` répond 5.4.0 : le registre npm est l'arbitre du nom, et il ne coûte qu'une ligne de commande.
 
 Pourquoi pas les autres : l'audit travaille sur ce qui est déjà installé, alors que le slopsquatting se joue avant (A) ; le modèle réaffirme son erreur avec la même assurance (B) ; c'est l'installation elle-même qui est le danger (C).
 

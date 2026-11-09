@@ -878,35 +878,16 @@ jobs:
 
           node build/stage-images.js build/support-de-cours.md . build
 
-      # Les crédits ferment le document. Ils sont ajoutés après la conversion
-      # des liens : ils n'en contiennent aucun vers un `.md`, et l'adresse entre
-      # chevrons doit rester un lien `mailto:` cliquable dans le PDF.
+      # La section « Crédits » qui fermait le document a été retirée à la
+      # demande du formateur : le support se termine sur ses annexes. La
+      # signature de l'auteur reste portée par la page de garde (section
+      # `credits` de config.yaml). L'étape ci-dessous ne fait plus rien.
       - name: Ajouter les crédits en fin de document
         working-directory: build
         run: |
-          if [ ! -s authors-line.txt ] && [ ! -s contributors.txt ]; then
-            echo "Ni signature ni contributeur : pas de section Crédits."
-            exit 0
-          fi
-
-          {
-            printf '\n## Crédits\n\n'
-
-            if [ -s authors-line.txt ]; then
-              printf 'Cours de %s.\n' "$(cat authors-line.txt)"
-              if [ -s contributors.txt ]; then
-                printf '\nOnt également contribué :\n\n'
-              fi
-            else
-              printf 'Ont contribué à ce cours :\n\n'
-            fi
-
-            if [ -s contributors.txt ]; then
-              sed 's/^/- /' contributors.txt
-            fi
-          } >> support-de-cours.md
-
-          tail -15 support-de-cours.md
+          # Section « Crédits » désactivée volontairement — voir note ci-dessus.
+          echo "Section Crédits retirée du document."
+          exit 0
 
       # md-to-pdf rendrait un bloc mermaid en bloc de code brut : mermaid-cli le
       # remplace d'abord par un SVG. L'étape lance un Chrome, donc on la saute
