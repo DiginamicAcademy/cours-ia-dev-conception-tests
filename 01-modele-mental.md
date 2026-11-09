@@ -75,19 +75,33 @@ Conséquence, à graver : **« ça a l'air bon » ne vaut rien.** La seule au
 
 ## 1.5 Les hallucinations côté développeur
 
-C'est la partie qui vous coûtera le moins cher à lire que dans la vraie vie. Quatre familles, toutes mortellement plausibles.
+C'est la partie qui vous coûtera le moins cher à lire que dans la vraie vie. Quatre familles, toutes mortellement plausibles — et, à chaque fois, **la commande qui démasque**.
 
 **1. L'API inventée.** L'IA écrit `const plats = _.flattenDeepSafe(menu);`. Ce nom *sonne* juste — Lodash a bien un `flattenDeep`. Mais `flattenDeepSafe` n'existe pas. Sans vérification, on perd une heure à déboguer une fonction qui n'a jamais existé.
 
 ```ts
-// Ce que l'IA propose — et que tsc fume en 10 secondes :
-const plats = _.flattenDeepSafe(menu);
-// TS2339: Property 'flattenDeepSafe' does not exist on type 'LoDashStatic'.
+const plats = _.flattenDeepSafe(menu);   // proposé par l'IA
 ```
 
-Un `tsc --noEmit` (le compilateur TypeScript en mode vérification seule) l'attrape avant même de lancer quoi que ce soit. **Le capteur ne se fait pas avoir par le plausible.**
+La commande qui l'attrape — le compilateur TypeScript en mode vérification seule :
 
-**2. La dépendance fantôme et le slopsquatting.** L'IA suggère `npm install react-icon-pack`. Le vrai paquet s'appelle `react-icons` ; le nom proposé est *voisin*. Publier sur npm un nom à un caractère d'un paquet populaire, c'est le **slopsquatting** : celui qui l'installe exécute le code de n'importe qui. Le réflexe : **on ne vérifie pas un paquet en l'installant** — on le cherche sur le registre npm (et un outil d'audit, chapitre 03, sonne l'alerte).
+```bash
+$ npx tsc --noEmit
+app.ts:1:20 - error TS2339: Property 'flattenDeepSafe' does not exist on type 'LoDashStatic'.
+```
+
+Dix secondes, et le plausible tombe. **Le capteur ne se fait pas avoir.**
+
+**2. La dépendance fantôme et le slopsquatting.** L'IA suggère `npm install react-icon-pack`. Le vrai paquet s'appelle `react-icons` ; le nom proposé est *voisin*. Publier sur npm un nom à un caractère près d'un paquet populaire, c'est le **slopsquatting** : celui qui l'installe exécute le code de n'importe qui. Le réflexe : **on ne vérifie pas un paquet en l'installant** — on le cherche sur le registre npm.
+
+```bash
+$ npm view react-icon-pack     # ce que l'IA propose d'installer
+npm error code E404            # 'react-icon-pack' n'existe pas (ou est un squat)
+$ npm view react-icons version
+5.4.0                          # le vrai paquet, lui, est bien là
+```
+
+(Un outil d'audit, chapitre 03, automatise cette vigilance.)
 
 **3. Le correctif faux mais plausible.** Le grand classique, et il reviendra au chapitre 05. Demandez à convertir des euros en centimes :
 
@@ -103,7 +117,32 @@ function eurosVersCents(euros: number): number {
 expect(eurosVersCents(19.99)).toBe(1999);   // échoue → révèle le bug
 ```
 
-**4. Le test qui n'assert rien.** L'IA écrit volontiers un test qui « passe » sans rien vérifier (`expect(x).toBeDefined()` sur un objet qu'on vient de créer — toujours vrai). La CI passe au vert, et le vert est **faux**. On y revient au chapitre 08 : la couverture de code n'est pas le nombre d'assertions utiles.
+La commande qui le fume :
+
+```bash
+$ npx vitest run
+FAIL  eurosVersCents(19.99)
+      attendu 1999 · reçu 1998
+```
+
+**4. Le test qui n'assert rien.** L'IA écrit volontiers un test qui « passe » sans rien vérifier (`expect(x).toBeDefined()` sur un objet qu'on vient de créer — toujours vrai). La CI passe au vert, et le vert est **faux**.
+
+```ts
+test("le panier contient l'article", () => {
+  const p = new Panier();
+  p.ajouter({ id: 1, prix: 10 });
+  expect(p).toBeDefined();   // toujours vrai — n'assert rien
+});
+```
+
+La commande ? Elle passe. Et c'est bien le problème :
+
+```bash
+$ npx vitest run
+PASS  le panier contient l'article     # vert… qui ment
+```
+
+Le seul capteur ici, c'est la revue : *ce test échouerait-il si le code était cassé ?* Non — donc il ne protège rien. (Chapitre 08 : la couverture de code n'est pas le nombre d'assertions utiles.)
 
 Le tronc commun de ces quatre pièges : **la machine ment avec assurance.** La parade n'est pas de mieux lire — c'est de ne jamais avoir à lire tout seul, et de laisser des capteurs parler à votre place.
 
@@ -129,6 +168,8 @@ Le fil, encore : **on n'améliore pas le prompt, on construit l'environnement q
 ### EX-01 — Repérez les mensonges (15 min)
 
 Cinq productions signées « IA ». Pour chacune, **classez-la** parmi : *API inventée* / *dépendance fantôme* / *correctif faux mais plausible* / *test qui n'assert rien* / *correcte* — et **justifiez en une phrase** (ce qui cloche, ou ce qui la rend sûre).
+
+🔧 **Vous pouvez exécuter pour trancher** plutôt que deviner : `npx tsc --noEmit` (les types), `npm view <paquet>` (une dépendance), `npx vitest run` (un test). Les commandes exactes sont au 1.5 ci-dessus.
 
 **①**
 ```ts
@@ -171,9 +212,9 @@ test('remise de 20 % sur 100 € = 80 €', () => {
 <details>
 <summary>Voir la correction</summary>
 
-- **① API inventée.** `flattenDeepSafe` n'existe pas chez Lodash (c'est `flattenDeep`). Capteur qui l'attrape : `tsc --noEmit` (propriété inconnue).
-- **② Dépendance fantôme / slopsquatting.** Le paquet réel est `react-icons` ; le nom proposé est voisin. On vérifie sur le registre npm **avant** d'installer, jamais en installant.
-- **③ Correctif faux mais plausible.** `Math.floor` sur un flottant : `19.99 * 100 = 1998.99…` → 1998. Il faut `Math.round`, et un test avec un montant concret pour le prouver.
+- **① API inventée.** `flattenDeepSafe` n'existe pas chez Lodash (c'est `flattenDeep`). Capteur : `npx tsc --noEmit` (propriété inconnue).
+- **② Dépendance fantôme / slopsquatting.** Le paquet réel est `react-icons` ; le nom proposé est voisin. Vérification `npm view react-icon-pack` (404) contre `npm view react-icons` (existe), **avant** d'installer — jamais en installant.
+- **③ Correctif faux mais plausible.** `Math.floor` tronque au lieu d'arrondir : `ttc(19.99)` = `Math.floor(19.99 × 1,2)` = **23**, alors qu'un TTC s'arrondit (23,99). Vérif : `node -e "console.log(Math.floor(19.99 * 1.2))"` → 23. Il faut `Math.round`, et un test chiffré (`npx vitest run`) pour le prouver.
 - **④ Test qui n'assert rien.** `toBeDefined()` sur un objet fraîchement construit est toujours vrai : le test passe sans vérifier le comportement. C'est le plus dangereux, parce qu'il produit un **vert faux** — la CI ment.
 - **⑤ Correcte.** Entrée et sortie chiffrées, assertion sur la valeur réelle : c'est exactement le type de test où l'IA ne peut pas tricher.
 
