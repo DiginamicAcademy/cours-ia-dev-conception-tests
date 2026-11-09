@@ -71,4 +71,4 @@ jours vous servent.*
 
 ---
 
-[← Sommaire](Readme.md) · [Chapitre suivant →](01-modele-mental.md)
+[Sommaire](Readme.md) · [Chapitre suivant →](01-modele-mental.md)

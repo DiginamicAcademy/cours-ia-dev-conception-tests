@@ -1,4 +1,4 @@
-[Sommaire](Readme.md) · [Chapitre suivant →](02-spec-gherkin.md)
+[← Chapitre précédent](00-positionnement.md) · [Sommaire](Readme.md) · [Chapitre suivant →](02-spec-gherkin.md)
 
 # Chapitre 01 — L'IA dans la chaîne de développement : modèle mental
 
@@ -325,4 +325,4 @@ Pourquoi pas les autres : l'audit travaille sur ce qui est déjà installé, al
 
 ---
 
-[Sommaire](Readme.md) · [Chapitre suivant →](02-spec-gherkin.md)
+[← Chapitre précédent](00-positionnement.md) · [Sommaire](Readme.md) · [Chapitre suivant →](02-spec-gherkin.md)
