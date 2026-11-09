@@ -69,35 +69,6 @@ qui tourne, avec tests et CI **?**
 de J1 pour ajuster les binômes. Aucun enjeu de note — c'est un outil pour que les deux
 jours vous servent.*
 
-<details>
-<summary>Comment lire vos réponses</summary>
-
-Il n'y a **aucune bonne réponse** — ce questionnaire ne note rien, il vous situe. Ce qui
-compte n'est pas une case, c'est la **forme d'ensemble** de vos réponses.
-
-- **Vous avez coché surtout des A** — vous démarrez avec l'IA, ou vous codez sans elle.
-  C'est la meilleure place pour profiter du cours : chaque chapitre part d'un geste que vous
-  n'avez pas encore, et rien ne vous supposera acquis. Venez avec vos questions de base,
-  elles sont celles de la moitié de la salle.
-- **Vous avez coché surtout des B** — vous vous débrouillez, par touches. Le cours va
-  transformer vos astuces éparses en **méthode** : un cadre qui tient quand l'IA va vite et
-  quand elle se trompe. C'est le profil pour qui ce cours change le plus.
-- **Vous avez coché surtout des C** — vous êtes à l'aise, vous utilisez déjà l'IA. Votre
-  enjeu n'est pas de découvrir l'outil mais de **sécuriser** ce que vous produisez : spec,
-  portes, boucle, laisse. Les chapitres 03, 05 et 07 sont faits pour vous donner ce que
-  l'instinct seul ne donne pas.
-- **Vous avez coché surtout des D** — l'IA fait déjà partie de votre quotidien. Vous serez
-  peut-être le repère d'un binôme (c'est voulu : le cours se joue en duo). Votre marge,
-  c'est la **rigueur** — réglementation, licences, ce que l'IA produit en silence. Les
-  chapitres 08 et 09 vous challengeront.
-
-Un profil **mélangé** — des B sur le code, des A sur les tests, par exemple — est le plus
-courant et le plus instructif : il dit précisément où le cours a quelque chose à vous
-apporter. Répondez à la question 8 en toute liberté : c'est elle qui dit ce que vous êtes
-venu chercher, donc ce que vous surveillerez pendant les deux jours.
-
-</details>
-
 ---
 
 [Sommaire](Readme.md) · [Chapitre suivant →](01-modele-mental.md)
