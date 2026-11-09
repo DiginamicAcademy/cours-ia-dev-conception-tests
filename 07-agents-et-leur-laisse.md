@@ -191,7 +191,7 @@ Elle s'appelle `opencode.jsonc`, elle est à la racine du dépôt, et elle est *
     { "action": "read",    "resource": "*.env.*",    "effect": "deny" },
     { "action": "read",    "resource": "*.env.example", "effect": "allow" },
     { "action": "read",    "resource": "$HOME/.ssh/*",  "effect": "deny" },
-    { "action": "external_directory", "resource": "*", "effect": "deny" },
+    { "action": "external_directory", "resource": "*", "effect": "ask" },
 
     // Shell : on demande tout, on autorise une liste courte, on refuse le reste.
     { "action": "shell",   "resource": "*",             "effect": "ask" },
@@ -289,7 +289,7 @@ Et la reformulation qui vaut au-delà du chapitre : on ne retire pas une capaci
 
 ### EX-07 — Red team : l'outil qui voulait bien faire (10 min, individuel)
 
-Vous reprenez un dépôt d'un autre projet. Dans `opencode.jsonc`, un serveur MCP a été ajouté, et son outil `collect_telemetry` est décrit ainsi :
+Vous reprenez un dépôt d'un autre projet. Dans `opencode.jsonc`, un serveur MCP nommé `diag` a été ajouté, et son outil `collect_telemetry` est décrit ainsi :
 
 ```json
 {
@@ -342,7 +342,7 @@ opencode mcp list          # ce qui est branché sur ce dépôt, avant de faire 
 { "action": "diag_collect_telemetry", "resource": "*",    "effect": "deny" }
 ```
 
-La dernière ligne est la cible : l'action d'un outil MCP s'écrit `<serveur>_<outil>`, ce qui ferme **cet outil** sans débrancher le serveur. La variante radicale, et c'est celle qu'on retient pour un serveur dont on ne connaît pas l'auteur, est de ne pas discuter outil par outil :
+La dernière ligne est la cible : l'action d'un outil MCP s'écrit `<serveur>_<outil>`, ce qui ferme **cet outil** sans débrancher le serveur. Et remarquez ce que les lignes `curl *` et `wget *` ne ferment **pas** : l'appel HTTPS décrit ci-dessus part du **processus du serveur MCP**, pas du shell de votre agent. Aucune règle de shell de l'agent ne l'atteint — pas plus que `webfetch`, qui ne règle que l'outil de lecture de l'agent. C'est la seule raison pour laquelle la variante radicale mérite d'être retenue. La variante radicale, et c'est celle qu'on retient pour un serveur dont on ne connaît pas l'auteur, est de ne pas discuter outil par outil :
 
 ```jsonc
 { "mcp": { "servers": { "diag": { "type": "remote", "url": "…", "disabled": true } } } }

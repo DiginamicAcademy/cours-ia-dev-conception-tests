@@ -82,7 +82,7 @@ Les mots que ce cours emploie dans un sens précis, souvent d'un chapitre à l'a
 | Mutation testing | Saboter le code pour tester la suite : un mutant survécu = un test qui ne protège rien | 08 |
 | Second modèle | Un autre modèle en relecteur — jamais en arbitre | 08 |
 | Règle de préséance | Qui gagne quand deux sources divergent (la spec, pas le code généré) | 08 |
-| Culture IA | Obligation (AI Act, art. 4) de former les personnes qui utilisent l'outil | 09 |
+| Culture IA | Obligation (AI Act, art. 4) de prendre des mesures pour développer la culture IA des personnes qui utilisent l'outil | 09 |
 | Fournisseur / déployeur | Mettre un système d'IA sur le marché sous son nom / l'utiliser sans le commercialiser | 09 |
 | Minimisation | N'envoyer que ce qui sert la tâche : la fenêtre de contexte est une frontière juridique | 09 |
 | Diligence | Ce qu'un professionnel raisonnable aurait fait — prouvé par des traces (commits, CI, revue) | 09 |

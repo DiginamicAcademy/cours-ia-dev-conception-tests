@@ -19,11 +19,11 @@ Ce dépôt, vous l'avez déjà monté brique par brique tout au long des deux jo
 | **EX-C** | 05 | La boucle qui mord : un bug d'arrondi rattrapé par un test chiffré |
 | **EX-D** | 07 | La conduite d'un agent en mode plan, jusqu'au vert sur la f1 |
 
-Le TP-01 n'est **pas** une reprise de ces exercices guidés. C'est le **même** Comptoir de prêt, mais **en autonomie**, de bout en bout, sur **votre** dépôt : vous repartez du dépôt nu et vous menez f1, f2 et f3 jusqu'au livrable, sans filet. Ce que les exercices vous ont fait faire un geste à la fois, le TP vous demande de l'enchaîner seul — c'est là que le cours devient votre façon de travailler.
+Le TP-01 n'est **pas** une reprise de ces exercices guidés. C'est le **même** Comptoir de prêt, mais **en autonomie**, de bout en bout, sur **votre** dépôt : vous repartez du Comptoir — le dépôt nu si vous n'avez pas fait les exercices, le vôtre déjà équipé sinon — et vous menez f1, f2 et f3 jusqu'au livrable, sans filet. Ce que les exercices vous ont fait faire un geste à la fois, le TP vous demande de l'enchaîner seul — c'est là que le cours devient votre façon de travailler.
 
 ## Le contexte
 
-Un **service de prêt municipal** — vélos et matériel (casques, antivols, remorques) — tenu par un comptoir. On vous livre un dépôt **nu** : un service **Node / TypeScript + SQLite** qui démarre à peine, **aucune porte de qualité, aucune spec**, un secret oublié là, et une **config de laisse d'agent** déjà fournie.
+Un **service de prêt municipal** — vélos et matériel (casques, antivols, remorques) — tenu par un comptoir. On vous livre un dépôt **nu** : un service **Node / TypeScript + SQLite** qui démarre à peine, **aucune porte de qualité**, le contrat f1 déjà écrit au chapitre 02, un secret oublié là, et une **config de laisse d'agent** déjà fournie.
 
 **Les données sont non nominatives par construction** : les emprunteurs sont des identifiants anonymes (`A-42`, `B-07`…). C'est la règle RGPD du chapitre 09 appliquée au sujet lui-même — et votre rappel permanent : **dans un prompt d'offre gratuite, jamais de donnée personnelle ni d'entreprise.**
 
@@ -54,17 +54,22 @@ Vous clonez le dépôt de départ fourni par le formateur. À l'ouverture, il re
 ```text
 comptoir/
 ├─ package.json          # nu : pas de script "test", pas de lint, pas de couverture
+├─ tsconfig.json         # TypeScript strict
+├─ .gitignore            # sans .env — l'ajouter fait partie de la leçon EX-A
 ├─ src/
-│  ├─ penalite.ts        # squelette — la fonction f1, à faire vivre
-│  ├─ remise.ts          # le stub bogué du ch. 06 (Math.floor sur des flottants)
-│  └─ ...                # le service, la couche SQLite minimale
+│  ├─ index.ts           # le service, démarre et affiche l'état du comptoir
+│  ├─ domaine/monnaie.ts # eurosVersCents() — correcte en apparence
+│  └─ repo/prets.ts      # l'accès SQLite, via node:sqlite, zéro dépendance
 ├─ db/
-│  └─ (schema.sql absent — c'est vous qui le générez, étape E5)
-├─ .opencode.jsonc       # la laisse d'agent du ch. 07 (permissions, deny list)
+│  ├─ db.ts              # la connexion, PRAGMA foreign_keys = ON
+│  └─ schema.sql         # 3 tables — couvre f1 seulement, à vous de l'étendre
+├─ features/
+│  └─ retards.feature    # le contrat f1 du chapitre 02, recopié tel quel
+├─ opencode.jsonc        # la laisse d'agent du chapitre 07 (permissions, deny list)
 └─ .env                  # un secret planqué — une porte doit le choper
 ```
 
-Il n'y a **ni `features/`, ni tests, ni lint, ni CI** : c'est voulu. Vous allez équiper, spec-ifier, puis conduire. Les binômes qui ont fait EX-A/EX-B en salle partent de **leur** dépôt déjà équipé ; les autres repartent du dépôt nu et reprennent E2/E3 chez eux.
+Il n'y a **ni `features/`, ni tests, ni lint, ni CI** : c'est voulu. Vous allez équiper, spec-ifier, puis conduire. Le contrat f1, lui, est déjà là : sans lui, l'EX-A ne pourrait pas produire le rouge qu'on vous demande d'observer. Les binômes qui ont fait EX-A à EX-D en salle partent de **leur** dépôt déjà équipé ; les autres repartent de cette archive et reprennent E2 à E5 chez eux.
 
 ## Le ruban E0 → E6
 
@@ -90,7 +95,7 @@ npx tsc --noEmit       # les types, en strict
 npx gitleaks detect    # la porte qui débusque le secret du .env
 ```
 
-**La règle d'or du chapitre 05 s'applique intégralement : ne jamais affaiblir un test pour passer au vert.** Si un test gêne, c'est soit le code qui est faux, soit la spec qui est fausse — jamais le test qu'il faut rogné.
+**La règle d'or du chapitre 05 s'applique intégralement : ne jamais affaiblir un test pour passer au vert.** Si un test gêne, c'est soit le code qui est faux, soit la spec qui est fausse — jamais le test qu'il faut rogner.
 
 ## Ce qu'il faut rendre (et pourquoi ce sont les traces qui comptent)
 

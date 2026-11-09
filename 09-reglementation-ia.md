@@ -15,7 +15,7 @@
 
 Réponse, pour que le sondage ne traîne pas : **plusieurs**, et l'une d'elles vous concerne vous, pas seulement votre employeur. Ce chapitre ne fera pas de vous un juriste ; il vous rendra **reconnaissable** — qu'un texte vous tombe dessus en entretien ou en revue de code, vous saurez mettre le doigt dessus.
 
-Avant-propos, parce que c'est le chapitre le plus daté du cours : les dates ci-dessous sont celles **en vigueur à la production de ce support**, après le « Digital Omnibus » (règlement 2026/1744 de l'**Union européenne (UE)**, juillet 2026) qui a **bougé les échéances** de l'AI Act. Dans six mois elles auront peut-être bougé encore, et ce n'est pas un défaut du chapitre : c'est **sa première leçon**. La veille réglementaire fait partie du métier, au même titre que surveiller une dépendance.
+Avant-propos, parce que c'est le chapitre le plus daté du cours : les dates ci-dessous sont celles **en vigueur à la production de ce support**, après le « Digital Omnibus » (règlement 2026/1744 de l'**Union européenne (UE)**, juillet 2026) qui a **bougé les échéances** de l'AI Act. Le texte est paru au Journal officiel de l'Union européenne du 24 juillet 2026 et y est entré en vigueur le 27 juillet. Le présent chapitre est à jour de ce texte au 09 novembre 2026. Dans six mois elles auront peut-être bougé encore, et ce n'est pas un défaut du chapitre : c'est **sa première leçon**. La veille réglementaire fait partie du métier, au même titre que surveiller une dépendance.
 
 ## 9.1 L'AI Act en 10 min
 
@@ -26,7 +26,7 @@ flowchart TD
     A["PRATIQUES INTERDITES<br/>scoring social, manipulation…"] --> B
     B["HAUT RISQUE<br/>emploi, crédit, éducation, justice…<br/>→ dossier de conformité, contrôle humain, audit"] --> C
     C["OBLIGATIONS DE TRANSPARENCE<br/>chatbots, contenus générés, deepfakes<br/>→ dire que c'est de l'IA"] --> D
-    D["RISQUE MINIMAL<br/>anti-spam, complétion de code<br/>→ aucune obligation spécifique"]
+    D["RISQUE MINIMAL<br/>anti-spam, complétion de code<br/>→ aucune obligation de conformité spécifique<br/>(l'article 4, lui, s'applique)"]
     style A fill:#e06666,color:#000
     style B fill:#f6b26b,color:#000
     style C fill:#ffd966,color:#000
@@ -39,7 +39,7 @@ Ce qui vous touche vraiment tient en deux articles.
 
 **Article 50 — dire que c'est de l'IA.** Applicable **depuis le 02 août 2026**. Il impose de **marquer les contenus générés ou manipulés par une IA** (texte, image, audio, vidéo) dans un format lisible par une machine, et d'**informer les personnes** mises en présence d'un système d'IA ou d'un contenu artificiel. Pour un dev : un chat qui répond aux usagers d'un service public doit le dire ; un article généré et publié doit être identifié comme tel. C'est l'obligation la plus proche de votre clavier.
 
-**Article 4 — la « culture IA ».** Applicable **depuis le 02 février 2025**, formulation précisée le **27 juillet 2026**. Il impose aux fournisseurs et aux déployeurs de s'assurer que **leur personnel a un niveau suffisant de culture de l'IA** : ce que l'outil fait, ce qu'il ne fait pas, où sont ses risques. En langage entreprise : **c'est une obligation de l'employeur**, pas une curiosité personnelle. C'est aussi l'ancrage officiel de ce cours, qui ne prépare aucun titre RNCP — vous ne venez pas « apprendre un outil », vous venez couvrir une obligation qui, au bout de la chaîne, est inscrite dans un règlement européen.
+**Article 4 — la « culture IA ».** Applicable **depuis le 02 février 2025**, dans une rédaction **réécrite par l'Omnibus, entrée en vigueur le 27 juillet 2026**. Il impose aux fournisseurs et aux déployeurs de **prendre des mesures pour développer la culture de l'IA** de leur personnel et des personnes qui manipulent l'outil pour leur compte : ce que l'outil fait, ce qu'il ne fait pas, où sont ses risques. Notez le glissement, il change votre façon de vous défendre : le règlement ne fixe plus de niveau à atteindre et ne vous demande pas de garantir celui de chacun — il demande des mesures, et donc des traces. Seul point qui n'a pas bougé : si vous déployez un système à haut risque, former votre personnel à la supervision humaine reste une obligation. En langage entreprise : **c'est une obligation de l'employeur**, pas une curiosité personnelle. C'est aussi l'ancrage officiel de ce cours, qui ne prépare aucun titre RNCP — vous ne venez pas « apprendre un outil », vous venez couvrir une obligation qui, au bout de la chaîne, est inscrite dans un règlement européen.
 
 ### La frise, après l'Omnibus
 
@@ -47,14 +47,15 @@ Ce qui vous touche vraiment tient en deux articles.
 flowchart LR
     A["02/02/2025<br/>interdictions<br/>+ culture IA (art. 4)"] --> B["08/2025<br/>modèles à usage<br/>général (GPAI)"]
     B --> C["02/08/2026<br/>transparence<br/>art. 50 · en vigueur"]
-    C --> D["02/12/2027<br/>haut risque<br/>Annexe III (reporté)"]
+    C --> F["02/12/2026<br/>fin du sursis de<br/>marquage art. 50(2)"]
+    F --> D["02/12/2027<br/>haut risque<br/>Annexe III (reporté)"]
     D --> E["02/08/2028<br/>produits réglementés<br/>Annexe I (reporté)"]
     style C fill:#b6d7a8,color:#000
     style D stroke-dasharray: 5 5
     style E stroke-dasharray: 5 5
 ```
 
-Le haut risque annoncé pour 2026 a été **reporté à décembre 2027**, et les produits réglementés à août 2028, par un texte paru il y a quelques mois. Personne ne vous reproche de l'avoir ignoré. **Ce qu'on peut vous reprocher, c'est de l'ignorer encore dans un an.** Un règlement dont les échéances bougent, c'est une dépendance dont la fin de support change : on ne s'en plaint pas, on s'abonne.
+Le haut risque annoncé pour août 2026 a été **reporté à décembre 2027**, et celui des produits réglementés — qui devait courir depuis août 2027 — **à août 2028**, par un texte paru cet été. Personne ne vous reproche de l'avoir ignoré. **Ce qu'on peut vous reprocher, c'est de l'ignorer encore dans un an.** Un règlement dont les échéances bougent, c'est une dépendance dont la fin de support change : on ne s'en plaint pas, on s'abonne.
 
 ## 9.2 Fournisseur ou déployeur ?
 
@@ -195,7 +196,7 @@ $ git log --grep="opencode" --oneline
 
 Cinq situations vécues. Pour chacune, **deux questions seulement** : *(1) quel texte ou quelle obligation est en jeu* — AI Act (article 4 ou 50), RGPD, licence, responsabilité ; *(2) qu'aurait-il fallu faire ?*
 
-**Mémo (la frise du 9.1) :** 02/02/2025 interdictions et culture IA (art. 4) · 08/2025 obligations GPAI · 02/08/2026 transparence et marquage (art. 50) · 02/12/2027 haut risque Annexe III · 02/08/2028 Annexe I.
+**Mémo (la frise du 9.1) :** 02/02/2025 interdictions et culture IA (art. 4) · 08/2025 obligations GPAI · 02/08/2026 transparence et marquage (art. 50), et début des contrôles · 02/12/2026 fin du sursis de marquage pour les systèmes déjà sur le marché · 02/12/2027 haut risque Annexe III · 02/08/2028 Annexe I.
 
 **①** Léa met en ligne sur le site de la mairie un assistant qui répond aux demandes des usagers. Rien, nulle part, n'indique qu'une IA répond.
 
@@ -236,7 +237,7 @@ Le quiz qui suit est un **entraînement**, pas une épreuve : passe-le avec l'I
 Six questions, non notées, à faire avec l'IA : elles servent à vous situer, pas à compter une note.
 
 **1. Ce chapitre le dit sans détour : ce cours ne prépare aucun titre RNCP, il s'ancrit sur un article de l'AI Act applicable depuis le 02 février 2025. Lequel, et qu'impose-t-il ?**
-- A. Article 4 : fournisseurs et déployeurs doivent garantir un niveau suffisant de culture de l'IA à leur personnel — une obligation de l'employeur.
+- A. Article 4 : fournisseurs et déployeurs doivent prendre des mesures pour développer la culture de l'IA de leur personnel — une obligation de l'employeur.
 - B. Article 50 : il impose depuis février 2025 de marquer tout code produit avec une IA, même une complétion locale, dans un format lisible par machine.
 - C. Article 5 : les pratiques interdites couvrent l'usage d'un modèle tiers sans dossier de conformité, ce qui oblige à déclarer chaque assistant de code.
 - D. Les obligations GPAI d'août 2025 : quiconque intègre un modèle doit publier sa politique de respect du droit d'auteur et évaluer les risques du modèle.
@@ -274,7 +275,7 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 <details>
 <summary>Voir les réponses</summary>
 
-**1 — Réponse : A.** L'article 4 (formulation précisée le 27 juillet 2026) porte sur les personnes qui utilisent l'outil, pas sur l'outil lui-même : « ce que l'outil fait, ce qu'il ne fait pas, où sont ses risques ». C'est une obligation de l'employeur, pas une curiosité personnelle — et c'est l'ancrage officiel de ce cours.
+**1 — Réponse : A.** L'article 4 (réécrit par l'Omnibus, en vigueur depuis le 27 juillet 2026) porte sur les personnes qui utilisent l'outil, pas sur l'outil lui-même : « ce que l'outil fait, ce qu'il ne fait pas, où sont ses risques ». Il ne fixe plus de niveau à garantir : il demande des mesures, donc des traces. C'est une obligation de l'employeur, pas une curiosité personnelle — et c'est l'ancrage officiel de ce cours.
 
 Pourquoi pas les autres : l'article 50 s'applique depuis le 02 août 2026 et vise les contenus générés ou manipulés présentés à des personnes, pas la complétion de fonction dans votre éditeur ; l'article 5 vise le scoring social et la manipulation ; les obligations GPAI d'août 2025 pèsent sur l'éditeur du modèle, pas sur celui qui l'intègre.
 
