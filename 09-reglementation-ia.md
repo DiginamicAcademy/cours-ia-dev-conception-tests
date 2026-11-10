@@ -249,7 +249,7 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - D. Vous devenez fournisseur, mais seulement si le modèle a été hébergé chez vous ou ajusté sur vos données, sinon l'éditeur répond du système entier.
 
 **3. Dans `tests/fixtures/adherents.ts` du comptoir de prêt, un « cas réel » contient un nom, un e-mail et une clé API de partenaire récupérée sur la prod. `npx gitleaks detect` ne signale que la clé. Qu'en conclure ?**
-- A. Que gitleaks est mal réglé : un scan plus profond de l'historique, avec 2 ou 3 règles de plus, lui ferait voir le nom et l'e-mail dans le même fichier.
+- A. Gitleaks est mal réglé : un scan plus profond de l'historique, avec 2 ou 3 règles de plus, lui ferait voir le nom et l'e-mail dans le même fichier.
 - B. Que le nom et l'e-mail ne sont pas des données personnelles (pas de numéro de sécurité sociale, pas d'adresse postale dans le fichier), donc rien à signaler côté RGPD.
 - C. Qu'un capteur protège ce pour quoi on l'a réglé : il faut une règle dédiée (Semgrep, vu au chapitre 03) et un humain qui demande d'où vient le fixture.
 - D. Que le fixture est sans conséquence puisqu'il ne vit que dans les tests : ni le dépôt ni la fenêtre de contexte ne sont une frontière juridique.
@@ -270,7 +270,7 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - A. Elle est irrecevable parce que l'éditeur du modèle assume contractuellement les défauts de sortie : c'est lui qu'il faut mettre en cause — pas l'équipe.
 - B. Le modèle n'est pas une personne juridique : répond celui qui a intégré, et ce qui protège Nadia, ce sont des preuves de diligence — revue, tests, CI.
 - C. Elle est irrecevable car la charge se partage à parts égales — devant le juge — entre l'auteur du prompt et le responsable de la CI du dépôt concerné.
-- D. Elle serait recevable si la délégation avait été déclarée en commit ou en pull request : mentionner l'outil transfère la charge de la vérification.
+- D. Recevable si Nadia avait déclaré la délégation en commit ou en pull request : mentionner l'outil transfère la charge de la vérification.
 
 <details>
 <summary>Vérifier ses réponses</summary>

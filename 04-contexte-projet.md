@@ -296,7 +296,7 @@ Les dérapages classiques, et la ligne qui les ferme :
 Six questions, non notées, à faire avec l'IA : elles servent à vous situer, pas à compter une note.
 
 **1. Un même dépôt est utilisé par des collègues sous Cursor et par des collègues sous opencode. Que prescrit le chapitre pour les fichiers d'instructions ?**
-- A. Dupliquer `AGENTS.md` dans `.cursorrules`, pour que chaque outil ait sa consigne.
+- A. Dupliquer `AGENTS.md` dans `.cursorrules`, pour que chaque outil ait ses fichiers de consigne.
 - B. Écrire `AGENTS.md`, et faire des autres fichiers un pointeur d'une ligne.
 - C. Écrire seulement `.github/copilot-instructions.md`, il couvre les deux.
 - D. Écrire dans `.cursor/rules/`, le dossier qui a remplacé `.cursorrules`, et laisser opencode le lire.
@@ -308,10 +308,10 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - D. Celle qu'un agent pourrait enfreindre, par exemple « pas de `@ts-ignore` ».
 
 **3. Dans l'exemple du comptoir de prêt, l'`AGENTS.md` interdit de recopier les montants de pénalité depuis les `.feature`. Pourquoi ?**
-- A. Parce que les montants sont une donnée commerciale : un fichier d'instructions est souvent public.
+- A. Les montants sont une donnée commerciale : un fichier d'instructions est souvent public.
 - B. Parce que la syntaxe Gherkin interdit de reprendre un montant du contrat en dehors du fichier `.feature`.
 - C. Deux sources d'un même montant finissent toujours par diverger, et c'est l'agent qui arbitre.
-- D. Parce que l'agent doit les lire dans le code : les montants vivent en constantes.
+- D. L'agent doit les lire dans le code : les montants vivent en constantes.
 
 **4. Le chapitre recommande de pointer un `docs/adr/` depuis l'`AGENTS.md`. Quelle casse coûteuse cela évite-t-il ?**
 - A. Que l'agent recopie un montant du contrat dans un second fichier.

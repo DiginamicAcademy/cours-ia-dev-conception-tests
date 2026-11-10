@@ -262,13 +262,13 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 **5. Dans EX-01, la production ④ `expect(p).toBeDefined()` passe au vert. Pourquoi le chapitre la juge-t-il plus dangereuse qu'un test rouge ?**
 - A. Il gonfle la couverture du module sans scénario utile et fausse le tableau de bord.
 - B. C'est un vert faux : la CI ment, alors qu'un rouge est au moins une information exploitable.
-- C. Il dépend du nom du constructeur `Panier` : il cassera au premier refactor venu.
+- C. Il dépend du nom du constructeur `Panier` : il passera au rouge au premier refactor venu.
 - D. Il s'exécute plus lentement qu'une assertion sur une valeur, ce qui ralentit la boucle de correction.
 
 **6. L'IA propose `npm install react-icon-pack` pour ajouter des icônes. Quel geste le 1.5 prescrit-il, et pourquoi ?**
 - A. Installer puis lancer `npm audit` : les vulnérabilités publiées dénoncent le squat.
 - B. Demander au modèle de confirmer le nom exact : il connaît ses dépendances et se corrige de lui-même.
-- C. Installer en global pour éprouver le paquet puis le désinstaller : le test local tranche plus vite qu'un doute.
+- C. `npm install -g react-icon-pack` pour éprouver le paquet puis le désinstaller : le test local tranche plus vite qu'un doute.
 - D. `npm view react-icon-pack` avant d'installer : on ne vérifie pas un paquet en l'installant.
 
 <details>

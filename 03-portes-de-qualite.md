@@ -644,11 +644,11 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 **4. Un apprenant saute le hook `pre-commit` avec `git commit --no-verify` et pousse un commit rouge. Quelle leçon le chapitre en tire-t-il ?**
 - A. husky est une politesse, la CI est une loi : la porte qui compte est celle qu'on ne saute pas.
 - B. Il faut empiler les hooks dans plusieurs fichiers de config : on ne peut plus les contourner.
-- C. Il faut écrire l'interdiction de `--no-verify` dans `AGENTS.md` : l'agent s'y tiendra.
+- C. Il faut écrire l'interdiction de `--no-verify` dans `AGENTS.md` : l'agent ne saute plus le hook.
 - D. Le hook a joué son rôle, puisque l'erreur finit par apparaître dans le message du commit suivant.
 
 **5. Les step definitions ouvrent toutes le même fichier `comptoir.db`, et le verdict tombe un lancement sur deux avec « database is locked ». Quel est, selon le chapitre, le vrai dommage ?**
-- A. Le dommage est technique : il faut remplacer SQLite par un conteneur de base dédié.
+- A. C'est un dommage technique : il faut remplacer SQLite par un conteneur de base dédié.
 - B. Le dommage est temporel : la suite tourne plus lentement et la boucle de correction traîne.
 - C. Un capteur instable vaut pire qu'un capteur absent : on finit par ignorer le rouge.
 - D. Le dommage reste marginal, pourvu que les scénarios tournent dans le même ordre.

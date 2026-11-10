@@ -414,7 +414,7 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 
 - A. La CI devient inutile : le pipeline ne sert plus qu'à archiver des rapports.
 - B. La CI devient le capteur de la boucle : son log est une interface à part entière.
-- C. La CI doit être allégée à un seul job : l'agent aurait moins de log à digérer.
+- C. La CI doit être allégée à un seul job : l'agent aurait moins de log à digérer par tour de boucle.
 - D. La CI doit résumer elle-même ses échecs en une phrase : l'agent éviterait 400 lignes de log.
 
 **2. Le pipeline du comptoir de prêt garde quatre jobs séparés (`tests`, `lint-types`, `audit`, `secrets`) qui tournent en parallèle. Pourquoi ce choix sert-il la boucle de correction ?**

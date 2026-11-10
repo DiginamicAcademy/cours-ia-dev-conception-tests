@@ -243,7 +243,7 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - A. Il est anormal : il faut écrire `src/penalite.ts` avant de lancer `npx cucumber-js`.
 - B. Il est normal et voulu : le comportement est vérifiable avant que le code existe.
 - C. Il signale une accroche défectueuse : la step definition ne correspond à aucune ligne du `.feature`.
-- D. Il montre que la spec reste ambiguë : sans montant décidé, le moteur ne peut rien exécuter.
+- D. Il montre que la spec reste ambiguë : sans montant décidé, le moteur ne peut rien exécuter, même si le code existe.
 
 **2. Dans le trio du chapitre — `features/retards.feature`, `step_definitions/retards.ts`, `src/penalite.ts` — quel fichier est « l'accroche », ce que lit la machine ?**
 - A. `features/retards.feature`, puisque c'est lui que le moteur déroule ligne par ligne.
@@ -253,7 +253,7 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 
 **3. Contrat f1 : un jour de retard est un jour ouvré écoulé entre la date de retour attendue et la date de rendu, *les deux bornes exclues*. Un matériel est dû le vendredi 2026-11-06, rendu le lundi 2026-11-09. Combien de jours de retard sont comptés ?**
 - A. 0 jour : entre les deux bornes, seuls samedi et dimanche se sont écoulés.
-- B. 2 jours : le décompte calendrier retient samedi et dimanche entre les deux dates.
+- B. 2 jours : le décompte calendrier retient samedi et dimanche entre les deux bornes.
 - C. 1 jour : le lundi du rendu est le premier jour ouvré après le vendredi.
 - D. 3 jours : la période vécue couvre le vendredi, le samedi et le dimanche avant le rendu.
 

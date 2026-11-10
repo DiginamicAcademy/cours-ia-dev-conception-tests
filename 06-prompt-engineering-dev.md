@@ -367,7 +367,7 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 **3. Le message d'itération du chapitre se termine par « `src/domaine/remise.ts` uniquement ». À quoi sert `git diff --stat` dans ce duo ?**
 - A. À vérifier le calcul : il compare les valeurs rendues par `remiseEnCents()` avant et après le correctif.
 - B. À valider le passage au vert : il relance les tests sur les fichiers effectivement modifiés par la correction.
-- C. À journaliser la correction dans l'historique, pour retrouver la reprise à la session suivante.
+- C. À journaliser la correction dans l'historique : le message de commit garde la trace de la reprise.
 - D. À vérifier le périmètre : il contrôle la dernière ligne du message à votre place, fichier par fichier.
 
 **4. « Ce que vous tapez dans chaque prompt doit migrer dans le dépôt. » À quel signe reconnaît-on un projet bien tenu, selon le 6.3 ?**
@@ -378,7 +378,7 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 
 **5. « Tu es un architecte senior avec 20 ans d'expérience. » Que change réellement ce persona, d'après la galerie des anti-patterns ?**
 - A. La justesse technique, le persona réactivant les exemples les plus fiables appris pendant l'entraînement.
-- B. Rien sur le fond, mais beaucoup sur la longueur : la réponse devient plus détaillée et donc plus utile.
+- B. La longueur de la sortie : le persona change le dosage des détails, et une réponse plus détaillée est donc plus utile.
 - C. Le ton de la réponse, pas son savoir : la zone rôle fixe une posture de rédaction, pas un diplôme.
 - D. La capacité à refuser une demande floue : l'expert signale ce qu'il ne peut pas trancher.
 
