@@ -224,8 +224,8 @@ Elle s'appelle `opencode.jsonc`, elle est à la racine du dépôt, et elle est *
     "webfetch": "ask",
 
     // Hors du dépôt : opencode demande déjà de lui-même ; on ferme le personnel.
-    // « $HOME » n'est PAS développé au chargement, et le matcher ne l'étend pas : un chemin réel ne
-    // matche pas. Écrivez `**/.ssh/*` — vérifié sur 1.19.5, lui, il matche.
+    // « $HOME » et « ~ » sont bien développés au chargement (vérifié sur 1.19.5, qui rend
+    // `/home/robin/.ssh/*`). On écrit `**/.ssh/*` pour une autre raison : `~` ne couvre que
     "external_directory": {
       "*":            "ask",
       "**/.ssh/*": "deny"
@@ -247,7 +247,7 @@ Elle s'appelle `opencode.jsonc`, elle est à la racine du dépôt, et elle est *
 
 Quatre propriétés de ce langage méritent d'être sues, parce qu'elles font la différence entre une config qui protège et une config qui rassure :
 
-- **Dans un même outil, le motif le plus long gagne, pas le dernier écrit.** L'ordre d'écriture ne compte pas : un `src/**` de six caractères bat un `*` d'un seul. Le piège, c'est d'aligner ses règles en croyant qu'elles se lisent de haut en bas : le moteur, lui, les trie par longueur.
+- **Dans un même outil, la dernière règle correspondante gagne, dans l'ordre où le fichier l'écrit.** Le chargeur garde l'ordre des clés : une `"src/**": "allow"` placée après le `"*": "deny"` rouvre `src/`, placée avant elle ne sert plus à rien. Le vrai piège n'est donc pas la lecture de haut en bas - elle est exacte - il est dans la fusion : deux binômes, deux laisses, et l'on recopie le bloc d'un collègue au-dessus du sien. On change qui gagne sans changer une seule règle. Et comme les règles du projet passent après celles de l'agent, une `allow` du projet rouvre aussi ce qu'un mode avait fermé.
 - **Les règles du projet sont ajoutées après celles de l'agent**, et gagnent donc sur ses défauts. C'est ce qui permet à `read *.env` en `deny` d'écraser le `ask` par défaut d'opencode. C'est aussi ce qui permet à une `allow` du projet de rouvrir ce qu'un mode avait fermé : la laisse est plus forte que le mode, et ça se lit dans `opencode debug agent plan`.
 - **Les clés sont des noms d'outils.** `read`, `edit`, `bash`, `webfetch`, `external_directory`… et pour un outil MCP, la clé s'écrit `<serveur>_<outil>` — ici `diag_collect_telemetry`. On peut donc fermer un outil précis sans débrancher le serveur.
 - **Une commande composée est découpée et jugée morceau par morceau.** `npm run check && curl …` est évalué deux fois : le `curl` tombe même si la première partie était autorisée.
@@ -306,7 +306,7 @@ Et la reformulation qui vaut au-delà du chapitre : on ne retire pas une capaci
 - **Le mode n'est pas une question de puissance mais de réversibilité** : autocomplétion, chat, agent — ce qui change, c'est qui décide du prochain geste et qui paie l'erreur.
 - **Le mode plan d'abord.** Un « non » écrit sur un plan coûte trois minutes ; le même « non » sur un diff coûte une après-midi. Un plan non relu est une procuration.
 - **L'agent lit ce que personne ne relit** : README, commentaires, logs, descriptions d'outils. Pour lui, une description est une consigne. D'où le tool poisoning, et le rug pull qui rend caduque une approbation ancienne.
-- **La laisse est une pièce du dépôt** : permissions `allow`/`ask`/`deny` (le motif le plus long gagne), allowlist courte, deny list sur `git push` / `rm` / `curl` / `wget` / `ssh` et sur `.env` / `~/.ssh`, écriture interdite dans `features/` et `tests/`, réseau demandé, budget plafonné. Elle voyage avec le TP parce que **l'environnement > le prompt.**
+- **La laisse est une pièce du dépôt** : permissions `allow`/`ask`/`deny` (la dernière règle correspondante gagne), allowlist courte, deny list sur `git push` / `rm` / `curl` / `wget` / `ssh` et sur `.env` / `~/.ssh`, écriture interdite dans `features/` et `tests/`, réseau demandé, budget plafonné. Elle voyage avec le TP parce que **l'environnement > le prompt.**
 - **Une laisse se teste, pas se relit** : on demande l'interdit et on regarde la machine refuser.
 - **Déclarer n'est pas s'excuser** : commit, PR, rapport. Ce qui est généré, ce que vous avez repris, par quel capteur c'est passé. Et pas de secret, pas de donnée personnelle, pas de code client dans une offre gratuite.
 
@@ -481,7 +481,7 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 
 
 **5. Dans `opencode.jsonc`, vous écrivez `"edit": { "*": "deny", "src/**": "allow" }`. Un agent demande à écrire dans `src/domaine/penalite.ts`. Que se passe-t-il ?**
-- A. Il écrit : des deux motifs correspondants, le plus long gagne, et l'ordre d'écriture ne compte pas.
+- A. Il écrit : la dernière règle correspondante l'emporte, et `src/**` est écrit après le `*`.
 - B. Il se le voit refuser : `deny` étant écrit en premier, une règle large placée avant ferme le jeu.
 - C. Il se le voit refuser : en cas de contradiction entre deux motifs, l'outil repasse prudemment en mode demande.
 - D. Rien n'est tranché tant que les deux motifs se contredisent : la question est posée à l'utilisateur.
@@ -512,9 +512,9 @@ Pourquoi pas les autres : c'est plutôt l'inverse — la phrase du README est c
 Pourquoi pas les autres : imiter un nom connu, c'est le slopsquatting, qui vise les paquets npm ; rien n'interdit de chaîner des outils ; et la licence en elle-même n'est pas le signal — c'est le décalage avec le métier de l'outil, confirmé par l'ordre de dissimulation.
 
 
-**5 — Réponse : A.** En V1, l'ordre d'écriture ne compte pas : dans un même outil, c'est le motif **le plus long** qui gagne. `src/**` (six caractères) bat `*` (un seul), et l'agent écrit. Le piège est exactement là : on aligne ses règles en croyant qu'elles se lisent de haut en bas, le moteur les trie par longueur. Et une laisse ne se relit pas, elle se teste : on ouvre une session et on demande l'interdit, en regardant la machine refuser.
+**5 — Réponse : A.** Le chargeur garde l'ordre des clés du fichier et retient la **dernière** règle qui correspond. `src/**` étant écrit après `*`, c'est lui qui gagne, et l'agent écrit. Le piège est exactement là : rien n'avertit quand une `allow` placée après un `deny` rouvre ce que la laisse venait de fermer. Et une laisse ne se relit pas, elle se teste : on ouvre une session et on demande l'interdit, en regardant la machine refuser.
 
-Pourquoi pas les autres : ce n'est ni la position dans le fichier ni la sévérité qui départagent ; aucune contradiction n'est jamais signalée — le trou est silencieux, c'est ce qui le rend dangereux.
+Pourquoi pas les autres : une règle large placée avant ne ferme pas le jeu, c'est la dernière écrite qui gagne ; et aucune contradiction n'est jamais signalée - le trou est silencieux, c'est ce qui le rend dangereux.
 
 **6 — Réponse : A.** « Par quel capteur c'est passé » est la partie qui compte. C'est aussi la matière du rapport d'usage : les preuves de processus (commits, logs CI, transcripts) ne sont pas de la paperasse, c'est la traçabilité de votre jugement.
 
