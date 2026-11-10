@@ -76,7 +76,7 @@ Un compilateur est **déterministe** : même entrée, même sortie, toujours. U
 
 Conséquence, à graver : **« ça a l'air bon » ne vaut rien.** La seule autorité qui dise si le code est juste, c'est un **capteur exécutable** — un test, un type, une règle de lint — lancé par une **intégration continue** (CI : le pipeline qui compile et teste à chaque modification). Vous ne jugez pas la sortie de l'IA à l'œil ; vous la jugez à ce que la CI renvoie.
 
-> Démo (on la refait au chapitre 05) : la *même* consigne, deux lancements, deux implémentations différentes. Les deux « ont l'air bien ». Une seule passe les tests. C'est la CI qui tranche, jamais l'impression.
+> Démo (le chapitre 05 rejouera la même leçon sur le correctif €→centimes du point 3 ci-dessous) : la *même* consigne, deux lancements, deux implémentations différentes. Les deux « ont l'air bien ». Une seule passe les tests. C'est la CI qui tranche, jamais l'impression.
 
 **Le TDD change alors de statut.** Le développement piloté par les tests — écrire *d'abord* un test qui échoue, puis le code qui le fait passer — s'est toujours vu reprocher d'être lent. Avec une IA, ce reproche tombe : la machine écrit les tests en secondes, presque gratis. On les écrit donc **en premier**, et ils deviennent le **harnais** — la barrière qui dit à l'agent *quand il a fini*, et qui l'empêche de casser demain ce qui marche aujourd'hui (les régressions). Ce qui était une discipline de moine devient le réflexe naturel quand on délègue à une machine qu'on ne peut pas croire sur parole. Un détail, qui est tout le chapitre 03 : le harnais ne protège que si les tests **assertent vraiment** — pas un `toBeDefined()` qui passe quoi qu'il arrive (voir l'exercice de fin de chapitre).
 
@@ -94,7 +94,8 @@ La commande qui l'attrape — le compilateur TypeScript en mode vérification se
 
 ```bash
 $ npx tsc --noEmit
-app.ts:1:20 - error TS2339: Property 'flattenDeepSafe' does not exist on type 'LoDashStatic'.
+app.ts(1,17): error TS2551: Property 'flattenDeepSafe' does not exist on type
+                'LoDashStatic'. Did you mean 'flattenDeep'?
 ```
 
 Dix secondes, et le plausible tombe. **Le capteur ne se fait pas avoir.**
@@ -105,7 +106,8 @@ Dix secondes, et le plausible tombe. **Le capteur ne se fait pas avoir.**
 $ npm view react-icon-pack     # ce que l'IA propose d'installer
 npm error code E404            # 'react-icon-pack' n'existe pas (ou est un squat)
 $ npm view react-icons version
-5.4.0                          # le vrai paquet, lui, est bien là
+5.7.0                          # le vrai paquet est bien là (mesuré le 10/11/2026 ;
+                               # ce numéro bouge, et c'est exactement le propos)
 ```
 
 (Un outil d'audit, chapitre 03, automatise cette vigilance.)
@@ -128,8 +130,8 @@ La commande qui le fume :
 
 ```bash
 $ npx vitest run
-FAIL  eurosVersCents(19.99)
-      attendu 1999 · reçu 1998
+FAIL  src/euros.test.ts > eurosVersCents(19.99)
+AssertionError: expected 1998 to be 1999
 ```
 
 **4. Le test qui n'assert rien.** L'IA écrit volontiers un test qui « passe » sans rien vérifier (`expect(x).toBeDefined()` sur un objet qu'on vient de créer — toujours vrai). La CI passe au vert, et le vert est **faux**.
@@ -146,7 +148,7 @@ La commande ? Elle passe. Et c'est bien le problème :
 
 ```bash
 $ npx vitest run
-PASS  le panier contient l'article     # vert… qui ment
+✓ src/panier.test.ts (1 test) 12ms     # vert… qui ment
 ```
 
 Le seul capteur ici, c'est la revue : *ce test échouerait-il si le code était cassé ?* Non — donc il ne protège rien. (Chapitre 08 : la couverture de code n'est pas le nombre d'assertions utiles.)

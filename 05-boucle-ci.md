@@ -275,7 +275,7 @@ $ gh run watch          # suit la run en cours, comme un tail
 ```text
 X tests
 FAIL  src/euros.test.ts > eurosVersCents(19.99)
-      expected 1999 to be 1998   // attendu 1999 · reçu 1998
+      expected 1998 to be 1999   // reçu 1998, attendu 1999
 ✓ lint-types    (tsc --noEmit, eslint)
 ✓ audit
 ✓ secrets
