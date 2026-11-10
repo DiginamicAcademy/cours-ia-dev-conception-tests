@@ -32,7 +32,7 @@ Ce chapitre pose le modèle mental sur lequel les huit suivants s'appuient. On n
 | **L'assistant dans l'éditeur** | Copilot, Cursor | Branché sur vos fichiers ouverts ; il complète et propose dans le contexte *de l'onglet actif*. |
 | **L'agent en ligne de commande (CLI)** | opencode, Claude Code, Codex CLI, OpenHands | Il lit le dépôt, lance des commandes, modifie des fichiers, relance les tests — en boucle. Les modes (complétion → agent → autonome) sont détaillés au **chapitre 07**. |
 
-Tous les outils cités ici existent **sans licence payante** pour la formation (les offres gratuites et leurs limites sont listées dans le `Readme.md`). C'est un choix assumé : l'écologie des IA de dev bouge trop vite pour bâtir un cours sur un outil précis — on enseigne un **geste qui survit au changement d'outil**.
+Tous les outils cités ici existent **sans licence payante** pour la formation. La liste de ceux que nous utilisons, avec ce que chaque offre gratuite laisse vraiment sur la table, est au **chapitre 09** ; celle du jour vous est donnée à l'ouverture. Elle est datée, volontairement : une offre gratuite en mars peut être payante en septembre. Ne notez pas « tel outil est gratuit », notez « gratuit au jour où je l'ai vérifié ». C'est un choix assumé : l'écologie des IA de dev bouge trop vite pour bâtir un cours sur un outil précis — on enseigne un **geste qui survit au changement d'outil**.
 
 ## 1.2 Ce qu'un LLM fait bien, ce qu'il fait mal
 
