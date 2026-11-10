@@ -504,6 +504,7 @@ Configuration de référence — c'est *une* façon correcte de monter le pannea
     "lint": "eslint .",
     "fmt": "prettier --check .",
     "types": "tsc --noEmit",
+    "check": "npm test && npx cucumber-js && npx tsc --noEmit && npx eslint . --max-warnings 0",
     "prepare": "husky"
   },
   "lint-staged": {
