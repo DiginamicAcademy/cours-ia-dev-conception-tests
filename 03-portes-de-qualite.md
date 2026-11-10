@@ -624,39 +624,39 @@ jobs:
 Six questions, non notées, à faire avec l'IA : elles servent à vous situer, pas à compter une note.
 
 **1. Le chapitre écrit : « Un échec bien écrit, c'est une instruction gratuite. » Que veut dire *gratuite* ici ?**
-- A. Elle ne coûte rien à installer, puisque tous les capteurs du panneau sont des outils libres et gratuits.
-- B. Elle remplace le prompt initial, ce qui dispense d'écrire une spec Gherkin avant de laisser l'IA coder.
+- A. Elle ne coûte rien à installer : les capteurs du panneau sont libres et gratuits.
+- B. Elle remplace le prompt initial, ce qui dispense d'écrire une spec Gherkin avant de coder.
 - C. Elle se rédige toute seule et repart dans la prochaine itération sans qu'on la répète.
-- D. Elle s'adresse d'abord à l'humain, car l'agent, lui, ne lit que les consignes du fichier AGENTS.md.
+- D. Elle s'adresse d'abord à l'humain, car l'agent ne lit que les consignes du fichier AGENTS.md.
 
 **2. Dans `src/routes.ts`, l'IA écrit `cloturerCaution(req.body.id);` sans `await` dans un handler `async`, puis `res.json({ ok: true })`. Le chapitre affirme qu'aucun test n'est nécessaire pour l'attraper. Pourquoi ?**
-- A. ESLint exécute le handler avec une fausse requête et remarque que la promesse reste en suspens à la fin.
-- B. Prettier réécrit la ligne en y ajoutant l'`await` manquant, ce qui règle le problème avant le commit.
-- C. La règle n'intervient qu'à l'exécution, au moment où Node émet un avertissement pour promesse non attendue.
+- A. ESLint exécute le handler avec une fausse requête et voit la promesse rester en suspens.
+- B. Prettier réécrit la ligne avec l'`await` manquant, ce qui règle le problème avant le commit.
+- C. La règle n'intervient qu'à l'exécution, quand Node émet un avertissement pour promesse flottante.
 - D. ESLint lit le code sans l'exécuter, et la règle qui tombe nomme le défaut donc la correction.
 
 **3. gitleaks a signalé `CLE_API_PARTENAIRE` ligne 7 de `src/config.ts`. Un développeur supprime la ligne, committe, et propose de clore l'incident. Que répond le chapitre ?**
-- A. C'est clos dès lors que le job secrets de la CI est repassé au vert sur le dernier commit poussé.
+- A. C'est clos : le job secrets de la CI est repassé au vert sur le dernier commit poussé.
 - B. Ce n'est pas clos : la clé vit encore dans le commit d'hier, il faut la faire tourner.
-- C. C'est clos si le fichier est ajouté au `.gitignore`, ce qui empêche ensuite gitleaks de le rescanner.
-- D. Ce n'est pas clos, mais il suffit d'amender le commit pour que la ligne disparaisse de l'historique.
+- C. C'est clos : le fichier part au `.gitignore`, ce qui empêche gitleaks de le rescanner.
+- D. Ce n'est pas clos, mais il suffit d'amender le commit : la ligne disparaît de l'historique.
 
 **4. Un apprenant saute le hook `pre-commit` avec `git commit --no-verify` et pousse un commit rouge. Quelle leçon le chapitre en tire-t-il ?**
 - A. husky est une politesse, la CI est une loi : la porte qui compte est celle qu'on ne saute pas.
-- B. Il faut multiplier les hooks déclarés dans plusieurs fichiers de config pour le rendre impossible à contourner.
-- C. Il faut écrire l'interdiction de `--no-verify` dans `AGENTS.md` pour que l'agent s'y tienne.
+- B. Il faut empiler les hooks dans plusieurs fichiers de config : on ne peut plus les contourner.
+- C. Il faut écrire l'interdiction de `--no-verify` dans `AGENTS.md` : l'agent s'y tiendra.
 - D. Le hook a joué son rôle, puisque l'erreur finit par apparaître dans le message du commit suivant.
 
 **5. Les step definitions ouvrent toutes le même fichier `comptoir.db`, et le verdict tombe un lancement sur deux avec « database is locked ». Quel est, selon le chapitre, le vrai dommage ?**
-- A. Le dommage est d'abord technique : il faut remplacer SQLite par un conteneur de base de données dédié.
-- B. Le dommage est d'abord temporel : la suite tourne plus lentement et la boucle de correction s'en trouve ralentie.
+- A. Le dommage est technique : il faut remplacer SQLite par un conteneur de base dédié.
+- B. Le dommage est temporel : la suite tourne plus lentement et la boucle de correction traîne.
 - C. Un capteur instable vaut pire qu'un capteur absent : on finit par ignorer le rouge.
-- D. Le dommage est marginal, pourvu que les scénarios s'exécutent chaque fois dans le même ordre.
+- D. Le dommage reste marginal, pourvu que les scénarios tournent dans le même ordre.
 
 **6. Sur le dépôt nu, l'agent livre `frais.ts` plus 14 tests sans assertion utile, puis annonce « les tests passent ». Comment le chapitre qualifie-t-il ce rendu ?**
-- A. Il a échoué, et c'est la preuve qu'il aurait fallu lui confier une tâche plus petite, mieux découpée.
-- B. Il a triché volontairement en affaiblissant les tests pour rendre la tâche plus vite qu'on ne l'attendait.
-- C. Il a réussi sur le fond, puisque 14 tests exécutés à 100 % de couverture forment le panneau attendu.
+- A. Il a échoué : il aurait fallu lui confier une tâche plus petite et mieux découpée.
+- B. Il a triché volontairement : il a affaibli les tests pour livrer plus vite que prévu.
+- C. Il a réussi sur le fond : 14 tests à 100 % de couverture, voilà le « tout au vert » attendu.
 - D. Il n'a pas échoué, il a terminé : sans capteur, « terminé » est sa seule réponse possible.
 
 <details>

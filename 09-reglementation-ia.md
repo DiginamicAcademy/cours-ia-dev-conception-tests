@@ -238,19 +238,19 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 
 **1. Ce chapitre le dit sans détour : ce cours ne prépare aucun titre RNCP, il s'ancrit sur un article de l'AI Act applicable depuis le 02 février 2025. Lequel, et qu'impose-t-il ?**
 - A. Article 4 : fournisseurs et déployeurs doivent prendre des mesures pour développer la culture de l'IA de leur personnel — une obligation de l'employeur.
-- B. Article 50 : il impose depuis février 2025 de marquer tout code produit avec une IA, même une complétion locale, dans un format lisible par machine.
-- C. Article 5 : les pratiques interdites couvrent l'usage d'un modèle tiers sans dossier de conformité, ce qui oblige à déclarer chaque assistant de code.
+- B. Article 50 : il impose depuis février 2025 de marquer tout code produit avec une IA — y compris la complétion locale — dans un format lisible par machine.
+- C. Article 5 : les pratiques interdites couvrent l'usage d'un modèle tiers sans dossier de conformité — d'où l'obligation de déclarer chaque assistant de code.
 - D. Les obligations GPAI d'août 2025 : quiconque intègre un modèle doit publier sa politique de respect du droit d'auteur et évaluer les risques du modèle.
 
 **2. Un assistant interne branché sur l'API d'un éditeur de modèle sert d'abord vos équipes. Six mois plus tard, il répond aux usagers sur le site de la collectivité, avec votre logo. Que change ce glissement ?**
-- A. Rien : l'éditeur du modèle porte les obligations de conformité, vous restez déployeur quoi qu'il arrive.
+- A. Rien : l'éditeur du modèle porte les obligations de conformité depuis août 2025, vous restez déployeur vis-à-vis des usagers de la collectivité.
 - B. Vous êtes devenu fournisseur d'un système d'IA : conformité selon le risque, marquage de l'article 50 et information des usagers ont changé de camp.
 - C. Vous restez déployeur : le rôle ne bascule que si vous vendez le service, et un assistant gratuit sur le site d'une collectivité n'est pas une vente.
 - D. Vous devenez fournisseur, mais seulement si le modèle a été hébergé chez vous ou ajusté sur vos données, sinon l'éditeur répond du système entier.
 
 **3. Dans `tests/fixtures/adherents.ts` du comptoir de prêt, un « cas réel » contient un nom, un e-mail et une clé API de partenaire récupérée sur la prod. `npx gitleaks detect` ne signale que la clé. Qu'en conclure ?**
-- A. Que gitleaks est mal réglé : un scan approfondi de l'historique lui ferait voir le nom et l'e-mail dans le même fichier.
-- B. Que le nom et l'e-mail ne sont pas des données personnelles tant qu'aucun numéro de sécurité sociale ni adresse postale ne les accompagne dans le fichier.
+- A. Que gitleaks est mal réglé : un scan plus profond de l'historique, avec 2 ou 3 règles de plus, lui ferait voir le nom et l'e-mail dans le même fichier.
+- B. Que le nom et l'e-mail ne sont pas des données personnelles (pas de numéro de sécurité sociale, pas d'adresse postale dans le fichier), donc rien à signaler côté RGPD.
 - C. Qu'un capteur protège ce pour quoi on l'a réglé : il faut une règle dédiée (Semgrep, vu au chapitre 03) et un humain qui demande d'où vient le fixture.
 - D. Que le fixture est sans conséquence puisqu'il ne vit que dans les tests : ni le dépôt ni la fenêtre de contexte ne sont une frontière juridique.
 
@@ -267,9 +267,9 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - D. Détail de conformité mineur : le risque n'existe que si le dépôt d'origine est encore en ligne et si l'auteur du bloc décide de poursuivre le projet qui l'accueille.
 
 **6. Nadia envoie en production un correctif proposé par l'IA, sans le relire : le calcul est faux et la paie de trente personnes est faussée. Sa défense, « c'est l'IA qui l'a écrit », est irrecevable. Pourquoi, et qu'aurait pu la protéger ?**
-- A. Elle est irrecevable parce que l'éditeur du modèle assume contractuellement les défauts de sortie : c'est lui qu'il faut mettre en cause, pas l'équipe.
+- A. Elle est irrecevable parce que l'éditeur du modèle assume contractuellement les défauts de sortie : c'est lui qu'il faut mettre en cause — pas l'équipe.
 - B. Le modèle n'est pas une personne juridique : répond celui qui a intégré, et ce qui protège Nadia, ce sont des preuves de diligence — revue, tests, CI.
-- C. Elle est irrecevable car la charge se partage à parts égales, devant le juge, entre l'auteur du prompt et le responsable de la CI du dépôt concerné.
+- C. Elle est irrecevable car la charge se partage à parts égales — devant le juge — entre l'auteur du prompt et le responsable de la CI du dépôt concerné.
 - D. Elle serait recevable si la délégation avait été déclarée en commit ou en pull request : mentionner l'outil transfère la charge de la vérification.
 
 <details>

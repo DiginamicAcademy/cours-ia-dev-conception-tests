@@ -345,38 +345,38 @@ Vendredi 06 → lundi 09 : on part du 07, on s'arrête avant le 09 → samedi, 
 Six questions, non notées, à faire avec l'IA : elles servent à vous situer, pas à compter une note.
 
 **1. Dans le MCD que l'IA sort en trente secondes pour le comptoir, la ligne `float penalite` est cerclée en premier. Pourquoi ?**
-- A. Le flottant arrondit toujours à la hausse, ce qui fait sauter le plafond de 15 € dès le deuxième jour de retard.
+- A. Le flottant arrondit toujours à la hausse : le plafond de 15 € saute dès le second jour de retard.
 - B. C'est de l'argent en flottant : le bug du chapitre 01, mais écrit en base, donc durable et partout.
 - C. Rien à redire sur le type : le seul défaut cerclé est que la pénalité soit stockée alors qu'elle se calcule.
 - D. Un flottant ne rend pas les décimales exactes en SQL : il fallait un DECIMAL pour coller au SGBD du comptoir.
 
 **2. Dans le chapitre, `sqlite3 :memory: ".read db/schema.sql"` passe sans erreur alors que `pret` référence une table `adherent` absente. Que faut-il pour que le schéma soit vraiment vérifié ?**
-- A. Rien : la commande a validé le schéma, et un SGBD contrôle ses clés étrangères dès la création des tables.
-- B. Faire vérifier le fichier de schéma par `npx tsc --noEmit`, qui refuse toute référence vers une table inexistante.
+- A. Rien : la commande a validé le schéma, et un SGBD contrôle ses clés étrangères tout seul.
+- B. Faire relire le fichier de schéma par `npx tsc --noEmit` : il refuse une table inexistante.
 - C. Le faire relire par un second modèle : son accord sur les références croisées valide le modèle de données.
 - D. Allumer `PRAGMA foreign_keys = ON` et insérer une ligne : le capteur ne parle que si on l'allume.
 
 **3. Dans EX-08, le rapport Stryker affiche `15 → 20 SURVIVED` avec 100 % de couverture lignes. Que signifie ce mot ?**
-- A. On a saboté le code et la suite n'a rien vu : le défaut concerne les tests.
-- B. Le mutant est infalsifiable : aucune assertion ne peut atteindre la ligne 6 sans réécrire toute la suite depuis le code.
+- A. On a saboté le code et la suite n'a rien vu : le défaut signalé est du côté des tests, pas du code.
+- B. Le mutant est infalsifiable : aucune assertion ne peut atteindre la ligne du plafond.
 - C. La couverture annoncée est fausse : Stryker signale que les 100 % de Vitest ne sont pas réellement atteints.
-- D. Le plafond ne change aucun résultat dans la plage testée : le mutant est équivalent, la constante 15 est donc inutile.
+- D. Le plafond ne change aucun résultat dans la plage testée : le mutant est équivalent, la constante est donc inutile.
 
 **4. Une maquette générée montre l'écran de prêt, rempli de belles données. En quoi est-elle plus dangereuse qu'un croquis au feutre ?**
-- A. Elle dépend d'un quota quotidien et d'un service en bêta sans SLA, ce qui rend toute démonstration hasardeuse.
-- B. Elle est fausse sur les cardinalités : un modèle ne modélise jamais juste, il faut reprendre le schéma à la main.
+- A. Elle dépend d'un quota quotidien et d'un service en bêta sans SLA : toute démonstration en direct est hasardeuse.
+- B. Elle est fausse sur les cardinalités : un modèle ne modélise jamais juste, il faut reprendre le schéma.
 - C. Elle a l'air finie : devant un rendu léché, on ne dit plus « ça ne marche pas ? », on dit « c'est beau ».
-- D. Elle est exportée en HTML statique, donc il faut tout recoder à la main avant de la montrer à des utilisateurs.
+- D. Elle est exportée en HTML statique : une « photo » d'interface, donc tout recoder avant de la montrer.
 
 **5. Un README généré annonce `npm run seed`, un drapeau `--format=csv` et une variable `COMPTEUR_API_URL`. Quel geste de la checklist humaine tranche ?**
-- A. Demander au modèle de confirmer que ces trois éléments existent bien dans le projet, puis publier sa réponse.
+- A. Demander au modèle de confirmer que les trois éléments existent : sa réponse suffit.
 - B. Copier la commande et chercher le nom exact dans le code : zéro résultat = option inventée.
-- C. Régénérer le README après chaque commit pour que la doc reste collée à l'état du code à l'instant où on la produit.
+- C. Régénérer le README après chaque commit pour que la doc reste collée à l'état du code.
 - D. Compléter le README par un avertissement précisant que les options listées peuvent varier selon les versions.
 
 **6. Un test passe au vert, mais un formateur affirme que la règle mesurée n'est pas celle d'un comptoir municipal. Que dit la règle de préséance du chapitre ?**
 - A. Le capteur a raison : sur un fait, un test qui s'exprime passe avant l'avis d'un humain, quel que soit le sujet.
-- B. On consulte un second modèle : reproductible et sans humeur, il arbitre entre le test et l'avis du formateur.
+- B. On consulte un second modèle : sans humeur ni fatigue, il arbitre entre les deux.
 - C. Le capteur mesure la mauvaise chose, et cela, seul un humain le sait : il tranche.
 - D. La spec exécutable est l'arbitre, donc le vert l'emporte : on aligne la règle métier sur ce qu'elle affirme.
 

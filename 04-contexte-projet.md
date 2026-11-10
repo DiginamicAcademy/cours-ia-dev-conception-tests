@@ -296,39 +296,39 @@ Les dérapages classiques, et la ligne qui les ferme :
 Six questions, non notées, à faire avec l'IA : elles servent à vous situer, pas à compter une note.
 
 **1. Un même dépôt est utilisé par des collègues sous Cursor et par des collègues sous opencode. Que prescrit le chapitre pour les fichiers d'instructions ?**
-- A. Rédiger le même contenu dans `AGENTS.md` et dans `.cursorrules`, pour que chaque outil trouve sa consigne.
+- A. Dupliquer `AGENTS.md` dans `.cursorrules`, pour que chaque outil ait sa consigne.
 - B. Écrire `AGENTS.md`, et faire des autres fichiers un pointeur d'une ligne.
-- C. Écrire seulement `.github/copilot-instructions.md`, puisqu'il est lu sur tout le dépôt et convient aux deux outils.
-- D. Écrire dans `.cursor/rules/`, le dossier qui a remplacé `.cursorrules`, et laisser opencode le lire aussi.
+- C. Écrire seulement `.github/copilot-instructions.md`, il couvre les deux.
+- D. Écrire dans `.cursor/rules/`, le dossier qui a remplacé `.cursorrules`, et laisser opencode le lire.
 
 **2. Vous relisez votre `AGENTS.md`. Selon le test d'utilité du chapitre, quelle ligne faut-il y laisser ?**
 - A. Celle qui donne l'esprit du projet : « sois rigoureux et écris du code propre ».
-- B. Celle qui forme l'agent à la stack : ce qu'est Node 24 et comment il résout ses modules.
-- C. Celle qui raconte l'historique : pourquoi le projet est passé de MongoDB à SQLite en 2024.
+- B. Celle qui forme l'agent à la stack, par exemple ce qu'est `node:sqlite` sous Node 24.
+- C. Celle qui raconte l'historique, le passage de MongoDB à SQLite en 2024.
 - D. Celle qu'un agent pourrait enfreindre, par exemple « pas de `@ts-ignore` ».
 
 **3. Dans l'exemple du comptoir de prêt, l'`AGENTS.md` interdit de recopier les montants de pénalité depuis les `.feature`. Pourquoi ?**
 - A. Parce que les montants sont une donnée commerciale : un fichier d'instructions est souvent public.
 - B. Parce que la syntaxe Gherkin interdit de reprendre un montant du contrat en dehors du fichier `.feature`.
 - C. Deux sources d'un même montant finissent toujours par diverger, et c'est l'agent qui arbitre.
-- D. Parce que l'agent doit les lire dans le code : les montants vivent en constantes dans `src/domaine/`.
+- D. Parce que l'agent doit les lire dans le code : les montants vivent en constantes.
 
 **4. Le chapitre recommande de pointer un `docs/adr/` depuis l'`AGENTS.md`. Quelle casse coûteuse cela évite-t-il ?**
-- A. Que l'agent recopie un montant du contrat dans un second fichier et crée une divergence.
+- A. Que l'agent recopie un montant du contrat dans un second fichier.
 - B. Que l'agent « améliore » une décision que vous aviez prise pour une bonne raison.
-- C. Que l'agent ajoute une dépendance sans demander, en lisant un `package.json` mal commenté.
+- C. Que l'agent ajoute une dépendance « pour faire propre » sans demander.
 - D. Que l'agent relise tout `docs/` à chaque session et sature l'établi avec de l'explication.
 
 **5. En pleine session, l'agent refait un fichier que vous aviez déjà validé. Quel geste le chapitre associe à ce symptôme ?**
 - A. Remettre la définition de « fini » dans l'`AGENTS.md`, pas dans le chat.
 - B. Écrire une passation de dix lignes et repartir d'une session fraîche.
 - C. Ajouter ce fichier aux exclusions du `.gitignore` pour le retirer de l'établi.
-- D. Résumer la conversation en une phrase et lui demander de ne plus toucher ce fichier.
+- D. Résumer la conversation en une phrase et lui demander de « ne plus toucher ce fichier ».
 
 **6. L'agent ouvre et cite le contenu de `.env`, alors que `.env` figure bien dans le `.gitignore`. Que conclut le chapitre ?**
-- A. Que `.gitignore` ne couvre que les fichiers déjà suivis par git : `.env` n'était donc pas indexé.
-- B. Que `.gitignore` filtre les recherches de l'agent, mais pas un éditeur ouvert directement sur le fichier.
-- C. Que `.gitignore` est une porte de qualité comme une autre : gitleaks contrôle son contenu à chaque `npm run check`.
+- A. Que `.gitignore` ne couvre que les fichiers déjà suivis par git.
+- B. Que `.gitignore` filtre les recherches de l'agent, mais pas un éditeur ouvert sur le fichier.
+- C. Que `.gitignore` est une porte de qualité comme une autre : gitleaks contrôle son contenu.
 - D. Que `.gitignore` protège le commit et l'index, mais pas le disque.
 
 <details>

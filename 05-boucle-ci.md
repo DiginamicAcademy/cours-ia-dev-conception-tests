@@ -412,45 +412,45 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 
 **1. Dans le chapitre, on retire l'humain de la boucle : le log rouge n'est plus lu *pour décider*, il est recraché tel quel dans la prochaine demande à l'agent. Qu'est-ce que ce changement implique ?**
 
-- A. La CI devient inutile : sans humain pour lire le log, le pipeline ne sert plus qu'à archiver des rapports de build pour la revue.
+- A. La CI devient inutile : le pipeline ne sert plus qu'à archiver des rapports.
 - B. La CI devient le capteur de la boucle : son log est une interface à part entière.
-- C. La CI doit être allégée à un seul job pour limiter le volume de log que l'agent a à lire à chaque tour de la boucle.
-- D. La CI doit résumer elle-même ses échecs en une phrase claire, pour éviter que l'agent ne se noie dans 400 lignes de log.
+- C. La CI doit être allégée à un seul job : l'agent aurait moins de log à digérer.
+- D. La CI doit résumer elle-même ses échecs en une phrase : l'agent éviterait 400 lignes de log.
 
 **2. Le pipeline du comptoir de prêt garde quatre jobs séparés (`tests`, `lint-types`, `audit`, `secrets`) qui tournent en parallèle. Pourquoi ce choix sert-il la boucle de correction ?**
 
-- A. Quatre jobs séparés permettent d'instaurer un timeout global au pipeline, qui plafonne du même coup le budget tokens de chaque tour de boucle.
-- B. La séparation rend les jobs indépendants, si bien que l'agent peut relancer seul le job en échec sans repayer les trois autres.
-- C. Séparer les jobs sert surtout à laisser la revue humaine valider chaque job avant le merge, ce qui rend la revue CODEOWNERS inutile.
+- A. Un timeout global au pipeline plafonne le budget tokens de chaque tour.
+- B. La séparation permet de relancer seul le job en échec sans repayer les autres.
+- C. Séparer les jobs laisse la revue humaine valider chaque job avant le merge et rend CODEOWNERS inutile.
 - D. Un tour rapporte tous les défauts d'un coup, au lieu d'un seul défaut par tour.
 
 **3. La boucle est lancée sur un rouge. Le chapitre 02 a fourni le premier critère d'arrêt (la spec). Qu'est-ce qui manque encore, et pourquoi ?**
 
-- A. Un critère de progression du code, qui permet de relancer la boucle tant que l'agent écrit encore des lignes nouvelles et ne bloque pas deux fois de suite.
-- B. Rien de plus : une spec écrite avec des valeurs chiffrées donne un critère d'arrêt complet, et la boucle peut tourner jusqu'au vert.
+- A. Un critère de progression : repartir tant que l'agent écrit des lignes.
+- B. Rien de plus : une spec chiffrée donne un critère d'arrêt complet et la boucle file jusqu'au vert.
 - C. Un plafond d'itérations et un plafond de jetons, décidés avant de démarrer.
-- D. Un nombre d'itérations planifié à l'avance, par exemple deux tours, ce qui permet de reprendre l'agent au troisième s'il a dérivé.
+- D. Un nombre d'itérations planifié à l'avance, deux tours par exemple, pour reprendre l'agent s'il dérive.
 
 **4. Trois façons pour un agent de passer au vert en touchant au test : remplacer `toBe(1999)` par `toBe(1998)`, passer le test en `test.skip`, ou écrire `expect(eurosVersCents(19.99)).toBe(Math.floor(19.99 * 100))`. Pourquoi la troisième est-elle présentée comme la pire ?**
 
 - A. Elle a l'air d'un test alors qu'elle recopie l'implémentation : elle ne peut plus échouer.
-- B. Parce qu'un `test.skip` se repère d'un coup d'œil dans le diff, alors qu'un `Math.floor` glissé dans une assertion ne laisse aucune trace dans le rapport.
-- C. Parce que `Math.floor` dans une assertion est une faute que le job `lint-types` signale, ce qui brouille le diagnostic et fait perdre un tour de boucle.
-- D. Parce qu'elle seule modifie le contrat écrit dans la spec, alors que les deux premières laissent la spec intacte et restent des corrections acceptables.
+- B. Un `test.skip` se repère d'un coup d'œil : un `Math.floor` n'y laisse aucune trace.
+- C. `Math.floor` dans une assertion est une faute que le job `lint-types` signale.
+- D. La troisième seule modifie le contrat de la spec : les deux premières restent des corrections acceptables.
 
 **5. Un assistant IA propose un workflow `on: pull_request_target` qui `checkout` le `head.sha` de la PR puis exécute `./scripts/build.sh`. Pourquoi le chapitre cite-t-il ce motif comme le piège ?**
 
-- A. Parce que `pull_request_target` s'exécute sans les secrets du dépôt : le build échoue systématiquement et renvoie à l'agent un rouge sans rapport exploitable.
-- B. Parce que ce déclencheur est incompatible avec `cache: npm` : à chaque tour, `npm ci` retélécharge tout et le coût de la boucle devient déraisonnable.
-- C. Parce que GitHub refuse d'y combiner `actions/checkout` et une étape `run` tant que la protection de `main` est active, ce qui bloque le merge.
+- A. pull_request_target s'exécute sans les secrets : le build échoue à chaque tour.
+- B. Ce déclencheur est incompatible avec `cache: npm` : `npm ci` retélécharge tout à chaque tour.
+- C. GitHub refuse d'y combiner `actions/checkout` et une étape `run` tant que `main` est protégée.
 - D. Il tourne avec les secrets du dépôt sur le code d'un forkeur que personne n'a relu.
 
 **6. Dans EX-C, on remplace `Math.round` par `Math.floor` dans `src/domaine/remise.ts` : la suite de tests héritée reste verte. Pourquoi ?**
 
-- A. Parce que `Math.floor` et `Math.round` renvoient toujours le même résultat dès que le montant est exprimé en centimes entiers, ce qui rend le bug indétectable en tests unitaires.
+- A. `Math.floor` et `Math.round` rendent toujours le même résultat sur des centimes entiers, même à 19,99 €.
 - B. Le test hérité porte sur 100,00 € : 2 000 centimes est un entier, les deux arrondis tombent d'accord.
-- C. Parce que le job `tests` du pipeline n'exécute pas `src/remise.test.ts` : la suite locale voyait le bug, mais le pipeline ne l'embarque pas.
-- D. Parce que le test hérité compare un prix remisé au lieu du montant de la remise, et que l'écart d'arrondi n'apparaît jamais dans un prix en euros.
+- C. Le job `tests` n'exécute pas `src/remise.test.ts` : la suite locale voyait le bug, le pipeline non.
+- D. Un prix remisé est comparé au lieu du montant de la remise, et l'écart d'arrondi n'apparaît jamais dans un prix en euros.
 
 <details>
 <summary>Vérifier ses réponses</summary>

@@ -236,39 +236,39 @@ test('remise de 20 % sur 100 € = 80 €', () => {
 Six questions, non notées, à faire avec l'IA : elles servent à vous situer, pas à compter une note.
 
 **1. Ce chapitre compare un LLM à `« un junior d'une énergie infinie et d'une mémoire de poisson rouge »`. Qu'est-ce que cette comparaison commande concrètement dans la façon de travailler avec lui ?**
-- A. Il reste un junior : sa production ne vaut qu'en brouillon et devra être réécrite à la main par un développeur senior avant d'être intégrée.
+- A. Il reste un junior : sa production ne vaut qu'en brouillon et devra être réécrite à la main avant intégration.
 - B. On le manage comme un junior : spec claire, tests qui savent dire non, revue, pipeline qui vérifie à votre place.
-- C. Il montera en compétence sur votre projet à force de demandes répétées, à condition que vous rappeliez les mêmes contraintes à chaque session.
-- D. Il se conduit en senior pressé : la relecture humaine ligne à ligne suffit comme capteur, puisque son code est écrit pour être compris.
+- C. Il montera en compétence sur votre projet à force de demandes répétées, à condition de rappeler les contraintes.
+- D. Il se conduit en senior pressé : la relecture humaine ligne à ligne suffit comme capteur, car son code est écrit pour être compris.
 
 **2. Vous laissez la même session d'agent tourner depuis deux heures, et le code repart sur une hypothèse abandonnée ce matin. Que dit le 1.3 du chapitre ?**
-- A. La fenêtre de contexte est pleine, donc le modèle est devenu probabiliste : relancez la même consigne pour obtenir un tirage plus frais.
-- B. Le modèle a oublié le début de la conversation : demandez-lui de résumer la session, il réactivera ainsi sa mémoire de long terme.
-- C. Il faut agrandir la fenêtre de contexte pour qu'il voie enfin les 2000 fichiers du dépôt, ceux qu'il n'a jamais eus sur son établi.
+- A. La fenêtre est pleine, donc le modèle devient probabiliste : relancez la consigne pour un tirage plus frais.
+- B. Le modèle a oublié le début de la conversation : demandez-lui un résumé de session, cela réactivera sa mémoire de long terme.
+- C. Il faut agrandir la fenêtre de contexte pour qu'il voie enfin les 2000 fichiers du dépôt, qu'il n'a jamais eus sur l'établi.
 - D. Les hypothèses périmées sont toujours sur l'établi : repartir d'une session propre est souvent le bon réflexe.
 
 **3. La même consigne, lancée deux fois, donne deux implémentations différentes, qui toutes deux « ont l'air bien ». D'après le 1.4, qu'est-ce qui décide laquelle on garde ?**
 - A. Ce que renvoie un capteur exécutable lancé par la CI : un test, un type, une règle de lint — pas l'impression à la lecture.
-- B. La plus courte des deux : à comportement égal, le chapitre recommande de retenir l'implémentation la plus concise, donc la plus lisible en revue.
-- C. Un troisième tirage de la même consigne : quand deux versions divergent, celle qui revient le plus souvent entre les tirages est la bonne.
-- D. L'avis d'un développeur senior de l'équipe, seul capable de juger la qualité réelle des deux implémentations produites par le modèle.
+- B. La plus courte des deux : à comportement égal, gardez la plus concise — le chapitre fait de la concision le critère de choix.
+- C. Un troisième tirage de la même consigne : entre les tirages, celle qui revient le plus souvent est la bonne.
+- D. L'avis d'un développeur senior de l'équipe, seul capable de juger la qualité réelle des deux implémentations produites.
 
 **4. Le TDD s'est toujours vu reprocher d'être lent. Que dit le 1.4 de ce reproche une fois l'IA dans le jeu, et que devient le test ?**
-- A. Il tombe, mais pour une autre raison : l'IA génère le code et les tests d'un seul coup, et la revue humaine valide l'ensemble en fin de course.
-- B. Il tombe parce que les tests sortis de l'IA découlent de la spec et sont donc justes : la revue du harnais s'en trouve allégée d'autant.
+- A. Il tombe, mais pour une autre raison : l'IA génère code et tests d'un seul coup, validés en fin de course.
+- B. Il tombe parce que les tests de l'IA découlent de la spec et sont donc justes : la revue du harnais s'en trouve allégée.
 - C. Il tombe : la machine écrit les tests en secondes. Écrits d'abord, ils deviennent le harnais qui dit quand on a fini.
-- D. Il tombe côté projet : la CI relance tout à chaque modification, l'écriture préalable devient facultative, et le harnais, c'est le pipeline.
+- D. Il tombe côté projet : la CI relance tout à chaque modification, l'écriture préalable devient facultative, le harnais c'est le pipeline.
 
 **5. Dans EX-01, la production ④ `expect(p).toBeDefined()` passe au vert. Pourquoi le chapitre la juge-t-il plus dangereuse qu'un test rouge ?**
-- A. Il fait grimper la couverture du module sans ajouter de scénario utile, ce qui fausse le tableau de bord de qualité présenté en fin de sprint.
+- A. Il gonfle la couverture du module sans scénario utile et fausse le tableau de bord.
 - B. C'est un vert faux : la CI ment, alors qu'un rouge est au moins une information exploitable.
-- C. Il dépend du nom du constructeur `Panier` et cassera au premier refactor, ce qui le rend plus fragile qu'une assertion chiffrée.
-- D. Il s'exécute plus lentement qu'une assertion sur une valeur, ce qui ralentit la boucle de correction et finit par décourager l'agent.
+- C. Il dépend du nom du constructeur `Panier` : il cassera au premier refactor venu.
+- D. Il s'exécute plus lentement qu'une assertion sur une valeur, ce qui ralentit la boucle de correction.
 
 **6. L'IA propose `npm install react-icon-pack` pour ajouter des icônes. Quel geste le 1.5 prescrit-il, et pourquoi ?**
-- A. Installer puis lancer `npm audit` : les vulnérabilités publiées signalent les paquets déposés sous un nom imité d'un paquet connu.
-- B. Demander au modèle de confirmer le nom exact : il connaît ses propres dépendances et corrige en général lui-même la référence qu'il a inventée.
-- C. Installer en global pour éprouver le paquet, puis le désinstaller si le nom douteux se confirme : le test local tranche plus vite qu'un doute.
+- A. Installer puis lancer `npm audit` : les vulnérabilités publiées dénoncent le squat.
+- B. Demander au modèle de confirmer le nom exact : il connaît ses dépendances et se corrige de lui-même.
+- C. Installer en global pour éprouver le paquet puis le désinstaller : le test local tranche plus vite qu'un doute.
 - D. `npm view react-icon-pack` avant d'installer : on ne vérifie pas un paquet en l'installant.
 
 <details>

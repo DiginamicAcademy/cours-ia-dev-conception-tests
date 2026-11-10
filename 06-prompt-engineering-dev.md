@@ -353,39 +353,39 @@ Le prix remisé qui va avec — `1999 - 400 = 1599` centimes, soit 15,99 € —
 Six questions, non notées, à faire avec l'IA : elles servent à vous situer, pas à compter une note.
 
 **1. Dans le chapitre, la demande en cinq zones fait passer le test `remiseEnCents` au vert. Qu'est-ce qui a « vraiment » fait le travail, selon l'auteur ?**
-- A. La mise en page en majuscules, qui structure la demande et empêche le modèle de s'égarer entre deux lectures.
+- A. La mise en page en majuscules : elle structure la demande et empêche le modèle de dévier.
 - B. Trois pièces qui existaient déjà : la convention écrite, le chemin du scénario, le log rouge.
-- C. La longueur de la demande, qui occupe la fenêtre de contexte et ferme les interprétations de trop.
-- D. Le ton posé par la zone rôle, qui place le modèle en posture de développeur senior et corrige ses habitudes.
+- C. La longueur de la demande : elle occupe la fenêtre de contexte et ferme les interprétations de trop.
+- D. Le ton posé par la zone rôle : il place le modèle en posture de développeur senior et corrige ses habitudes.
 
 **2. Le premier jet arrive, vous répondez « non, refais ». D'après le 6.2, que produit ce message ?**
-- A. Un correctif ciblé sur le point signalé, le reste du fichier restant intact puisque vous l'aviez validé.
-- B. Une question de clarification du modèle, qui demande quelle partie précise de la réponse doit être reprise.
+- A. Un correctif ciblé sur le point signalé : le fichier garde tout ce que vous aviez déjà validé.
+- B. Une question de clarification du modèle : il demande quelle partie précise de la réponse doit être reprise.
 - C. Une réécriture complète : vous perdez ce qui était bon et retombez sur une autre lecture plausible.
-- D. Une réponse plus courte et plus prudente, le modèle lisant la critique comme un signal de surcharge.
+- D. Une réponse plus courte et plus prudente : le modèle lit la critique comme un signal de surcharge.
 
 **3. Le message d'itération du chapitre se termine par « `src/domaine/remise.ts` uniquement ». À quoi sert `git diff --stat` dans ce duo ?**
 - A. À vérifier le calcul : il compare les valeurs rendues par `remiseEnCents()` avant et après le correctif.
 - B. À valider le passage au vert : il relance les tests sur les fichiers effectivement modifiés par la correction.
-- C. À journaliser la correction dans l'historique, pour que la reprise soit retrouvée à la session suivante.
-- D. À vérifier le périmètre : il contrôle la dernière ligne du message à votre place.
+- C. À journaliser la correction dans l'historique, pour retrouver la reprise à la session suivante.
+- D. À vérifier le périmètre : il contrôle la dernière ligne du message à votre place, fichier par fichier.
 
 **4. « Ce que vous tapez dans chaque prompt doit migrer dans le dépôt. » À quel signe reconnaît-on un projet bien tenu, selon le 6.3 ?**
-- A. Le prompt raccourcit avec le temps, parce que le permanent a été déplacé ailleurs.
-- B. Le prompt s'allonge avec le temps, à mesure qu'on y consigne toutes les exceptions rencontrées en séance.
+- A. Le prompt raccourcit avec le temps, parce que tout ce qui est permanent a été déplacé dans le dépôt.
+- B. Le prompt s'allonge avec le temps, à mesure qu'on y consigne ce qui devrait vivre dans le dépôt.
 - C. Le prompt devient identique d'une session à l'autre, ce qui prouve la stabilité des habitudes de l'équipe.
 - D. Le prompt cède la place à un script de génération, qui évite de retaper la demande à chaque nouvelle tâche.
 
 **5. « Tu es un architecte senior avec 20 ans d'expérience. » Que change réellement ce persona, d'après la galerie des anti-patterns ?**
 - A. La justesse technique, le persona réactivant les exemples les plus fiables appris pendant l'entraînement.
 - B. Rien sur le fond, mais beaucoup sur la longueur : la réponse devient plus détaillée et donc plus utile.
-- C. Le ton de la réponse, pas son savoir : la couleur change, pas la justesse.
-- D. La capacité à refuser une demande floue, l'expert signalant ce qu'il ne peut pas trancher seul.
+- C. Le ton de la réponse, pas son savoir : la zone rôle fixe une posture de rédaction, pas un diplôme.
+- D. La capacité à refuser une demande floue : l'expert signale ce qu'il ne peut pas trancher.
 
 **6. Le chapitre s'ouvre sur un sondage : « entre "ajoute les remises, fais-le bien" et la fonctionnalité qui marche, combien d'itérations ? » Quelle est la réponse de l'auteur ?**
-- A. Trois en moyenne, à condition de relancer la même demande sans jamais la reformuler entre-temps.
+- A. Trois en moyenne : à condition de relancer la même demande sans la reformuler entre-temps.
 - B. Un nombre indéterminé : la demande ne fournit aucun critère d'arrêt, on sème quand ça ressemble.
-- C. Une seule, dès lors que le modèle choisi est assez fort pour une tâche aussi courante que celle-là.
+- C. Une seule : dès lors que le modèle choisi est assez fort pour une tâche aussi courante que celle-là.
 - D. Environ dix, ce qui correspond au coût réel d'une fonctionnalité de remise dans un projet neuf.
 
 <details>

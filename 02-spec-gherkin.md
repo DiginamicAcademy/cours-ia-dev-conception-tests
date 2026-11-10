@@ -240,40 +240,40 @@ L'amorce que vous venez d'écrire (f1 en TD, f2 en application) est l'ébauche d
 Six questions, non notées, à faire avec l'IA : elles servent à vous situer, pas à compter une note.
 
 **1. On lance `npx cucumber-js` alors que `src/penalite.ts` n'existe pas encore : `1 scenario (1 failed)`, `expected 1.5 but got undefined`. Que dit ce résultat ?**
-- A. Il est anormal : il faut écrire `src/penalite.ts` avant de lancer `npx cucumber-js`, sinon les résultats sont faux.
+- A. Il est anormal : il faut écrire `src/penalite.ts` avant de lancer `npx cucumber-js`.
 - B. Il est normal et voulu : le comportement est vérifiable avant que le code existe.
-- C. Il signale une accroche défectueuse : la step definition de `step_definitions/retards.ts` ne correspond à aucune ligne du fichier.
-- D. Il montre que la spec reste ambiguë : sans montant décidé avec le client, aucun scénario ne peut être exécuté par le moteur.
+- C. Il signale une accroche défectueuse : la step definition ne correspond à aucune ligne du `.feature`.
+- D. Il montre que la spec reste ambiguë : sans montant décidé, le moteur ne peut rien exécuter.
 
 **2. Dans le trio du chapitre — `features/retards.feature`, `step_definitions/retards.ts`, `src/penalite.ts` — quel fichier est « l'accroche », ce que lit la machine ?**
-- A. `features/retards.feature`, puisque c'est lui que le moteur déroule ligne par ligne à partir du premier Given.
-- B. `src/penalite.ts`, car c'est le code qui calcule et donc le point d'entrée de toute l'exécution du scénario.
+- A. `features/retards.feature`, puisque c'est lui que le moteur déroule ligne par ligne.
+- B. `src/penalite.ts`, car c'est le code qui calcule et donc l'entrée de l'exécution.
 - C. `step_definitions/retards.ts`, une fonction TypeScript accrochée à chaque ligne Given/When/Then.
 - D. Le moteur `npx cucumber-js` lui-même, qui traduit les phrases Gherkin en assertions sans fichier intermédiaire.
 
 **3. Contrat f1 : un jour de retard est un jour ouvré écoulé entre la date de retour attendue et la date de rendu, *les deux bornes exclues*. Un matériel est dû le vendredi 2026-11-06, rendu le lundi 2026-11-09. Combien de jours de retard sont comptés ?**
 - A. 0 jour : entre les deux bornes, seuls samedi et dimanche se sont écoulés.
-- B. 2 jours : le décompte calendrier retient le samedi et le dimanche écoulés entre les deux dates.
-- C. 1 jour : le lundi du rendu est le premier jour ouvré qui suit l'échéance du vendredi.
-- D. 3 jours : la période vécue couvre le vendredi, le samedi et le dimanche avant le rendu du lundi.
+- B. 2 jours : le décompte calendrier retient samedi et dimanche entre les deux dates.
+- C. 1 jour : le lundi du rendu est le premier jour ouvré après le vendredi.
+- D. 3 jours : la période vécue couvre le vendredi, le samedi et le dimanche avant le rendu.
 
 **4. Contrat f2 : caution de 30 €, pénalité de 1,50 € par jour ouvré de retard, plafond de 15 € par prêt. Un matériel est rendu avec 12 jours de retard ouvré. Que donne la liquidation de la caution ?**
 - A. 18,00 € sont retenus sur la caution et 12,00 € sont restitués à l'adhérent.
-- B. 30,00 € sont retenus sur la caution et 0,00 € sont restitués à l'adhérent.
-- C. 6,00 € sont retenus sur la caution et 24,00 € sont restitués à l'adhérent.
+- B. 30,00 € sont retenus sur la caution, 0,00 € sont restitués.
+- C. 6,00 € sont retenus sur la caution, 24,00 € sont restitués.
 - D. 15,00 € sont retenus sur la caution et 15,00 € sont restitués.
 
 **5. D'après la règle d'écriture du chapitre 02, que doit comporter un scénario pour que l'IA ne puisse pas y tricher ?**
-- A. Des étapes rédigées dans l'ordre Given/When/Then, avec un Background commun à tous les scénarios du fichier.
+- A. Des étapes rédigées dans l'ordre Given/When/Then, avec un Background.
 - B. Des chiffres concrets, un résultat explicite et au moins un cas négatif.
-- C. Des commentaires Gherkin expliquant la lecture retenue par le client, relus et validés avant la première exécution.
-- D. Des tags de tri, par exemple `@regle-metier` et `@cas-limite`, pour que la CI les exécute avant les autres.
+- C. Des commentaires Gherkin expliquant la lecture retenue par le client, validés avant la première exécution.
+- D. Des tags de tri, par exemple `@regle-metier`, pour que la CI les exécute avant les autres.
 
 **6. Le chapitre 02 annonce la boucle du chapitre 05 : l'IA code, la CI la corrige, elle recode. D'après ce chapitre, qu'est-ce qui arrête la boucle ?**
-- A. La relecture de l'apprenant, seul capable de juger si le résultat rendu « a l'air bon » sur l'ensemble.
-- B. La borne d'itérations fixée avant de démarrer, qui clôt la séance lorsqu'elle est atteinte.
+- A. La relecture de l'apprenant : il juge si le rendu « a l'air bon ».
+- B. La borne d'itérations fixée avant de démarrer : elle clôt la séance à ce terme.
 - C. Le vert de tous les scénarios : la spec est le frein de la machine.
-- D. La déclaration de fin de l'agent, qui récapitule ce qu'il estime conforme à la demande qu'il a reçue.
+- D. La déclaration de fin de l'agent : il se dit conforme à la demande.
 
 <details>
 <summary>Vérifier ses réponses</summary>
