@@ -102,7 +102,7 @@ Pour les écrans, nous utilisons **Stitch** (Google Labs) : on décrit un écra
 |---|---|
 | **Beta, sans SLA** (SLA = engagement de service et de disponibilité) | Rien ne garantit que ça marchera demain, ni en direct. **Captures de secours obligatoires.** |
 | **Quotas quotidiens** | Une classe entière le même matin peut épuiser le quota. Le secours n'est pas optionnel. |
-| **Entraînement sur les données par défaut** | Ce que vous tapez sert à entraîner le modèle. **Jamais de données personnelles, jamais de données clients.** Le RGPD (*Règlement Général sur la Protection des Données*) n'est pas un chapitre 09 : c'est une consigne de saisie, aujourd'hui. |
+| **Entraînement possible sur ce que vous tapez** | C'est le modèle économique habituel de ces offres, et pour celle-ci le réglage n'est pas public : **prenez-le comme actif**. **Jamais de données personnelles, jamais de données clients.** Le RGPD (*Règlement Général sur la Protection des Données*) n'est pas un chapitre 09 : c'est une consigne de saisie, aujourd'hui. |
 | **Sortie = HTML statique** | Pas une interface : **une photo** d'interface (HTML : le langage des pages web). |
 | **Export limité** | Ce qu'on récupère est jetable ; pour du code de production, on recommence. |
 
@@ -110,7 +110,7 @@ Et ce que le HTML rate, noir sur blanc : **les états** (vide, chargement, erre
 
 C'est là que la maquette générée est **plus dangereuse qu'un croquis**. Un croquis au feutre annonce qu'il est un croquis : personne ne croit qu'un carré est un formulaire. Une maquette générée **a l'air finie**, et ça décourage la question — devant un rendu léché, un stagiaire ne dit pas « ça ne marche pas ? », il dit « c'est beau ». Méfiez-vous de tout livrable IA dont la finition excède la substance : c'est que la finition *est* la substance.
 
-**Le secours, sans licence ni compte** : on dessine à la main sur **Excalidraw** (manuel — la génération par texte y est payante, donc hors de notre jeu « zéro licence »), puis **l'IA de la classe** passe le croquis en HTML. On garde le geste, on perd la magie, on ne donne rien à un tiers.
+**Le secours, sans licence ni compte** : on dessine à la main sur **Excalidraw** (manuel — la génération par texte, elle, est passée dans l'éditeur gratuit depuis que ce cours a été écrit, mais elle demande un compte, est plafonnée à dix requêtes par jour et envoie votre description à un tiers : trois raisons d'y rester hors de notre jeu « zéro licence »), puis **l'IA de la classe** passe le croquis en HTML. On garde le geste, on perd la magie, on ne donne rien à un tiers.
 
 Pas de catalogue d'outils — il serait faux dans six mois. Cinq critères, qui répondent à n'importe quel outil qu'on vous présentera : **sortie** (jetable ou base du produit ?), **lock-in** (peut-on partir avec ses fichiers ?), **données** (entraîne-t-il sur ce que je tape, par défaut ?), **export** (quel format, que perd-on ?), **gratuité** (aujourd'hui, en classe entière, en entreprise ?).
 
