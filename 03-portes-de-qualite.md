@@ -109,7 +109,7 @@ import { After, Before } from '@cucumber/cucumber';
 import { readFileSync } from 'node:fs';
 import { DatabaseSync } from 'node:sqlite';
 
-const schema = readFileSync('schema.sql', 'utf8');
+const schema = readFileSync(new URL('../../db/schema.sql', import.meta.url), 'utf8');
 
 Before(function () {
   this.bdd = new DatabaseSync(':memory:');   // une base neuve
@@ -529,11 +529,15 @@ export default defineConfig({
 
 ```json
 {
-  "paths": ["features/**/*.feature"],
-  "import": ["features/support/**/*.ts", "features/step_definitions/**/*.ts"],
-  "requireModule": ["tsx/cjs"]
+  "default": {
+    "paths": ["features/**/*.feature"],
+    "import": ["features/support/**/*.ts", "features/step_definitions/**/*.ts"],
+    "requireModule": ["tsx/cjs"]
+  }
 }
 ```
+
+**L'emboîtement sous `"default"` n'est pas décoratif.** Sans lui, Cucumber 13 lit `paths`, `import` et `requireModule` comme trois *noms de profils* : la commande part, rend une sortie de code 0, et ne charge aucun step definition. Vous obtenez `34 steps (34 undefined)` — un rouge muet, exactement celui que le contrôle A1 refuse. Mesuré le 10/11/2026 avec `@cucumber/cucumber` 13.3.0 sous Node 24 : les quatre variantes sans `"default"` laissent tout indéfini, la variante emboîtée passe.
 
 ```js
 // eslint.config.js — ESLint 9, config plate, type-aware (requise par no-floating-promises)
