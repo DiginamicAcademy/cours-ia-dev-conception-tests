@@ -272,7 +272,7 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - D. `npm view react-icon-pack` avant d'installer : on ne vérifie pas un paquet en l'installant.
 
 <details>
-<summary>Voir les réponses</summary>
+<summary>Vérifier ses réponses</summary>
 
 **1 — Réponse : B.** Le chapitre déplace l'effort du prompt vers le cadre — « environnement > prompt » : ce sont les outils que la profession a inventés pour les juniors depuis quarante ans, appliqués à une machine qui ne dit jamais « je ne sais pas ».
 

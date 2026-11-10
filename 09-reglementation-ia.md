@@ -273,7 +273,7 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - D. Elle serait recevable si la délégation avait été déclarée en commit ou en pull request : mentionner l'outil transfère la charge de la vérification.
 
 <details>
-<summary>Voir les réponses</summary>
+<summary>Vérifier ses réponses</summary>
 
 **1 — Réponse : A.** L'article 4 (réécrit par l'Omnibus, en vigueur depuis le 27 juillet 2026) porte sur les personnes qui utilisent l'outil, pas sur l'outil lui-même : « ce que l'outil fait, ce qu'il ne fait pas, où sont ses risques ». Il ne fixe plus de niveau à garantir : il demande des mesures, donc des traces. C'est une obligation de l'employeur, pas une curiosité personnelle — et c'est l'ancrage officiel de ce cours.
 

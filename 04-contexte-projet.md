@@ -332,7 +332,7 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - D. Que `.gitignore` protège le commit et l'index, mais pas le disque.
 
 <details>
-<summary>Voir les réponses</summary>
+<summary>Vérifier ses réponses</summary>
 
 **1 — Réponse : B.** Un seul fichier fait foi : deux fichiers qui disent des choses différentes, c'est l'agent qui choisit lequel obéit — et il ne vous le dira pas.
 

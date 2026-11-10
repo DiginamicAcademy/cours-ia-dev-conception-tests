@@ -76,7 +76,7 @@ Un plan se relit **comme un diff**, avec cinq questions :
 | « Lancer `curl …` / `npm install` » | Une sortie réseau. Où, vers quoi, pourquoi ? |
 | « Vérifier avec `npm run check` » | **Bon signe.** Un plan qui ne dit pas *comment* il vérifie n'est pas un plan, c'est une intention. |
 
-Un détail qui aide : opencode livre déjà un agent `plan` dont la politique **refuse les écritures** — il ne peut que lire et proposer. C'est le réglage par défaut qu'on veut pour démarrer une tâche qu'on ne connaît pas. Et la règle qui va avec, à écrire en gros : **un plan qu'on ne relit pas n'est pas une validation, c'est une procuration.**
+Un détail qui aide : opencode livre déjà un agent `plan` dont la politique **refuse les écritures** — il ne peut que lire et proposer. C'est le réglage par défaut qu'on veut pour démarrer une tâche qu'on ne connaît pas. Il reste à savoir d'où vient cette fermeture, parce que c'est ce qui la rend fragile : elle appartient à l'agent `plan`, pas au dépôt. Or les règles de la laisse du projet, elles, sont ajoutées **après** les siennes. Une seule `allow` mal placée dans le fichier du dépôt suffit à rouvrir l'écriture de code à un agent en mode plan, et rien n'avertit. On le vérifiera machine en main à la fin du chapitre, règle par règle et agent par agent. Et la règle qui va avec, à écrire en gros : **un plan qu'on ne relit pas n'est pas une validation, c'est une procuration.**
 
 ## 7.3 Le modèle de menace (10 min — le cœur du chapitre)
 
@@ -183,9 +183,12 @@ Elle s'appelle `opencode.jsonc`, elle est à la racine du dépôt, et elle est *
 
     // Les capteurs sont sacrés (ch. 05) : « interdit », pas « déconseillé ».
     // « * » est le motif le plus court : tout ce qui n'est pas nommé tombe dedans.
+    // Aucun « src/** » en « allow » ici, et c'est le point délicat de ce fichier : ce bloc
+    // vaut pour TOUS les agents du dépôt, le mode plan compris, et il est ajouté après les
+    // règles de l'agent. Une « allow » placée là rouvrirait l'écriture de code à un agent en
+    // mode plan. Le droit d'écrire est plus bas, sous « agent.build.permission ».
     "edit": {
       "*":                  "deny",
-      "src/**":             "allow",
       "features/*":         "deny",
       "tests/*":            "deny",
       "step_definitions/*": "deny",
@@ -225,14 +228,29 @@ Elle s'appelle `opencode.jsonc`, elle est à la racine du dépôt, et elle est *
 
     // Hors du dépôt : opencode demande déjà de lui-même ; on ferme le personnel.
     // « $HOME » et « ~ » sont bien développés au chargement (vérifié sur 1.19.5, qui rend
-    // `/home/robin/.ssh/*`). On écrit `**/.ssh/*` pour une autre raison : `~` ne couvre que
+    // `/home/<user>/.ssh/*`). On écrit `**/.ssh/*` pour une autre raison : `~` ne couvre que
+    // le home, `**` couvre n'importe quel étage.
     "external_directory": {
-      "*":            "ask",
-      "**/.ssh/*": "deny"
+      "*":          "ask",
+      "**/.ssh/*":  "deny"
     },
 
     // Un serveur MCP n'a aucun droit par défaut ; on ferme l'outil précis (EX-07).
     "diag_collect_telemetry": "deny"
+  },
+
+  // La laisse se lit PAR AGENT. « permission », au-dessus, vaut pour tous les agents du
+  // dépôt ; « agent.<nom>.permission » ne vaut que pour l'agent nommé, et le binaire
+  // l'ajoute APRÈS les règles du projet. C'est le seul endroit où rouvrir « src/ » sans le
+  // rouvrir au mode plan : « build » est l'agent qui exécute, une fois le plan validé.
+  // Retirer ce bloc ne protège pas davantage — le mode plan est déjà fermé. Il ne reste
+  // alors plus aucun droit d'écrire pour « build », et l'agent ne produit plus de diff.
+  "agent": {
+    "build": {
+      "permission": {
+        "edit": { "src/**": "allow" }
+      }
+    }
   },
 
   // La variante radicale : un serveur désactivé n'est pas connecté, ses
@@ -245,10 +263,11 @@ Elle s'appelle `opencode.jsonc`, elle est à la racine du dépôt, et elle est *
 }
 ```
 
-Quatre propriétés de ce langage méritent d'être sues, parce qu'elles font la différence entre une config qui protège et une config qui rassure :
+Six propriétés de ce langage méritent d'être sues, parce qu'elles font la différence entre une config qui protège et une config qui rassure :
 
 - **Dans un même outil, la dernière règle correspondante gagne, dans l'ordre où le fichier l'écrit.** Le chargeur garde l'ordre des clés : une `"src/**": "allow"` placée après le `"*": "deny"` rouvre `src/`, placée avant elle ne sert plus à rien. Le vrai piège n'est donc pas la lecture de haut en bas - elle est exacte - il est dans la fusion : deux binômes, deux laisses, et l'on recopie le bloc d'un collègue au-dessus du sien. On change qui gagne sans changer une seule règle. Et comme les règles du projet passent après celles de l'agent, une `allow` du projet rouvre aussi ce qu'un mode avait fermé.
 - **Les règles du projet sont ajoutées après celles de l'agent**, et gagnent donc sur ses défauts. C'est ce qui permet à `read *.env` en `deny` d'écraser le `ask` par défaut d'opencode. C'est aussi ce qui permet à une `allow` du projet de rouvrir ce qu'un mode avait fermé : la laisse est plus forte que le mode, et ça se lit dans `opencode debug agent plan`.
+- **La laisse se lit par agent.** Le bloc `permission` du fichier vaut pour *tous* les agents du dépôt, `plan` compris ; `agent.<nom>.permission` ne vaut que pour l'agent nommé, et le binaire le range **après** tout le reste. C'est pour ça que la laisse ci-dessus ferme `edit` pour le monde entier et ne rouvre `src/` que dans le bloc de `build`. Et ce n'est pas un raffinement : retirer ce `allow` sans rien mettre à la place ne ferme pas davantage le mode plan — il l'est déjà —, ça retire seulement à `build` son unique droit d'écrire, et l'agent ne produit plus aucun diff. Une laisse n'est pas un interrupteur général, c'est un jeu de règles par agent, et il se vérifie agent par agent.
 - **Les clés sont des noms d'outils.** `read`, `edit`, `bash`, `webfetch`, `external_directory`… et pour un outil MCP, la clé s'écrit `<serveur>_<outil>` — ici `diag_collect_telemetry`. On peut donc fermer un outil précis sans débrancher le serveur.
 - **Une commande composée est découpée et jugée morceau par morceau.** `npm run check && curl …` est évalué deux fois : le `curl` tombe même si la première partie était autorisée.
 - **Ce que la config ne couvre pas** : le budget et le nombre d'itérations. Ce sont des réglages de la boucle et du fournisseur, pas des permissions — d'où l'étage 5 du tableau, qui se règle ailleurs.
@@ -279,6 +298,49 @@ l'extrait utile de ce que rend la commande (sortie réelle, capture du 10/11/202
 `*.env` apparaît **deux fois**. La première est le défaut de l'agent ; la seconde est la nôtre,
 ajoutée après, et c'est elle qui gagne. Vous venez de voir la propriété 1 et la propriété 2
 travailler ensemble sur votre propre machine, en une commande et sans rien demander à personne.
+
+`edit`, maintenant. C'est la pièce qui décide si le mode plan est une garantie ou une habitude,
+et on la regarde en changeant seulement l'agent dans la même commande :
+
+```bash
+opencode debug agent plan     # celui qui propose
+opencode debug agent build    # celui qui exécute, après votre accord
+```
+
+Règles `edit` seules, une ligne par règle, dans l'ordre exact du jeu retenu (sortie réelle,
+capture du 10/11/2026 sur `opencode-ai` 1.19.5 ; les annotations `←` sont les nôtres, et les deux
+lignes de chemin absolu dépendent de votre machine) :
+
+```
+plan   edit  *                             deny    ← fermeture du mode plan
+plan   edit  .opencode/plans/*.md          allow   ← le plan s'écrit lui-même
+plan   edit  <données opencode>/plans/*.md allow
+plan   edit  *                             deny    ← la laisse du projet, ajoutée après
+plan   edit  features/*                    deny
+plan   edit  tests/*                       deny
+plan   edit  step_definitions/*            deny
+plan   edit  db/schema.sql                 deny
+
+build  edit  *                             deny    ← la laisse du projet
+build  edit  features/*                    deny
+build  edit  tests/*                       deny
+build  edit  step_definitions/*            deny
+build  edit  db/schema.sql                 deny
+build  edit  src/**                        allow   ← agent.build.permission : la dernière
+```
+
+Lisez ces deux jeux avec la propriété 1, celle de la dernière règle correspondante. Sur
+`src/domaine/penalite.ts`, la dernière qui corresponde est `* deny` en plan : **le mode plan
+n'écrit pas** — et ce n'est pas le mode qui l'assure à lui seul, c'est que rien dans la laisse ne
+soit venu rouvrir `edit` après lui. En build, c'est `src/** allow` qui gagne, et build est l'agent
+où vous atterrissez après avoir validé le plan. Sur `features/retards.feature` comme sur
+`db/schema.sql`, les deux jeux rendent `deny` : les capteurs restent fermés dans les deux modes.
+Voilà le comportement qu'EX-D suppose, vérifié sans engager de compte de modèle.
+
+Et l'écran dit aussi l'inverse, ce qui est la vraie raison de cet agencement. Si le
+`"src/**": "allow"` était resté dans le bloc `edit` du projet, il serait apparu **dans les deux
+jeux**, à la même place, et le mode plan aurait pu réécrire le code sous votre accord. Rien dans
+le fichier ne le signale : seule cette lecture agent par agent le montre.
 
 **Méfiez-vous d'`opencode debug config`** : lui rend la configuration *telle qu'il l'a lue*, pas
 le jeu de règles *résolu*. Le `read "*.env": "deny"` du projet y ressort `"ask"`. L'effet appliqué
@@ -344,8 +406,8 @@ Et la reformulation qui vaut au-delà du chapitre : on ne retire pas une capaci
 - **Le mode n'est pas une question de puissance mais de réversibilité** : autocomplétion, chat, agent — ce qui change, c'est qui décide du prochain geste et qui paie l'erreur.
 - **Le mode plan d'abord.** Un « non » écrit sur un plan coûte trois minutes ; le même « non » sur un diff coûte une après-midi. Un plan non relu est une procuration.
 - **L'agent lit ce que personne ne relit** : README, commentaires, logs, descriptions d'outils. Pour lui, une description est une consigne. D'où le tool poisoning, et le rug pull qui rend caduque une approbation ancienne.
-- **La laisse est une pièce du dépôt** : permissions `allow`/`ask`/`deny` (la dernière règle correspondante gagne), allowlist courte, deny list sur `git push` / `rm` / `curl` / `wget` / `ssh` et sur `.env` / `~/.ssh`, écriture interdite dans `features/` et `tests/`, réseau demandé, budget plafonné. Elle voyage avec le TP parce que **l'environnement > le prompt.**
-- **Une laisse se teste, pas se relit** : on demande l'interdit et on regarde la machine refuser.
+- **La laisse est une pièce du dépôt** : permissions `allow`/`ask`/`deny` (la dernière règle correspondante gagne, et le jeu se lit **par agent** : ce qu'un mode a fermé ne se rouvre pas depuis la laisse du projet), allowlist courte, deny list sur `git push` / `rm` / `curl` / `wget` / `ssh` et sur `.env` / `~/.ssh`, écriture interdite dans `features/` et `tests/`, réseau demandé, budget plafonné. Elle voyage avec le TP parce que **l'environnement > le prompt.**
+- **Une laisse se teste, pas se relit** — elle se relit d'abord agent par agent dans `opencode debug agent <nom>`, qui ne demande aucun compte, puis elle se teste : on demande l'interdit et on regarde la machine refuser.
 - **Déclarer n'est pas s'excuser** : commit, PR, rapport. Ce qui est généré, ce que vous avez repris, par quel capteur c'est passé. Et pas de secret, pas de donnée personnelle, pas de code client dans une offre gratuite.
 
 ---
@@ -432,9 +494,11 @@ Vous ne toucherez pas au clavier pendant cet exercice. **Votre clavier, c'est vo
 
 **Le premier pas du plan vous est fourni** — il n'est pas négociable, et c'est voulu :
 
-> **Étape 1.** Générer `db/schema.sql` (SQLite) **à partir du MCD de référence distribué en classe**, puis la couche d'accès correspondante.
+> **Étape 1.** Générer `db/schema.sql` (SQLite) **à partir du MCD de la f1, distribué en classe**, puis la couche d'accès correspondante.
 
 Pourquoi ce premier pas, et pas directement le code : parce que **si le schéma est faux, les scénarios le diront** — et ils le diront pour tout le reste. C'est le chapitre 03 appliqué à l'envers : on commence par la pièce que les capteurs surveillent le mieux.
+
+On vous donne le MCD **de la f1**, et non le modèle complet du comptoir. Celui qui couvre aussi f2 et f3 est le corrigé du TP : le distribuer ici reviendrait à vous remettre, avant que vous les ayez spécifiées, les réponses que le TP vous demande de poser vous-mêmes — la caution de la f2 et la remise de la f3 y ont déjà leur place. Un schéma qu'on a juste recopié n'a rien décidé, et il ne prouve rien.
 
 **Votre tâche.**
 
@@ -459,7 +523,7 @@ git diff --stat
 - [ ] Aucun scénario n'a été modifié, fusionné ou « simplifié » pour obtenir un vert.
 - [ ] Je sais dire, sur le diff, ce que l'agent a fait que je n'avais pas demandé.
 
-> 📍 **Le Comptoir après EX-D.** Il est pilotable : un agent en mode plan mène la f1 (retards) jusqu'au vert sous votre seul accord sur le plan. Vous tenez l'environnement complet — portes, contrat, contexte, boucle, laisse. C'est exactement le point de départ du **TP-01**, qui reprend ce même dépôt et le porte, en autonomie et de bout en bout, à f1 + f2 + f3.
+> 📍 **Le Comptoir après EX-D.** Il est pilotable : un agent conduit en mode plan mène la f1 (retards) jusqu'au vert sous votre seul accord sur le plan — le mode plan, lui, ne touche à aucun fichier : c'est l'agent d'exécution qui écrit, une fois le plan validé. Vous tenez l'environnement complet — portes, contrat, contexte, boucle, laisse. C'est exactement le point de départ du **TP-01**, qui reprend ce même dépôt et le porte, en autonomie et de bout en bout, à f1 + f2 + f3.
 
 <details>
 <summary>Voir la correction</summary>
@@ -531,7 +595,7 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - D. Il dispense de le redire dans la pull request et dans le rapport, le commit étant l'endroit durable de la chaîne.
 
 <details>
-<summary>Voir les réponses</summary>
+<summary>Vérifier ses réponses</summary>
 
 **1 — Réponse : B.** Le modèle est le même dans les trois cas ; ce qui change, c'est qui tient le volant — et le prix de l'erreur : une touche Échap en autocomplétion, un fichier écrasé, une dépendance installée ou un `git push` en mode agent, et vous l'apprenez après.
 

@@ -660,7 +660,7 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - D. Il n'a pas échoué, il a terminé : sans capteur, « terminé » est sa seule réponse possible.
 
 <details>
-<summary>Voir les réponses</summary>
+<summary>Vérifier ses réponses</summary>
 
 **1 — Réponse : C.** À partir du chapitre 05, votre conversation avec la machine, ce n'est plus votre prompt : c'est la sortie des capteurs. Vous n'écrivez pas l'instruction et vous ne la répétez pas : elle part toute seule dans la prochaine itération.
 

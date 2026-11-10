@@ -36,6 +36,8 @@ Le responsable du comptoir vous a parlé. Voici, mot pour mot, ce qu'il a dit. *
 > **f2 — Le matériel avec caution.** « Le matériel, c'est plus cher qu'un vélo. Quand on prête du matériel, on prend une caution de 30 €. Et si c'est rendu cassé, on en garde une partie. »
 >
 > **f3 — Les remises.** « Ajoute les remises, fais-le bien, et fais gaffe aux arrondis. » (Le comptoir veut **20 % de remise** pour ses adhérents de longue durée.)
+>
+> **Ce que « adhérent de longue durée » veut dire** *(ce point-là, le comptoir ne le laisse pas en suspens)* : **6 mois d'adhésion ininterrompus à la date du prêt, borne incluse.** La date de référence est celle du **prêt** — ni celle du retour, ni celle du calcul. `A-42`, inscrit depuis le 2026-05-16 : un prêt le 2026-11-16 ouvre le droit (jour exact des 6 mois), un prêt la veille, le 2026-11-15, ne l'ouvre pas. Recopiez la règle dans votre spec avec **les deux scénarios** — le seuil, et la veille du seuil.
 
 Vous reconnaissez f1 : c'est **exactement** la phrase du chapitre 02, où vous aviez fixé le contrat ensemble. Vous reconnaissez f3 : c'est la demande vague du chapitre 06, celle qui fait planter l'arrondi.
 

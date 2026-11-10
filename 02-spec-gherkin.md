@@ -276,7 +276,7 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - D. La déclaration de fin de l'agent, qui récapitule ce qu'il estime conforme à la demande qu'il a reçue.
 
 <details>
-<summary>Voir les réponses</summary>
+<summary>Vérifier ses réponses</summary>
 
 **1 — Réponse : B.** C'est le harnais du chapitre 01, version spec : la machine sait désormais dire « non » avant que l'IA n'arrive, et « oui » seulement quand c'est vrai.
 

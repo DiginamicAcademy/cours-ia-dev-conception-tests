@@ -381,7 +381,7 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - D. La spec exécutable est l'arbitre, donc le vert l'emporte : on aligne la règle métier sur ce qu'elle affirme.
 
 <details>
-<summary>Voir les réponses</summary>
+<summary>Vérifier ses réponses</summary>
 
 **1 — Réponse : B.** `Math.floor(19.99 * 100)` donne 1998 (chapitre 01) : promu colonne, le bug devient persistant et se propage à toute la base. Le MCD manuel remet des centimes en entier.
 

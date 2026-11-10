@@ -322,7 +322,7 @@ Deux manipulations : la première doit vous rassurer, la seconde doit vous inqu
 **Contexte.** Le dépôt de l'atelier contient une fonction de remise, correcte, qui travaille en centimes :
 
 ```ts
-// src/remise.ts — remiseEnCents() renvoie le MONTANT de la remise en centimes
+// src/domaine/remise.ts — remiseEnCents() renvoie le MONTANT de la remise en centimes
 export function remiseEnCents(prix: number, taux: number): number {
   return Math.round(prix * taux);
 }
@@ -333,7 +333,7 @@ Le contrat de la remise, tel qu'il est écrit dans la spec : **taux 0,20** (20 
 - panier de **100,00 €** (10 000 centimes) × 0,20 = 2 000 centimes de remise → prix remisé **80,00 €** ;
 - panier de **19,99 €** (1 999 centimes) × 0,20 = 399,8 centimes → arrondi à **400** centimes → prix remisé **1 599 centimes (15,99 €)**.
 
-**① Le bug vicieux (10 min).** Remplacez `Math.round` par `Math.floor` dans `src/remise.ts`. Lancez la suite localement, puis poussez et suivez la CI.
+**① Le bug vicieux (10 min).** Remplacez `Math.round` par `Math.floor` dans `src/domaine/remise.ts`. Lancez la suite localement, puis poussez et suivez la CI.
 
 ```bash
 npx vitest run
@@ -376,7 +376,7 @@ gh run watch
 
 Le test qui rend le bug visible est donc celui du panier à 19,99 € — un montant **dont le produit ne tombe pas sur un nombre entier de centimes**. C'est la leçon du ① : un test sur valeurs rondes est un capteur myope. Une boucle de correction ne peut pas réparer ce qu'aucun capteur ne voit — elle livre le bug en vous adressant un badge vert.
 
-Une fois le test ajouté : rouge, puis l'agent remet `Math.round` dans `src/remise.ts`, **et uniquement là**. Le correctif ne touche ni `tests/` ni `features/` : c'est un vert vrai.
+Une fois le test ajouté : rouge, puis l'agent remet `Math.round` dans `src/domaine/remise.ts`, **et uniquement là**. Le correctif ne touche ni `tests/` ni `features/` : c'est un vert vrai.
 
 **② Le vert qui ne répond pas au besoin.** La CI est **verte** — `assert.ok(true)` échoue rarement, et un `Then` sans montant n'est contredit par aucun code. Mais le dépôt livré ne dit plus **combien** vaut la pénalité, ni **quels jours** sont comptés : l'agent a choisi une interprétation en silence, exactement comme au chapitre 02 — sauf qu'ici plus rien ne peut le contredire. Vous ne pouvez plus le savoir, et un relecteur non plus.
 
@@ -445,7 +445,7 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - C. Parce que GitHub refuse d'y combiner `actions/checkout` et une étape `run` tant que la protection de `main` est active, ce qui bloque le merge.
 - D. Il tourne avec les secrets du dépôt sur le code d'un forkeur que personne n'a relu.
 
-**6. Dans EX-C, on remplace `Math.round` par `Math.floor` dans `src/remise.ts` : la suite de tests héritée reste verte. Pourquoi ?**
+**6. Dans EX-C, on remplace `Math.round` par `Math.floor` dans `src/domaine/remise.ts` : la suite de tests héritée reste verte. Pourquoi ?**
 
 - A. Parce que `Math.floor` et `Math.round` renvoient toujours le même résultat dès que le montant est exprimé en centimes entiers, ce qui rend le bug indétectable en tests unitaires.
 - B. Le test hérité porte sur 100,00 € : 2 000 centimes est un entier, les deux arrondis tombent d'accord.
@@ -453,7 +453,7 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - D. Parce que le test hérité compare un prix remisé au lieu du montant de la remise, et que l'écart d'arrondi n'apparaît jamais dans un prix en euros.
 
 <details>
-<summary>Voir les réponses</summary>
+<summary>Vérifier ses réponses</summary>
 
 **1 — Réponse : B.** De porte pour un humain, la CI devient « le capteur de la boucle de correction automatique » (5.1) : son log n'est plus un confort à subir, c'est la condition de la boucle. Un log qu'un agent ne peut pas interpréter fait tourner la machine à vide.
 

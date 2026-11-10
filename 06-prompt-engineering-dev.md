@@ -44,10 +44,9 @@ ajoute les remises, fais-le bien, et fais gaffe aux arrondis
 Voici ce qui revient, et c'est très poli :
 
 ```ts
-// src/remise.ts — premier retour, sur la demande vague
-export function remise(prix: number, taux: number): number {
-  const cents = Math.floor(prix * 100);      // « prix » reçu en euros
-  return Math.floor(cents * (1 - taux));     // …et on repart en centimes
+// src/domaine/remise.ts — premier retour, sur la demande vague
+export function remiseEnCents(prix: number, taux: number): number {
+  return Math.floor(prix * taux);   // « prix » en centimes : 1999 × 0,2 = 399,8 -> 399
 }
 ```
 
@@ -55,38 +54,41 @@ Le test du chapitre 02, lui, ne discute pas :
 
 ```bash
 $ npx vitest run
-FAIL  src/remise.test.ts > remise de 20 % sur 19,99 € rend 1599 centimes
-      attendu 1599 · reçu 1598
+FAIL  src/remise.test.ts > remise de 20 % sur 19,99 € rend 400 centimes de remise
+      attendu 400 · reçu 399
 ```
 
-**C'est le bug du chapitre 01, rapatrié mot pour mot** : `Math.floor(19.99 × 100)` vaut 1998, pas 1999. La machine n'a pas « deviné » que le projet manipule des centimes : elle a choisi une lecture plausible, comme toujours. Vous ne lui aviez rien dit.
+**C'est la faute du chapitre 01, transposée** : `Math.floor(19.99 × 100)` valait 1998 ; ici `Math.floor(1999 × 0,20)` vaut 399 pour 399,8. Dans les deux cas, `Math.floor` tranque là où il fallait arrondir. La machine n'a pas « deviné » que le contrat impose le centime le plus proche : elle a choisi une lecture plausible, comme toujours. Vous ne lui aviez rien dit.
 
 Maintenant la même demande, en cinq zones :
 
 ```text
 RÔLE        Développeur TypeScript sur le comptoir de prêt (Node 24, TypeScript strict).
 CONTEXTE    Convention projet : tous les montants sont des CENTIMES ENTIERS, jamais de flottant.
-            Contrat : features/remises.feature, scénario « remise de 20 % sur 19,99 € ».
-            Échec courant : FAIL attendu 1599 · reçu 1598 (src/remise.test.ts).
-TÂCHE       Corriger remise() pour passer ce scénario, sans changer sa signature.
-CONTRAINTES Aucune dépendance nouvelle. Ne modifier que src/remise.ts.
+            Contrat : features/remises.feature, scénario « remise de 20 % sur 19,99 € » —
+            il énonce les deux montants : 400 centimes de remise, 1599 centimes à payer.
+            Échec courant : FAIL attendu 400 · reçu 399 (src/remise.test.ts).
+TÂCHE       Corriger remiseEnCents() pour passer ce scénario, sans changer sa signature.
+CONTRAINTES Aucune dépendance nouvelle. Ne modifier que src/domaine/remise.ts.
+            remiseEnCents() renvoie le MONTANT DE LA REMISE en centimes, pas le prix remisé.
             Arrondi : Math.round, appliqué sur des centimes entiers.
-FORMAT      Le diff de src/remise.ts, puis la sortie de npx vitest run.
+FORMAT      Le diff de src/domaine/remise.ts, puis la sortie de npx vitest run.
 ```
 
 Ce qui revient :
 
 ```ts
-export function remise(prix: number, taux: number): number {
-  const cents = Math.round(prix * 100);      // 19,99 € -> 1999
-  return Math.round(cents * (1 - taux));     // 1999 × 0,8 = 1599,2 -> 1599
+export function remiseEnCents(prix: number, taux: number): number {
+  return Math.round(prix * taux);   // 1999 × 0,2 = 399,8 -> 400 centimes de remise
 }
 ```
 
 ```bash
 $ npx vitest run
-PASS  src/remise.test.ts > remise de 20 % sur 19,99 € rend 1599 centimes
+PASS  src/remise.test.ts > remise de 20 % sur 19,99 € rend 400 centimes de remise
 ```
+
+> **Les deux chiffres, et ce qu'ils désignent.** `remiseEnCents(1999, 0.20)` renvoie **400** : c'est le **montant de la remise**, en centimes. Le **prix remisé**, lui, n'est pas la sortie de la fonction — c'est ce qu'on en déduit : `1999 - 400 = 1599` centimes, soit **15,99 €**. Les deux valeurs sont justes et n'ont rien de contradictoire, à condition que chacune soit **nommée** : 400 est une remise, 1599 est un prix. Un contrat qui ne dit pas lequel la fonction renvoie laisse la porte ouverte à l'autre lecture plausible — et c'est exactement ce que le scénario, écrit au chapitre 02, ferme en énonçant les deux.
 
 Lisez maintenant ce qui a **vraiment** fait le travail dans la demande de droite. Ce ne sont pas les mots en majuscules, ni la précision de la phrase, ni le ton. Ce sont trois choses : **la convention « centimes entiers »**, qui vivait dans votre tête ; **le chemin du scénario**, écrit au chapitre 02 ; **le log rouge**, produit par le capteur du chapitre 03. Le prompt a été excellent parce qu'il a *désigné des pièces qui existent déjà*.
 
@@ -106,18 +108,18 @@ Un message d'itération utile a quatre lignes : **ce qui est bon** (pour qu'il 
 
 ```text
 CE QUI EST BON   signature, emplacement, nom : garde-les tels quels.
-L'ÉCART          remise(19.99, 0.2) renvoie 1598 ; le scénario attend 1599.
+L'ÉCART          remiseEnCents(1999, 0.20) renvoie 399 ; le scénario attend 400 centimes de remise.
 CONTRAINT        montants en centimes entiers, arrondi avec Math.round, pas de flottant.
-PÉRIMÈTRE        src/remise.ts uniquement ; ne touche ni au test ni aux autres fichiers.
+PÉRIMÈTRE        src/domaine/remise.ts uniquement ; ne touche ni au test ni aux autres fichiers.
 ```
 
 ```bash
 $ npx vitest run
-PASS  src/remise.test.ts > remise de 20 % sur 19,99 € rend 1599 centimes
+PASS  src/remise.test.ts > remise de 20 % sur 19,99 € rend 400 centimes de remise
 
 $ git diff --stat
- src/remise.ts | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ src/domaine/remise.ts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 ```
 
 Le second command est le capteur du périmètre : il vérifie la dernière ligne du message à votre place. C'est la leçon du chapitre 01 appliquée à l'itération — **une consigne qu'aucun capteur ne vérifie est une consigne que la machine oublie**, poliment, à la troisième demande.
@@ -131,7 +133,7 @@ Trois gestes, dans l'ordre où ils rapportent.
 **Le few-shot, c'est votre dépôt.** On a tous collé un exemple trouvé sur Internet pour « montrer le style ». Le meilleur exemple est un fichier de *votre* projet :
 
 ```text
-Écris remise() comme src/penalite.ts : même style de signature, mêmes messages
+Écris remiseEnCents() comme src/penalite.ts : même style de signature, mêmes messages
 d'erreur explicites, même forme de test chiffré.
 ```
 
@@ -160,7 +162,7 @@ Cinq tics, tous gratuits à éviter, tous coûteux à entretenir.
 | Anti-pattern | Ce que ça donne | Ce qui le remplace |
 |---|---|---|
 | **Le paveau** — 40 lignes, 6 questions d'un coup | vous ne savez pas laquelle a échoué ; la dérive est partout | une tâche par prompt ; les 6 questions deviennent 6 demandes, ou une spec |
-| **Le négatif** — « ne fais pas X », « ne touche pas au reste » | une négation ne se vérifie pas ; « le reste », elle ne sait pas ce que c'est | un périmètre **positif** (« `src/remise.ts` uniquement ») + `git diff --stat` pour le vérifier |
+| **Le négatif** — « ne fais pas X », « ne touche pas au reste » | une négation ne se vérifie pas ; « le reste », elle ne sait pas ce que c'est | un périmètre **positif** (« `src/domaine/remise.ts` uniquement ») + `git diff --stat` pour le vérifier |
 | **La surcharge** — 800 lignes « au cas où » | moins de signal, plus de coût, réponse moyenne | l'extrait qui contient l'écart |
 | **Le rôle-placebo** — « tu es un architecte senior de 20 ans d'expérience » | change le **ton**, pas le savoir | un fichier-modèle du projet, un scénario, un log rouge |
 | **Le devine-l'archi** — « ajoute la remise », sans dire où | elle choisit un fichier, un étage, un nom — plausibles, et différents la fois d'après | nommer le fichier et l'étage ; cœur métier / repository (ch. 03), arborescence commentée (ch. 04) |
@@ -227,8 +229,8 @@ Le dossier, lui, existe déjà dans le dépôt :
 
 ```ts
 // src/remise.test.ts — le scénario du ch. 02 est écrit, le test est rouge
-test('remise de 20 % sur 19,99 € rend 1599 centimes', () => {
-  expect(remise(19.99, 0.2)).toBe(1599);
+test('remise de 20 % sur 19,99 € rend 400 centimes de remise', () => {
+  expect(remiseEnCents(1999, 0.2)).toBe(400);
 });
 ```
 
@@ -249,16 +251,16 @@ Rappel du contrat f1 (chapitre 02) : **1,50 € par jour ouvré de retard**, we
 **③ Challenge binômes (7 min) — « le moins d'itérations possible ».** L'IA vient de livrer ceci, et la CI est rouge :
 
 ```ts
-// src/remise.ts — livré après « ajoute les remises, fais-le bien »
-export function remise(prix: number, taux: number): number {
-  return prix * (1 - taux);
+// src/domaine/remise.ts — livré après « ajoute les remises, fais-le bien »
+export function remiseEnCents(prix: number, taux: number): number {
+  return prix * taux;   // 1999 × 0,2 = 399,8 : un flottant, pas un nombre de centimes
 }
 ```
 
 ```ts
 // src/remise.test.ts
-test('remise de 20 % sur 19,99 € rend 1599 centimes', () => {
-  expect(remise(19.99, 0.2)).toBe(1599);
+test('remise de 20 % sur 19,99 € rend 400 centimes de remise', () => {
+  expect(remiseEnCents(1999, 0.2)).toBe(400);
 });
 ```
 
@@ -288,14 +290,15 @@ Puis pariez à voix haute : **combien d'itérations** votre duo (1) + (2) récl
 RÔLE        Développeur TypeScript sur le comptoir de prêt (Node 24, TypeScript strict).
 CONTEXTE    Convention projet : montants en CENTIMES ENTIERS, jamais de flottant.
             Contrat : features/remises.feature — scénario « remise de 20 % sur 19,99 € ».
-            Test rouge : src/remise.test.ts attend 1599 pour remise(19.99, 0.2).
-TÂCHE       Implémenter remise(prix, taux) pour passer ce scénario.
-CONTRAINTES Aucune dépendance nouvelle. Ne créer/modifier que src/remise.ts.
+            Test rouge : src/remise.test.ts attend 400 pour remiseEnCents(1999, 0.2).
+TÂCHE       Implémenter remiseEnCents(prix, taux) pour passer ce scénario.
+CONTRAINTES Aucune dépendance nouvelle. Ne créer/modifier que src/domaine/remise.ts.
+            remiseEnCents() renvoie le MONTANT DE LA REMISE, pas le prix remisé.
             Arrondi avec Math.round sur des centimes entiers.
-FORMAT      Le diff de src/remise.ts, puis la sortie de npx vitest run.
+FORMAT      Le diff de src/domaine/remise.ts, puis la sortie de npx vitest run.
 ```
 
-Ce qui compte n'est pas la mise en page : c'est que **les trois informations qui manquaient** (la convention centimes, le chemin du contrat, la valeur attendue) y soient, et qu'aucune ne sorte de votre tête sans être écrite.
+Ce qui compte n'est pas la mise en page : c'est que **les trois informations qui manquaient** (la convention centimes, le chemin du contrat, la valeur attendue et ce qu'elle désigne) y soient, et qu'aucune ne sorte de votre tête sans être écrite.
 
 **Partie ②**
 
@@ -313,28 +316,31 @@ Et « ne rien casser » ? Ce n'est pas une contrainte, c'est un souhait : au
 
 ```text
 CE QUI EST BON   signature et emplacement : garde-les.
-L'ÉCART          remise(19.99, 0.2) renvoie un prix en euros flottant ; le test attend 1599.
-CONTRAINT        entrée en euros, calcul et retour en CENTIMES ENTIERS, arrondi Math.round.
-PÉRIMÈTRE        src/remise.ts uniquement.
+L'ÉCART          remiseEnCents(1999, 0.2) renvoie 399,8 : un flottant, et le test attend 400.
+CONTRAINT        centimes entiers en entrée et en retour, Math.round, et le MONTANT de la remise.
+PÉRIMÈTRE        src/domaine/remise.ts uniquement.
 ```
 
 **La ligne d'environnement (celle qui compte) :**
 
 ```markdown
 - Tous les montants sont des centimes entiers (`number`). Conversion euros → centimes
-  avec `Math.round`, jamais `Math.floor` ni de flottant dans les calculs.
-  Vérification : `npx vitest run`.
+  avec `Math.round`, jamais `Math.floor` ni de flottant dans les calculs. Une fonction de
+  remise renvoie le MONTANT de la remise (`remiseEnCents`), jamais le prix remisé : le prix
+  se déduit, `prix - remise`. Vérification : `npx vitest run`.
 ```
 
 Une implémentation qui passe :
 
 ```ts
-export function remise(prix: number, taux: number): number {
-  return Math.round(Math.round(prix * 100) * (1 - taux));   // 1999 × 0,8 = 1599,2 -> 1599
+export function remiseEnCents(prix: number, taux: number): number {
+  return Math.round(prix * taux);   // 1999 × 0,2 = 399,8 -> 400 centimes de remise
 }
 ```
 
-À vérifier chez vous : `npx vitest run`, puis `git diff --stat` pour confirmer que seul `src/remise.ts` a bougé.
+Le prix remisé qui va avec — `1999 - 400 = 1599` centimes, soit 15,99 € — n'est pas la sortie de la fonction : c'est l'autre montant, celui que le scénario vérifie en plus.
+
+À vérifier chez vous : `npx vitest run`, puis `git diff --stat` pour confirmer que seul `src/domaine/remise.ts` a bougé.
 
 **Sur le pari.** Une itération suffit, et ce n'est pas de la chance : le message portait la valeur attendue *et* la convention, et le test chiffré était déjà là pour dire quand on s'arrête. Le binôme qui gagne n'est pas celui qui a la plus belle phrase — c'est celui dont la ligne d'`AGENTS.md` rend la phrase inutile la prochaine fois. **Le nombre d'itérations se pilote par le contexte initial et les capteurs, pas par la chance.**
 
@@ -346,7 +352,7 @@ export function remise(prix: number, taux: number): number {
 
 Six questions, non notées, à faire avec l'IA : elles servent à vous situer, pas à compter une note.
 
-**1. Dans le chapitre, la demande en cinq zones fait passer le test `remise` au vert. Qu'est-ce qui a « vraiment » fait le travail, selon l'auteur ?**
+**1. Dans le chapitre, la demande en cinq zones fait passer le test `remiseEnCents` au vert. Qu'est-ce qui a « vraiment » fait le travail, selon l'auteur ?**
 - A. La mise en page en majuscules, qui structure la demande et empêche le modèle de s'égarer entre deux lectures.
 - B. Trois pièces qui existaient déjà : la convention écrite, le chemin du scénario, le log rouge.
 - C. La longueur de la demande, qui occupe la fenêtre de contexte et ferme les interprétations de trop.
@@ -358,8 +364,8 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - C. Une réécriture complète : vous perdez ce qui était bon et retombez sur une autre lecture plausible.
 - D. Une réponse plus courte et plus prudente, le modèle lisant la critique comme un signal de surcharge.
 
-**3. Le message d'itération du chapitre se termine par « `src/remise.ts` uniquement ». À quoi sert `git diff --stat` dans ce duo ?**
-- A. À vérifier le calcul : il compare les valeurs rendues par `remise()` avant et après le correctif.
+**3. Le message d'itération du chapitre se termine par « `src/domaine/remise.ts` uniquement ». À quoi sert `git diff --stat` dans ce duo ?**
+- A. À vérifier le calcul : il compare les valeurs rendues par `remiseEnCents()` avant et après le correctif.
 - B. À valider le passage au vert : il relance les tests sur les fichiers effectivement modifiés par la correction.
 - C. À journaliser la correction dans l'historique, pour que la reprise soit retrouvée à la session suivante.
 - D. À vérifier le périmètre : il contrôle la dernière ligne du message à votre place.
@@ -383,7 +389,7 @@ Six questions, non notées, à faire avec l'IA : elles servent à vous situer, 
 - D. Environ dix, ce qui correspond au coût réel d'une fonctionnalité de remise dans un projet neuf.
 
 <details>
-<summary>Voir les réponses</summary>
+<summary>Vérifier ses réponses</summary>
 
 **1 — Réponse : B.** « Le prompt a été excellent parce qu'il a désigné des pièces qui existent déjà » : la convention « centimes entiers », le contrat écrit au chapitre 02, le log rouge produit par le capteur du chapitre 03.
 
