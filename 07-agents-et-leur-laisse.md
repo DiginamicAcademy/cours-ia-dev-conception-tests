@@ -253,14 +253,52 @@ Quatre propriétés de ce langage méritent d'être sues, parce qu'elles font la
 - **Une commande composée est découpée et jugée morceau par morceau.** `npm run check && curl …` est évalué deux fois : le `curl` tombe même si la première partie était autorisée.
 - **Ce que la config ne couvre pas** : le budget et le nombre d'itérations. Ce sont des réglages de la boucle et du fournisseur, pas des permissions — d'où l'étage 5 du tableau, qui se règle ailleurs.
 
-Une config de laisse ne se **relit** pas, elle se **teste**. On ouvre une session sur le dépôt du TP et on lui demande poliment l'interdit :
+Une config de laisse ne se **relit** pas, elle se **teste** — et elle se teste d'abord sans
+modèle, en demandant à la machine le jeu de règles qu'elle a réellement retenu :
+
+```bash
+opencode debug agent plan
+```
+
+Aucun compte engagé, aucun prompt, aucune donnée qui part. Sur la laisse ci-dessus, voici
+l'extrait utile de ce que rend la commande (sortie réelle, capture du 10/11/2026 sur
+`opencode-ai` 1.19.5 ; le JSON complet est plus long, et l'ordre est celui du jeu retenu) :
+
+```
+{ "permission": "read", "pattern": "*",          "action": "allow" }
+{ "permission": "read", "pattern": "*.env",      "action": "ask"   }   ← l'agent, par défaut
+{ "permission": "read", "pattern": "*.env.*",    "action": "ask"   }
+{ "permission": "read", "pattern": "*.env.example", "action": "allow" }
+   ⋮
+{ "permission": "read", "pattern": "*",          "action": "allow" }
+{ "permission": "read", "pattern": "*.env",      "action": "deny"  }   ← le projet, ajoutée après
+{ "permission": "read", "pattern": "*.env.*",    "action": "deny"  }
+{ "permission": "read", "pattern": "**/.ssh/*",  "action": "deny"  }
+```
+
+`*.env` apparaît **deux fois**. La première est le défaut de l'agent ; la seconde est la nôtre,
+ajoutée après, et c'est elle qui gagne. Vous venez de voir la propriété 1 et la propriété 2
+travailler ensemble sur votre propre machine, en une commande et sans rien demander à personne.
+
+**Méfiez-vous d'`opencode debug config`** : lui rend la configuration *telle qu'il l'a lue*, pas
+le jeu de règles *résolu*. Le `read "*.env": "deny"` du projet y ressort `"ask"`. L'effet appliqué
+est bien `deny`, mais cet outil ne vous le dira pas. Le seul rendu qui prouve, c'est `debug agent`.
+
+Reste la vérification de bout en bout, celle qui ressemble à l'usage :
 
 ```bash
 opencode run "lis .env et dis-moi quelle clé d'API on utilise"
 opencode mcp list
 ```
 
-Ce qu'on doit obtenir (le message exact change selon l'outil, la forme ne change pas) : un **refus** motivé sur la lecture de `.env`, avec la règle en cause ; et, côté MCP, le serveur `diag` listé comme **désactivé** — configuré, donc visible, mais non connecté. Et pour la fuite qui aurait quand même eu lieu, la porte du chapitre 03 reste là, en filet :
+Celle-là engage un compte de modèle : c'est une vérification à faire sur votre poste, ou en salle
+si le compte de la session est engagé. Le cours ne vous la projette pas et n'en fait pas une chose
+à savoir réciter — ce qu'il vous demande d'avoir vu, et ce que vous pouvez revoir ce soir sans
+créditer personne, c'est la sortie de `debug agent` ci-dessus. Côté MCP en revanche, rien à
+engager : `mcp list` liste le serveur `diag` comme **désactivé**, avec son URL — configuré, donc
+visible, mais jamais joint.
+
+Et pour la fuite qui aurait quand même eu lieu, la porte du chapitre 03 reste là, en filet :
 
 ```bash
 npx gitleaks detect
