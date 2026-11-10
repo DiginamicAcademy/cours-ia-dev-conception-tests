@@ -70,7 +70,8 @@ inventer jamais. Si un chiffre manque, demande-le.
     npx cucumber-js              # scénarios Gherkin
     npx tsc --noEmit             # types seuls, ne produit pas de JS
     npx eslint . --max-warnings 0
-    npm run format               # prettier --write
+    npm run fmt                  # prettier --check . (le --write est appliqué
+                                 # au commit par le hook lint-staged)
     npx gitleaks detect          # secrets
     npm run check                # les portes d'un coup : à lancer avant de dire « fini »
 
