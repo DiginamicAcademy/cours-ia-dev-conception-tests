@@ -4,7 +4,7 @@
 
 ## En résumé
 
-Un **projet intégrateur** au sens strict : tout le cours, un contexte (service de prêt municipal Node/TypeScript + SQLite), de bout en bout, un livrable. **Hors du temps de cours** — sa réalisation n'empiète sur aucun chapitre. Il est **remis par le formateur si le temps le permet** (fin de journée 2) ; sinon il reste ouvert en prolongement libre, **sans effet sur la note**. S'il est réalisé et rendu, il compte comme **bonus (+0 à +2, jamais pénalisant)**.
+Un **projet intégrateur** au sens strict : tout le cours, un contexte (service de prêt municipal Node/TypeScript + SQLite), de bout en bout, un livrable. **Hors du temps de cours** — sa réalisation n'empiète sur aucun chapitre. Il est **annoncé en fin de journée ; un seul rendu, à J+15, **sans effet sur la note** s.il n.est pas fait. S'il est réalisé et rendu, il compte comme **bonus (+0 à +2, jamais pénalisant)**.
 
 **Ce qui est évalué, c'est le processus autant que le code** : commits lisibles, logs CI de la boucle, transcripts de session d'agent, doc générée *puis vérifiée*, rapport d'usage. Un livrable sans traces n'est pas noté bonus — il est juste un exercice.
 

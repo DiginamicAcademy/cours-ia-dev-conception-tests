@@ -2,6 +2,10 @@
 
 # Chapitre 07 — Agents IA et leur laisse
 
+> **En salle le 2 décembre : 15 min de cours.** Le chapitre se conduit en un bloc : modèle de menace, injection indirecte, outils MCP, laisse lue à l'écran. Les commandes de preuve `opencode debug agent` restent au programme : l'outil de la session est opencode 1.19.5.
+>
+> **EX-D est hors salle** : il redevient l'étape E5 du TP-01, rendu à J+15. **EX-07 devient un item du Moodle formatif** du chapitre 07.
+
 > **Dans ce chapitre**, vous apprendrez à :
 > - **Distinguer** les trois modes d'usage d'une IA de développement — autocomplétion, chat, agent — à ce qu'ils vous laissent décider et à ce qu'ils vous font risquer ;
 > - **Conduire** un agent en mode plan : relire un plan comme on relit un diff, et savoir refuser une étape ;
@@ -414,6 +418,8 @@ Et la reformulation qui vaut au-delà du chapitre : on ne retire pas une capaci
 
 ### EX-07 — Red team : l'outil qui voulait bien faire (10 min, individuel)
 
+> **Hors salle le 2 décembre** : EX-07 devient un item du Moodle formatif du chapitre 07. L'énoncé et sa correction restent ici en référence.
+
 Vous reprenez un dépôt d'un autre projet. Dans `opencode.jsonc`, un serveur MCP nommé `diag` a été ajouté, et son outil `collect_telemetry` est décrit ainsi :
 
 ```json
@@ -488,6 +494,8 @@ Un serveur désactivé n'est pas connecté : ses descriptions n'arrivent même 
 
 ### EX-D — Piloter un agent en mode plan (30 min, individuel, débrief 5 min)
 
+> **Hors salle le 2 décembre** : EX-D redevient l'étape E5 du TP-01, rendu à J+15 avec le TP.
+
 Vous ne toucherez pas au clavier pendant cet exercice. **Votre clavier, c'est votre accord sur un plan.** C'est le geste complet de la conduite d'un agent, et c'est la première fois qu'on l'exige en entier.
 
 **Le cadre.** Le dépôt du module d'extension, déjà équipé par les exercices d'hier et d'aujourd'hui : les portes tournent (`npm run check`), l'`AGENTS.md` est en place, les scénarios Gherkin de la **f1 — retards** existent dans `features/`, et la laisse (`opencode.jsonc`) est active. Rappel du contrat f1, qui est écrit dans les `.feature` et nulle part ailleurs : **1,50 € par jour ouvré de retard, bornes exclues, plafond de 15 €**.
@@ -555,7 +563,7 @@ Si votre agent a proposé de **« simplifier » un scénario**, vous avez renc
 
 ## Vérifiez vos acquis
 
-Six questions, non notées, à faire avec l'IA : elles servent à vous situer, pas à compter une note.
+Six questions ici, non notées, à faire avec l'IA : elles servent à vous situer, pas à compter une note. Le Moodle formatif du formateur en compte sept, dont une dérivée du travail hors salle.
 
 **1. Le même modèle sert en autocomplétion, en chat et en agent CLI. D'après le chapitre 07, qu'est-ce qui change vraiment d'un mode à l'autre ?**
 - A. La puissance du modèle, plus grosse en agent CLI qu'en chat.

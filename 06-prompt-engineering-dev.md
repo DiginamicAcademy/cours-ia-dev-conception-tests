@@ -2,6 +2,8 @@
 
 # Chapitre 06 — Prompt engineering pour le développement
 
+> **Chapitre lu AVANT la journée du 2 décembre** — EX-06 est hors salle ; le challenge du minimum d'itérations est coupé, la leçon est prise en charge par le TD du chapitre 02 et EX-B.
+
 > **Dans ce chapitre**, vous apprendrez à :
 > - Structurer une demande en cinq zones : rôle, contexte, tâche, contraintes, format ;
 > - Conduire une itération ciblée : ce qui est bon, l'écart chiffré, la contrainte violée, le périmètre autorisé ;
@@ -249,6 +251,8 @@ FORMAT     Le code corrigé.
 Rappel du contrat f1 (chapitre 02) : **1,50 € par jour ouvré de retard**, week-end non compté, **plafond 15 €**. Rappel de la convention projet : montants en centimes entiers.
 
 **③ Challenge binômes (7 min) — « le moins d'itérations possible ».** L'IA vient de livrer ceci, et la CI est rouge :
+
+> Hors salle le 2 décembre : ce challenge n'est pas joué en groupe. Il reste faisable à la maison ; la leçon est prise en charge par le TD du chapitre 02 et par EX-B.
 
 ```ts
 // src/domaine/remise.ts — livré après « ajoute les remises, fais-le bien »

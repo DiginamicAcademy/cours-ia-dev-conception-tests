@@ -2,6 +2,8 @@
 
 # Chapitre 04 — Ingénierie du contexte : rendre le projet lisible par l'IA
 
+> **En salle le 2 décembre : 40 min** — cours 15, puis EX-B 25 : l'`AGENTS.md` est écrit puis testé en session fraîche.
+
 > **Dans ce chapitre**, vous apprendrez à :
 > - Écrire un fichier d'instructions `AGENTS.md` d'une page, en cinq rubriques ;
 > - Juger l'utilité d'une ligne : ne garder que celles qu'un agent peut enfreindre ;
@@ -237,7 +239,9 @@ Et c'est pour ça qu'un `AGENTS.md` d'une page est la seule exception à la règ
 
 ---
 
-### EX-B — L'`AGENTS.md` du comptoir, écrit puis testé pour de vrai (30 min, en binômes)
+### EX-B — L'`AGENTS.md` du comptoir, écrit puis testé pour de vrai (25 min, en binômes)
+
+> En salle le 2 décembre, ce bloc tient 25 min. Les minutes d'étapes ci-dessous sont des repères à chronométrer, pas des mesures.
 
 Votre dépôt est équipé depuis EX-A (les portes tournent). Il ne connaît pas encore vos règles. Vous allez écrire son `AGENTS.md`, puis **le faire valider par une machine qui ne sait rien**.
 

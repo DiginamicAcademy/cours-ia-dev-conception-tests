@@ -2,6 +2,8 @@
 
 # Chapitre 05 — La CI qui autoboucle l'IA
 
+> **En salle le 2 décembre** — la boucle tient la journée : cours 15 + démo guidée 15 (bug, rouge, log, vert), puis EX-C 25 ; le test miroir du chapitre 08 s'y loge 3 minutes.
+
 > **Dans ce chapitre**, vous apprendrez à :
 > - Reconnaître le changement de métier de la CI : de porte pour un humain, elle devient le capteur de la boucle de correction ;
 > - Configurer un pipeline « IA-ready » : jobs séparés, sorties machine, rapports emballés quand c'est rouge ;
@@ -251,7 +253,9 @@ Un forkeur n'a qu'à écrire dans `scripts/build.sh` une ligne qui poste les var
 
 > **Prolongement** (hors chemin critique — ce cours n'est pas un cours DevSecOps) : générer un **SBOM** (Software Bill of Materials — l'inventaire signé de vos dépendances) à chaque build ; vérifier l'origine des paquets avec `npm audit signatures` (le slopsquatting du ch. 01 a une signature, ou plutôt pas la bonne) ; épingler les actions par leur SHA (`actions/checkout@<sha> # v4`) plutôt que par un tag que l'auteur peut déplacer.
 
-## Démo guidée — la boucle répare le bug du chapitre 01 (20 min)
+## Démo guidée — la boucle répare le bug du chapitre 01 (15 min)
+
+> En salle le 2 décembre, cette démo tient 15 min. Le test miroir du chapitre 08 s'y loge 3 minutes, projeté. Les minutes d'étapes ci-dessous sont des repères à chronométrer, pas des mesures.
 
 Le même bug, pas un nouveau. Au chapitre 01, on a vu l'IA proposer ce correctif « évident » :
 
@@ -367,7 +371,7 @@ gh run watch
 - [ ] J'ai obtenu un **vert qui ne répond pas au besoin**, et je sais nommer ce que j'ai retiré de la spec pour y arriver.
 - [ ] Je peux citer deux garde-fous de mon dépôt qui jouent vraiment, et dire lequel ne joue pas dans le ②.
 
-> 📍 **Le Comptoir après EX-C.** Sa boucle mord pour de vrai : un faux pas d'arrondi est rattrapé par un test chiffré, en local puis en CI, et un vert truqué se voit. Reste à confier du travail à un agent sans lâcher la main. Prochaine brique : **EX-D** (chapitre 07), la conduite d'un agent en mode plan.
+> 📍 **Le Comptoir après EX-C.** Sa boucle mord pour de vrai : un faux pas d'arrondi est rattrapé par un test chiffré, en local puis en CI, et un vert truqué se voit. Reste à confier du travail à un agent sans lâcher la main. Prochaine brique : la laisse (chapitre 07) ; la conduite d'un agent en mode plan se joue hors salle, à l'étape E5 du TP-01.
 
 <details>
 <summary>Voir la correction</summary>

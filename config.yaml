@@ -13,7 +13,7 @@ course:
     ## pour rester dans le gabarit de la collection. Voir cadrage/05-ADR.md, ADR-009.
     - RNCP40573
   RNCPBloc: []  ## aucun bloc de compétences n'est revendiqué par ce cours.
-  timing: 2     ## durée prévue en jours
+  timing: 1     ## durée prévue en jours — journée unique
 
 credits:
   authors: ## signataires du cours, dans l'ordre où ils doivent apparaître

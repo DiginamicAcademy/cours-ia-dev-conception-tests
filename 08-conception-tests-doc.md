@@ -2,6 +2,8 @@
 
 # Chapitre 08 — L'IA pour la conception, les tests et la documentation
 
+> **Chapitre lu après la journée.** Rien de celui-ci ne se déroule en salle le 2 décembre : il se lit après, EX-08 compris (hors salle). Seule pièce montrée en direct : le test miroir (8.2), 3 min durant la démo du chapitre 05.
+
 > **Dans ce chapitre**, vous apprendrez à :
 > - **Faire produire plusieurs options** à l'IA et trancher sur des critères écrits, pas sur son assurance ;
 > - **Repérer les défauts d'un modèle de données, d'une maquette ou d'une décision écrits par l'IA**, et en réécrire ce qui engage ;

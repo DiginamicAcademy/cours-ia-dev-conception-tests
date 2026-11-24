@@ -2,6 +2,8 @@
 
 # Chapitre 09 — Réglementation IA : AI Act, RGPD, licences, responsabilité
 
+> **En salle le 2 décembre : 20 min de cours.** Panorama réglementaire : AI Act post-Omnibus, RGPD du prompt, article 4 « culture IA ».
+
 > **Dans ce chapitre**, vous apprendrez à :
 > - **Situer** un usage de l'IA dans la pyramide des risques de l'AI Act et nommer l'article qui s'impose à lui ;
 > - **Reconnaître** le moment où l'on passe de déployeur à fournisseur d'un système d'IA ;
@@ -190,39 +192,7 @@ $ git log --grep="opencode" --oneline
 
 ---
 
-### EX-09 — Reconnaître le problème (15 min)
-
-*Prolongement : cet entraînement ne mord pas sur les 30 minutes de cours — il est à faire pour soi, la correction est juste en dessous.*
-
-Cinq situations vécues. Pour chacune, **deux questions seulement** : *(1) quel texte ou quelle obligation est en jeu* — AI Act (article 4 ou 50), RGPD, licence, responsabilité ; *(2) qu'aurait-il fallu faire ?*
-
-**Mémo (la frise du 9.1) :** 02/02/2025 interdictions et culture IA (art. 4) · 08/2025 obligations GPAI · 02/08/2026 transparence et marquage (art. 50), et début des contrôles · 02/12/2026 fin du sursis de marquage pour les systèmes déjà sur le marché · 02/12/2027 haut risque Annexe III · 02/08/2028 Annexe I.
-
-**①** Léa met en ligne sur le site de la mairie un assistant qui répond aux demandes des usagers. Rien, nulle part, n'indique qu'une IA répond.
-
-**②** Karim veut une meilleure réponse sur un bug de calcul de pénalité. Il colle dans le chat de l'IA gratuite un export CSV : noms, adresses et numéros de carte des emprunteurs.
-
-**③** L'agent recopie, dans un module destiné à un produit fermé, un bloc de 40 lignes dont l'entête indique `SPDX-License-Identifier: GPL-3.0`.
-
-**④** L'entreprise prend un abonnement d'équipe et active, sans en discuter, l'option « améliorer le modèle avec les saisies des utilisateurs ».
-
-**⑤** Nadia envoie en production un correctif proposé par l'IA, sans le relire. Le calcul est faux. Sa défense : « c'est l'IA qui l'a écrit ».
-
-🎯 **Avant de rendre, cochez :**
-- [ ] Pour chaque situation, j'ai nommé **un** texte ou une obligation (pas trois).
-- [ ] Je sais dire laquelle relève d'une décision **d'employeur** et non d'un réflexe individuel.
-- [ ] Je peux expliquer pourquoi ⑤ n'est pas une réponse recevable.
-
-<details>
-<summary>Voir la correction</summary>
-
-- **① AI Act, article 50 (transparence).** Une personne doit savoir qu'elle interagit avec un système d'IA, et les contenus générés doivent être identifiés comme tels. À noter : en mettant l'assistant **à son nom** au service du public, la mairie est passée de déployeur à fournisseur — les obligations ont changé de camp. Il fallait informer les usagers et marquer les sorties.
-- **② RGPD — minimisation, données directement identifiantes.** Un prompt est un transfert vers un tiers ; noms, adresses et numéros de carte sont exactement ce qu'on n'y met pas en clair. Il fallait **pseudonymiser** : un identifiant technique par emprunteur, les montants et les dates — le bug ne demande pas qui. C'est aussi ce que le chapitre 04 exclut de l'établi, pour la même raison.
-- **③ Licence — contamination copyleft.** Une licence GPL suit le fragment qu'elle couvre et peut imposer la redistribution du projet qui l'accueille sous la même licence. Il fallait écarter le bloc, le faire réécrire à partir de la spec, et passer le scan de licences du 9.4 avant adoption.
-- **④ RGPD — et c'est une décision d'employeur.** Cette option décide que les prompts de toute l'équipe nourriront un modèle : elle engage des données que l'équipe n'est pas seule à pouvoir céder. Le réglage du 9.3 se tranche au niveau de l'organisation, pas compte par compte — et l'article 4 est justement ce qui rend ce choix éclairé.
-- **⑤ Responsabilité.** Le modèle n'est pas une personne juridique : il ne répond de rien. Répond **celui qui a intégré**, au titre de son devoir de vigilance. « C'est l'IA » n'est pas une défense, c'est l'aveu d'une absence de contrôle. Ce qui aurait protégé Nadia : la revue, les tests qui assertent, la trace CI — des preuves de diligence, pas une excuse.
-
-</details>
+**EX-09 est devenue un item du Moodle formatif du chapitre 09.**
 
 ---
 
@@ -234,7 +204,7 @@ Le quiz qui suit est un **entraînement**, pas une épreuve : passe-le avec l'I
 
 ## Vérifiez vos acquis
 
-Six questions, non notées, à faire avec l'IA : elles servent à vous situer, pas à compter une note.
+Six questions ici, non notées, à faire avec l'IA : elles servent à vous situer, pas à compter une note. Le Moodle formatif du formateur en compte sept, dont une dérivée du travail hors salle.
 
 **1. Ce chapitre le dit sans détour : ce cours ne prépare aucun titre RNCP, il s'ancrit sur un article de l'AI Act applicable depuis le 02 février 2025. Lequel, et qu'impose-t-il ?**
 - A. Article 4 : fournisseurs et déployeurs doivent prendre des mesures pour développer la culture de l'IA de leur personnel — une obligation de l'employeur.

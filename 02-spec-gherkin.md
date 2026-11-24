@@ -20,7 +20,7 @@ La parade est la même que pour le junior, mais elle devient ici une pièce méc
 
 > Ce chapitre se vit en **TD** : on commence par un exercice *sans le cours*, on corrige ensemble (ce qui fait naître les mots), puis on formalise, puis on refait seul sur un autre cas. Les mains d'abord, le vocabulaire ensuite.
 
-## Étape 1 — Découverte : le client a parlé (20 min, en binômes, sans le cours)
+## Étape 1 — Découverte : le client a parlé (15 min, en binômes, sans le cours)
 
 Voici la demande, telle qu'elle est arrivée au comptoir de prêt municipal (vélos et matériel), de la bouche du responsable :
 
@@ -49,7 +49,7 @@ Vous venez d'écrire du **Given / When / Then** sans le savoir. Ce n'est pas une
 
 Et les décisions que vous avez notées « pour trancher » ? Gardez-les précieusement. **Elles sont le contrat.** Un scénario qui ne fixe pas ces chiffres laisse l'IA libre de tricher — pas par malveillance, mais parce qu'on ne lui a rien interdit.
 
-## Étape 3 — Le cours (35 min)
+## Étape 3 — Le cours (15 min)
 
 ### 2.1 La syntaxe, complète, sur un exemple vrai
 
@@ -171,7 +171,7 @@ La règle d'écriture, à retenir : **un scénario où l'IA ne peut pas tricher
 
 Au chapitre 05, on branchera l'IA en boucle : elle code, la CI la corrige, elle recode… **Mais quand s'arrête-t-elle ?** Sans spec, le seul signal d'arrêt est votre œil — « ça a l'air bon » — et c'est un mauvais arbitre. Avec des scénarios, le signal d'arrêt est net : **quand tout est vert, on a fini ; tant qu'un scénario rouge subsiste, on n'a pas répondu au besoin.** La spec n'est pas un document qu'on rédige pour la forme : c'est le frein de la machine.
 
-## Étape 4 — Application : la f2, le prêt de matériel avec caution (20 min, individuel)
+## Étape 4 — Application : la f2, le prêt de matériel avec caution (10 min, individuel)
 
 Autre fonctionnalité du même comptoir, autre contrat. **Lisez le contrat, puis écrivez la feature.**
 

@@ -1,11 +1,11 @@
 [Sommaire](Readme.md) · [Chapitre suivant →](01-modele-mental.md)
 
-# Avant le jour 1 — Où en êtes-vous ?
+# Avant la journée — Où en êtes-vous ?
 
-Ce petit questionnaire se remplit **avant** le premier jour, en cinq minutes. Il n'est
+Ce petit questionnaire se remplit **avant** la journée, en cinq minutes. Il n'est
 **pas noté** et il n'y a **aucune bonne réponse** : c'est un auto-positionnement. Il sert
 à deux choses — composer des **binômes équilibrés** (quelqu'un d'à l'aise avec quelqu'un
-qui l'est moins), et calibrer le rythme des deux journées sur ce que le groupe a déjà.
+qui l'est moins), et calibrer le rythme de la journée sur ce que le groupe a déjà.
 
 Répondez honnêtement, pas « bien ». Une réponse « je galère » quelque part, c'est
 exactement ce qu'on a besoin de savoir.
@@ -57,7 +57,7 @@ qui tourne, avec tests et CI **?**
 - C. Oui, plusieurs, mais sans tests ni CI.
 - D. Oui, avec tests, CI et démarche de qualité.
 
-**8. Qu'attendez-vous principalement de ces deux jours ?**
+**8. Qu'attendez-vous principalement de cette journée ?**
 - A. Des bases : comprendre ce que l'IA peut et ne peut pas faire pour coder.
 - B. Une méthode : un cadre de travail fiable avec l'IA, pas juste des astuces.
 - C. De la pratique : construire un vrai projet encadré, de bout en bout.
@@ -65,9 +65,9 @@ qui tourne, avec tests et CI **?**
 
 ---
 
-*Vous pouvez garder vos réponses pour vous ; le formateur peut vous les demander en début
-de J1 pour ajuster les binômes. Aucun enjeu de note — c'est un outil pour que les deux
-jours vous servent.*
+*Vous pouvez garder vos réponses pour vous ; le formateur peut vous les demander au début
+de la journée pour ajuster les binômes. Aucun enjeu de note — c'est un outil pour que la journée
+vous serve.*
 
 ---
 

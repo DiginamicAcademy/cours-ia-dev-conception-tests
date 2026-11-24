@@ -2,6 +2,9 @@
 
 # Chapitre 01 — L'IA dans la chaîne de développement : modèle mental
 
+> **À lire avant la journée du 2 décembre.** Le cours magistral de ce chapitre ne se joue pas en salle : il se lit avant, sur votre temps.
+> En salle restent 25 minutes, tout entières tournées vers **EX-01** : l'audit des cinq sorties d'IA, puis sa correction. C'est là que le modèle mental se règle.
+
 > **Dans ce chapitre**, vous apprendrez à :
 > - Distinguer les trois familles d'outils d'IA pour développeurs — chat, assistant dans l'éditeur, agent en ligne de commande — et ce que chacune voit réellement de votre projet ;
 > - Déléguer large sur ce qu'un LLM fait bien, et vérifier ce qu'il fait mal ;
@@ -157,7 +160,7 @@ Le tronc commun de ces quatre pièges : **la machine ment avec assurance.** La 
 
 ## 1.6 Le fil du cours, posé ici
 
-On ouvre le pipeline qui structure les deux journées. Chaque chapitre en pose un maillon :
+On ouvre le pipeline qui structure la journée. Chaque chapitre en pose un maillon :
 
 ```
 conception  →  spec  →  portes  →  boucle  →  revue  →  cadre

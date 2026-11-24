@@ -1,6 +1,6 @@
 # TP-01 — Le comptoir de prêt (énoncé)
 
-> **Module d'extension, hors du temps de cours.** Remis par le formateur *si le temps le permet* en fin de journée 2 ; sinon il reste ouvert sur Moodle en prolongement libre. **Jamais pénalisant** : s'il est réalisé et rendu, il compte comme **bonus de +0 à +2** sur la note du QCM. Rien dans les deux journées ne dépend de lui.
+> **Module d'extension, hors du temps de cours.** Il est **annoncé en fin de journée, à tous** ; **un seul rendu, à J+15**, sur le canal indiqué par le formateur. **Jamais pénalisant** : s'il est réalisé et rendu, il compte comme **bonus de +0 à +2** sur la note du QCM. Rien dans la journée ne dépend de lui.
 
 ## Ce que c'est, en une phrase
 
@@ -10,7 +10,7 @@ Ce n'est **pas** un exercice de plus. Un exercice travaille *une* notion. Ici, v
 
 ## D'où vous partez — le fil rouge des exercices
 
-Ce dépôt, vous l'avez déjà monté brique par brique tout au long des deux journées :
+Ce dépôt, vous l'avez déjà monté brique par brique au fil de la journée :
 
 | Exercice | Chapitre | La brique posée sur le Comptoir |
 |---|---|---|
@@ -71,11 +71,11 @@ comptoir/
 └─ .env                  # un secret planqué — une porte doit le choper
 ```
 
-Il n'y a **ni `features/`, ni tests, ni lint, ni CI** : c'est voulu. Vous allez équiper, spec-ifier, puis conduire. Le contrat f1, lui, est déjà là : sans lui, l'EX-A ne pourrait pas produire le rouge qu'on vous demande d'observer. Les binômes qui ont fait EX-A à EX-D en salle partent de **leur** dépôt déjà équipé ; les autres repartent de cette archive et reprennent E2 à E5 chez eux.
+Il n'y a **ni `features/`, ni tests, ni lint, ni CI** : c'est voulu. Vous allez équiper, spec-ifier, puis conduire. Le contrat f1, lui, est déjà là : sans lui, l'EX-A ne pourrait pas produire le rouge qu'on vous demande d'observer. Les binômes qui ont fait EX-A à EX-C en salle partent de **leur** dépôt déjà équipé ; les autres repartent de cette archive et reprennent E2 à E5 chez eux, hors salle.
 
 ## Le ruban E0 → E6
 
-Vous avancez sur ce ruban. Quatre étapes (E2, E3, E4, E5) ont été **vécues en direct** pendant les deux jours (les exercices EX-A à EX-D) : vous les reprenez ou les complétez. Trois (E0, E1, E6) sont **propres au module**.
+Vous avancez sur ce ruban. Trois étapes (E2, E3, E4) ont été **vécues en direct** pendant la journée (les exercices EX-A à EX-C) ; E5 se joue ici, hors salle : vous les reprenez ou les complétez. Trois autres (E0, E1, E6) sont **propres au module**.
 
 | Étape | Ce que vous produisez | Statut |
 |---|---|---|
@@ -84,7 +84,7 @@ Vous avancez sur ce ruban. Quatre étapes (E2, E3, E4, E5) ont été **vécues e
 | **E2** | **Équiper le dépôt** : Vitest + `@cucumber/cucumber`, ESLint + Prettier, `tsc --noEmit` strict, gitleaks, CI. | fait en direct (EX-A) |
 | **E3** | Un **`AGENTS.md`** validé en conditions réelles : session IA fraîche, zéro connaissance du projet, tâche réelle, réussite sans aide humaine. | fait en direct (EX-B) |
 | **E4** | **La boucle CI** : réparer un bug injecté et trancher une spec ambiguë, en boucle jusqu'au vert — ou jusqu'à votre borne. | fait en direct (EX-C) |
-| **E5** | Générer `schema.sql` **depuis votre MCD corrigé**, puis implémenter **f1 en mode plan** (l'agent propose, vous validez, vous ne touchez pas au clavier). | fait en direct sur le MCD de référence (EX-D) |
+| **E5** | Générer `schema.sql` **depuis votre MCD corrigé**, puis implémenter **f1 en mode plan** (l'agent propose, vous validez, vous ne touchez pas au clavier). | se joue ici, hors salle, sur le MCD de référence (la conduite en mode plan du chapitre 07) |
 | **E6** | **Le livrable** : implémenter **f2 et f3** par boucle jusqu'au vert CI, générer la documentation **puis la vérifier ligne à ligne**, et rédiger le **rapport d'usage**. | module — **rendu à J+15** |
 
 Quelques repères concrets, pour que la boucle tourne :

@@ -2,6 +2,9 @@
 
 # Chapitre 03 — Les portes de qualité : les capteurs de l'IA
 
+> **25 minutes en salle pour ce chapitre** : le panneau des capteurs, et **EX-03** (10 minutes) imbriquée dans ce même créneau.
+> La démo « la même tâche, deux dépôts » — l'avant/après du dépôt — ne se joue pas en direct : elle se montre en captures.
+
 > **Dans ce chapitre**, vous apprendrez à :
 > - Reconnaître ce qu'une porte de qualité change quand une IA code à votre place, et pourquoi son premier client est la machine ;
 > - Monter le panneau de capteurs JavaScript / TypeScript et dire, pour chacun, ce qu'il attrape ;
@@ -451,7 +454,7 @@ Même consigne, deux états du dépôt « Comptoir de prêt », même agent :
 
 Le détail qui fâche, sur le dépôt nu : l'agent n'a **pas** échoué. Il a **terminé**. Sans capteur, « terminé » est la seule réponse qu'il puisse produire — il n'a aucun moyen de savoir qu'il a tort.
 
-C'est la démonstration la plus rentable des deux journées. Le gain ne s'achète pas dans la formulation du prompt : il s'achète dans les vingt minutes de réglage du dépôt. **Environnement > prompt.**
+C'est la démonstration la plus rentable de la journée. Le gain ne s'achète pas dans la formulation du prompt : il s'achète dans les vingt minutes de réglage du dépôt. **Environnement > prompt.**
 
 ### EX-A — Équiper le dépôt nu (45 min, binômes en sous-groupes)
 
@@ -459,7 +462,7 @@ Vous recevez le dépôt « Comptoir de prêt » **livré nu** : service Node/
 
 Le but n'est pas d'écrire le métier : c'est de monter le panneau de capteurs autour.
 
-**Checkpoint A1 — les capteurs qui parlent (25 min)**
+**Checkpoint A1 — les capteurs qui parlent (20 min)**
 
 1. Vitest : `npm install --save-dev vitest @vitest/coverage-v8`, puis un script `test`. Écrivez **un** test chiffré sur la pénalité (f1). Vérifiez : `npx vitest run`.
 2. Cucumber : `npm install --save-dev @cucumber/cucumber tsx` (la config de chargement TypeScript est fournie). Vérifiez : `npx cucumber-js`.
