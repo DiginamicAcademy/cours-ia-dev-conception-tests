@@ -18,7 +18,7 @@ footer: "![height:20px](https://raw.githubusercontent.com/DiginamicInternal/Publ
 
 # 00 - Ouverture
 
-### Un junior d'une énergie infinie et d'une mémoire de poisson rouge
+## Un junior d'une énergie infinie et d'une mémoire de poisson rouge
 
 > Qui a déjà copié du code qu'il ne comprenait pas ? — aujourd'hui, c'est la même chose, mais industrialisé.
 
